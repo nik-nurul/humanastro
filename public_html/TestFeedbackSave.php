@@ -37,7 +37,7 @@ error_reporting(E_ALL);
 			//open the text file usisng $handle variable in append mode (a)
 			$handle = fopen($filename, "a");   //open the file in append mode
 				$feedbackData = "$feedback\n\n";   //write the feedback with a double lines separator at the end
-				echo fwrite($handle, $feedbackData);   //write the feedback string to text file
+				echo 'Bytes written: '.fwrite($handle, $feedbackData);   //write the feedback string to text file
 				fclose($handle);   //close the text file
 
 		} else {
@@ -49,6 +49,7 @@ error_reporting(E_ALL);
 	
 	<hr>
 	<a href="TestFeedbackForm.php">Add Another Feedback</a><br/>
+	<a href="data.txt">View feedback comments</a><br/>
 </body>
 
 </html>

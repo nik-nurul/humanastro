@@ -29,7 +29,7 @@ MongoDB Test
 //	print_r($cursor->toArray());
 
 	
-	echo '<pre>'; var_dump($manager); echo '</pre>'
+	echo '<pre>'; var_dump($manager); echo '</pre>';
 
 ?>
 </body>

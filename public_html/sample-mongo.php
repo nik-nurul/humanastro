@@ -1,38 +1,77 @@
 <html>
 <body>
-MongoDB Sample program
+<p>MongoDB Sample program
+<p>
 <?php
+/*
+used Mongo shell to insert a record in database 'test':
+ > db.testColl.insertOne({"myproperty":{"facts":["sky is blue", "pope is catholic", "bear shits in the woods"]}})
+ 
+ verified record was created:
+ > db.testColl.find()
+{ "_id" : ObjectId("5e9fb269790596da5d7784a1"), "myproperty" : { "facts" : [ "sky is blue", "pope is catholic", "bear shits in the woods" ] } }
+ 
+*/
+
 	// display debug messages
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
+	
+	$dbName = 'test';
+	$collName = 'testColl';
+	
+try {
 
-	// https://gist.github.com/banker/795791
-  // connect
-  $m = new Mongo();
+    $mng = new MongoDB\Driver\Manager("mongodb://localhost:27017");
 
-  // select a database
-  $db = $m->training;
+// print database statistics
+    $stats = new MongoDB\Driver\Command(["dbstats" => 1]);
+    $res = $mng->executeCommand($dbName, $stats);
+    
+    $stats = current($res->toArray());
 
-  $coll = $db->messages;
+	echo '<p>Database Statistics';
+	echo '<pre>'; var_dump($stats); echo '</pre>';
 
-  for ($i = 0; $i < 10; $i = $i + 1) {
-    $coll->insert( array( "text" => "Hello World", "n" => $i ) );
-  }
+// list all databases
+    $listdatabases = new MongoDB\Driver\Command(["listDatabases" => 1]);
+    $res = $mng->executeCommand("admin", $listdatabases);
 
-  $cursor = $coll->find();
+    $databases = current($res->toArray());
 
-  foreach ($cursor as $obj) {
-    print $obj['_id'] . "\n";
-    print print_r( $obj ) . "\n";
-  }
+	echo '<p>Database Names';
+	echo '<p><pre>';
+    foreach ($databases->databases as $el) {
+        echo $el->name . "\n";
+    }
+	echo '</pre>';
 
-  print "\nCount " . $coll->count() . "\n";
+// real_all in test.testColl collection
+    $query = new MongoDB\Driver\Query([]); 
+     
+    $rows = $mng->executeQuery($dbName.'.'.$collName, $query);
+    
+	echo "<p>read_all on $dbName.$collName";
+    echo '<p><pre>';
+    foreach ($rows as $row) {
+        var_dump($row);
+    }
+    echo '</pre>';
 
-  $coll->remove();
 
-  print "\nCount " . print_r( $db->command( array( "count" => "messages" ) )) . "\n";
+} catch (MongoDB\Driver\Exception\Exception $e) {
 
+    $filename = basename(__FILE__);
+    
+    echo "The $filename script has experienced an error.\n"; 
+    echo "It failed with the following exception:\n";
+    
+    echo "Exception:", $e->getMessage(), "\n";
+    echo "In file:", $e->getFile(), "\n";
+    echo "On line:", $e->getLine(), "\n";       
+}
+   
 ?>
 </body>
 </html>

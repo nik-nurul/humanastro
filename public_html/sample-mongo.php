@@ -34,7 +34,7 @@ try {
 	echo '<p>Database Statistics';
 	echo '<pre>'; var_dump($stats); echo '</pre>';
 
-// list all databases
+// list all databases 
     $listdatabases = new MongoDB\Driver\Command(["listDatabases" => 1]);
     $res = $mng->executeCommand("admin", $listdatabases);
 
@@ -55,7 +55,8 @@ try {
 	echo "<p>read_all on $dbName.$collName";
     echo '<p><pre>';
     foreach ($rows as $row) {
-        var_dump($row);
+//        var_dump($row);
+        print_r(json_encode($row).'<br>');
     }
     echo '</pre>';
 

@@ -59,13 +59,11 @@ function gohome(){
 }
 
 function init(){
-		
 		var demoform = document.getElementById("demoform");// get ref to the HTML element
 		demoform.onsubmit = validatedemo; //register the event listener*/
 		
 		var homebutt = document.getElementById("homebutt");
 		homebutt.onclick = gohome;
-		
 }
 
 

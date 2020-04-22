@@ -1,6 +1,7 @@
 "use strict";
 
 function validatedemo(){
+
 	//initialize local variables
 	var errMsg = "";			//stores the error message
 	var result = true;			//assumes no errors
@@ -35,6 +36,13 @@ function validatedemo(){
 
 	//if something is wrong set result = false, and concatenate error message
 	
+	//If prefer to describe gender, ensure text box is not empty
+	if(document.getElementById("sd").checked){
+		document.getElementById("gendesc").setAttribute("required", "required");
+	} else {
+		document.getElementById("gendesc").removeAttribute("required");
+	}
+
 	/*Must select age*/
 	if (!(under18 || to1825 || to2635 || to3645 || over45 || nosay)) {
 		errMsg += "Please select your age group. \n"
@@ -48,7 +56,7 @@ function validatedemo(){
 	}
 	
 	if (errMsg != ""){
-		alert(errMsg);
+		window.alert(errMsg);
 	}
 	
 	return result;
@@ -66,7 +74,4 @@ function init(){
 		homebutt.onclick = gohome;
 }
 
-
 window.onload = init;
-
-	

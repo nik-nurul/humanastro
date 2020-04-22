@@ -18,7 +18,7 @@ function validatedemo(){
 	var male = document.getElementById("male").checked;
 	var nonbinary = document.getElementById("nb").checked;
 	var gennot = document.getElementById("gennot").checked;
-	var selfdesc = document.getElementById("sb").checked;
+	var selfdesc = document.getElementById("sd").checked;
 	
 	var udgm = document.getElementById("udm").selected;
 	var phd = document.getElementById("phd").selected;
@@ -36,12 +36,6 @@ function validatedemo(){
 
 	//if something is wrong set result = false, and concatenate error message
 	
-	//If prefer to describe gender, ensure text box is not empty
-	if(document.getElementById("sd").checked){
-		document.getElementById("gendesc").setAttribute("required", "required");
-	} else {
-		document.getElementById("gendesc").removeAttribute("required");
-	}
 
 	/*Must select age*/
 	if (!(under18 || to1825 || to2635 || to3645 || over45 || nosay)) {
@@ -66,12 +60,21 @@ function gohome(){
 	window.location = "home.html";
 }
 
+//function to enfore required on textbox
+function requireDesc(){
+	document.getElementById("gendesc").required = true;
+}
+
 function init(){
 		var demoform = document.getElementById("demoform");// get ref to the HTML element
 		demoform.onsubmit = validatedemo; //register the event listener*/
 		
 		var homebutt = document.getElementById("homebutt");
 		homebutt.onclick = gohome;
+	
+		//if the self describe is chosen from gender section
+		var describeBtn = document.getElementById("sd");
+		describeBtn.onclick = requireDesc;
 }
 
 window.onload = init;

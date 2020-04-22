@@ -55,7 +55,8 @@ try {
 	echo "<p>read_all on $dbName.$collName";
     echo '<p><pre>';
     foreach ($rows as $row) {
-        var_dump($row);
+//        var_dump($row);
+        print_r(json_encode($row).'<br>');
     }
     echo '</pre>';
 

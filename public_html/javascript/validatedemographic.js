@@ -61,20 +61,36 @@ function gohome(){
 }
 
 //function to enfore required on textbox
-function requireDesc(){
+function setRequired(){
 	document.getElementById("gendesc").required = true;
 }
 
+function removeRequired(){
+	if(document.getElementById("gendesc").required == true){
+		document.getElementById("gendesc").required = false;
+	}
+}
+
 function init(){
-		var demoform = document.getElementById("demoform");// get ref to the HTML element
-		demoform.onsubmit = validatedemo; //register the event listener*/
+	var demoform = document.getElementById("demoform"); //get ref to the HTML element
+	demoform.onsubmit = validatedemo; //register the event listener*/
 		
-		var homebutt = document.getElementById("homebutt");
-		homebutt.onclick = gohome;
+	var homebutt = document.getElementById("homebutt");
+	homebutt.onclick = gohome;
 	
-		//if the self describe is chosen from gender section
-		var describeBtn = document.getElementById("sd");
-		describeBtn.onclick = requireDesc;
+	//if the self describe is chosen from gender section
+	var gender_sd = document.getElementById("sd");
+	gender_sd.onclick = setRequired;
+	
+	//if self describe is not chosen from gender selection
+	var gender_female = document.getElementById("female");
+	var gender_male = document.getElementById("male");
+	var gender_nb = document.getElementById("nb");
+	var gender_not = document.getElementById("gennot");	
+	gender_female.onclick = removeRequired;
+	gender_male.onclick = removeRequired;
+	gender_nb.onclick = removeRequired;
+	gender_not.onclick = removeRequired;
 }
 
 window.onload = init;

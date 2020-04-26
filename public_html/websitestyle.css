@@ -27,4 +27,15 @@ div.test {
 	margin: 20px;
 }
 
+div.timer {
+	text-align:center;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	font-weight:bold;
+	font-size: 40px;
+	border-style: solid;
+	margin-left: 250px;
+	margin-right: 250px;
+}
+
 

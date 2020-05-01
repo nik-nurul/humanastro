@@ -2,7 +2,7 @@
 filename: WebsiteStyle.css
 author: SWE40001 Group 3
 created: 24TH APRIL 2020
-last modified: 1ST MAY 2020
+last modified: 2ND MAY 2020
 purpose: CSS Stylesheet for Astronomy Website
 */
 
@@ -105,6 +105,28 @@ hr.heading {
   color: rgb(47, 33, 48);
 }
 
+
+/* style for feedback button */
+/* code was inspired by (source: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_sticky_social_bar) */
+.bttnfeedback {
+  position: fixed;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  transform-origin: 0 0;
+  transform: rotate(90deg);
+  margin-left: 15px;
+  background-color: rgb(47, 33, 48);
+  color: rgba(250, 250, 250, 0.8);
+  border: 3px solid rgba(250, 250, 250, 0.8);
+  padding: 5px;
+}
+
+.bttnfeedback:hover {
+  background-color: white;
+  color: rgb(47, 33, 48);
+}
 
 
 /* Style for footer */

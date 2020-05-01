@@ -1,0 +1,118 @@
+/*
+filename: WebsiteStyle.css
+author: SWE40001 Group 3
+created: 24TH APRIL 2020
+last modified: 1ST MAY 2020
+purpose: CSS Stylesheet for Astronomy Website
+*/
+
+
+
+/* Background style for the first webpage (home.html) */
+body {
+  background-color: rgb(22, 6, 19);
+}
+
+body.bg{
+  background-image: url("pictures/background4.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 600px;
+}
+
+
+
+/* Style for navigation bar */
+div.navibar {
+	font-family: Arial, sans-serif;
+	margin: 0%;
+	position: fixed;
+	width: 100%;
+	top: 0;
+	z-index: 1;
+	margin-bottom: 10%;
+}
+
+/* for the hyperlink element within the navigation bar section */
+div.navibar a {
+  float: right;
+  color: white;
+  font-size: 0.7em;
+  font-weight: bold;
+  text-align: center;
+  padding: 12px 35px;
+  margin-right: 2em;
+  text-decoration: none;
+}
+
+
+
+/* Style for website title (home.html) */
+#web_title{
+    font-size: 4.7em;
+    margin-top: 3em;
+    padding-top: 0.7em;
+    margin-left: 2.3em;
+    margin-bottom: 350px;
+    color: rgba(250, 250, 250, 0.90);
+    letter-spacing: 5px;
+    text-shadow: 5.5px 3.5px 3.5px rgb(0,0,0);
+}
+
+
+
+/* Style for text under heading name (home.html)*/
+#content_paragraph{
+  margin-top: 250px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 50px;
+  width: 44%;
+  color: rgb(186, 186, 186);
+  font-size: 16px;
+  text-align: center justified;
+}
+
+
+/* style for the button alignment */
+#bttn_question{
+  text-align: right;
+}
+
+
+/* style for horizontal line below heading */
+hr.heading {
+  border: 2px solid rgba(250, 250, 250, 0.8);;
+}
+
+
+/* style for button */
+.bttn {
+  background-color: rgb(47, 33, 48);
+  color: rgba(250, 250, 250, 0.8);
+  border: 3px solid rgba(250, 250, 250, 0.8);
+  padding: 15px;
+  font-size: 15px;
+  margin: auto;
+  margin-right: 10px;
+  display: inline-block;
+  text-align: right;
+  text-decoration: none;
+  float: right;
+}
+
+.bttn:hover {
+  background-color: white;
+  color: rgb(47, 33, 48);
+}
+
+
+
+/* Style for footer */
+footer {
+  background-color: rgb(130, 130, 130);
+  padding: 5px;
+  text-align: center;
+	margin-bottom: 0%;
+  margin-top: 20%;
+	clear: both;
+}

@@ -110,7 +110,7 @@ hr.heading {
 /* code was inspired by (source: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_sticky_social_bar) */
 .bttnfeedback {
   position: fixed;
-  top: 50%;
+  top: 65%;
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);

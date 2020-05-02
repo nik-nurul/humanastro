@@ -99,6 +99,24 @@ try {
 				echo "<p><p>Deleted: ".$result->getDeletedCount()." documents<p>";
 				break;
 			
+			// delete a document from the list of documents by _id
+			case "DeleteDoc":
+				if (isset($_POST["DocToDelete"])){
+					// create MongoDB BSON ID Object from ID given
+					$_id = new MongoDB\BSON\ObjectID($_POST["DocToDelete"]);
+					$bulk = new MongoDB\Driver\BulkWrite(['ordered' => true]);
+					$bulk->delete(
+						["_id"=> $_id ],
+						["limit" => 1] // limit = 1 means only delete one document
+						); 
+
+					$result = $manager->executeBulkWrite($dbName.'.'.$collName, $bulk);
+					echo "<p><p>Deleted: ".$result->getDeletedCount()." documents<p>";
+				} else {
+					echo "<p><p>Nothing to delete!<p>";
+				}
+				break;
+			
 			// drop a collection given in the textbox
 			case "DropColl":
 			
@@ -152,17 +170,17 @@ try {
     $resultArray = $result->toArray();
 
 	echo "<h2>Collection Names in db $dbName</h2>";
-	echo '<p><pre><table>';
+	echo '<p><pre><table border=1>';
     foreach ($resultArray as $el) {
 		$name = $el->name;
-        echo "<tr><th>$name</th><th>";
+        echo '<tr><td style="text-align:left">';
 		if ($name != "testColl"){
 			echo '<form method="post" action="./sample-mongo.php">';
 			echo "<input type=\"hidden\" name=\"action\" value=\"DropColl\"/>";	
 			echo "<button type=\"submit\" name=\"CollToDrop\" value=\"$name\"/>Drop</button>";	
 			echo "</form>";
 		}
-		echo "</th></tr>";
+		echo "</td><td style=\"text-align:left\">$name</td></tr>";
     }
 	echo '</table></pre>';
 
@@ -173,12 +191,28 @@ try {
     $rows = $manager->executeQuery($dbName.'.'.$collName, $query);
     
 	echo "<p><h2>read_all on $dbName.$collName</h2>";
-    echo '<p><pre>';
+    echo '<p><pre><table border=1>';
     foreach ($rows as $row) {
-//        var_dump($row);
-        print_r(json_encode($row).'<br>');
+		$json = json_encode($row);
+		echo "<tr>";
+
+		// first column is for delete button
+		echo "<td style=\"text-align:left\">";
+		
+		$_id=$row->_id->__toString();
+		$rowObj = json_decode(json_encode($row));
+  		if ( ! property_exists($rowObj, "myproperty") ){
+  			echo '<form method="post" action="./sample-mongo.php">';
+  			echo "<input type=\"hidden\" name=\"action\" value=\"DeleteDoc\"/>";	
+			echo "<button type=\"submit\" name=\"DocToDelete\" value=\"$_id\"/>Delete</button>";	
+			echo "</form>";
+		}
+		echo "</td>";
+        echo "<td style=\"text-align:left\">$json</td></tr>";
+		
+//        print_r(json_encode($row).'<br>');
     }
-    echo '</pre>';
+	echo '</table></pre>';
 	
 	
 	

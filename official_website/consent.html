@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="SWE40001 Project - Semester 1/2020 " />
+    <meta name="keywords" content="HTML5, CSS, Javascript, PHP" />
+    <meta name="author" content="SWE40001_Group_3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href= "styles/WebsiteStyle.css" rel="stylesheet"/>
+    <!-- Stylesheet link for font -->
+    <!--<link href='https://fonts.googleapis.com/css?family=Squada One' rel='stylesheet'>-->
+    <link href='https://fonts.googleapis.com/css?family=Russo One' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Alata' rel='stylesheet'>
+    <!--page title -displayed on tab- -->
+    <title>Astronomy Test - Consent</title>
+    <!-- Style for font -->
+    <style>
+        .heading_font {
+          font-family: 'Russo One';
+          letter-spacing: 3.5px;
+          color: rgba(250, 250, 250, 0.9);
+        }
+
+        .paragraph_font {
+          font-family: 'Alata';
+          letter-spacing: 0.5px;
+        }
+  	</style>
+</head>
+
+<body>
+
+    <!--Header section-->
+    <!-- Navigation bar section -->
+    <header>
+        <div class="navibar">
+            <a href ="login.html">Login</a>
+            <a href="about.html" class="navitab">About</a>
+            <a href="contact.html" class="navitab">Contact</a>
+            <a href="home.html" class="active navitab">Home</a>
+        </div>
+    </header>
+
+
+    <!-- division for website name -->
+    <section>
+
+
+      <!-- feedback button (sticky to the left page) -->
+      <a href="feedback.html"><button type="button" class="bttnfeedback"> Feedback </button></a>
+
+
+      <!-- division part for consent statement -->
+      <div id="content_paragraph">
+          <h2 class="heading_font"> Asking for consent </h2>
+          <hr class="heading">
+          <p class="paragraph_font">
+              All information taken from the study will be coded to protect each subject’s name. No
+              names or other identifying information will be used when discussing or reporting data. The
+              investigator(s) will safely keep all files and data collected in a secured locked cabinet in the
+              principal investigators office. Once the data has been fully analyzed it will be destroyed.
+              Example: Your responses are completely anonymous. No personal identifying information or IP
+              addresses will be collected. Data will be aggregated via the Qualtrics reporting function.
+              Quantitative results will be shared with the Chairperson and the faculty in the academic unit.
+              Qualitative results will be shared with the Chairperson and the Provost’s Office.
+              Example: I would like to interview you “on the record” so that I can identify you in publications
+              resulting from this research. However, if you wish to remain anonymous, I will keep your name
+              separate from your words; I will not use your name in any quotations or reports of my findings; I
+              will use a pseudonym of your choosing; and I will omit or obscure any identifying details
+          </p><br/><br/>
+          <p class="paragraph_font" id="bttn_question">
+            Do you consent to participate?
+          </p>
+
+          <!-- buttons to proceed or not -->
+          <a href="createid.html"><button id="yesbutt" type="button" class="bttn">Yes</button></a>
+      		<a href="home.html"><button id="nobutt" type="button" class="bttn">No</button></a>
+      </div>
+
+
+
+
+
+
+
+
+  </section>
+
+
+
+	<!--footer section-->
+	<footer>
+		<p>Software Engineering Project A<p>
+		<p>&#169; Swinburne University of Technology</p>
+	</footer>
+
+</body>
+</html>

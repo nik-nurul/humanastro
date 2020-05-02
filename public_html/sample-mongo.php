@@ -1,6 +1,6 @@
 <html>
 <body>
-<p>MongoDB Sample program
+<p><h1>MongoDB Sample program</h1>
 <p>
 <?php
 /*
@@ -12,6 +12,14 @@ used Mongo shell to insert a record in database 'test':
 { "_id" : ObjectId("5e9fb269790596da5d7784a1"), "myproperty" : { "facts" : [ "sky is blue", "pope is catholic", "bear shits in the woods" ] } }
  
 */
+
+	// this library isn't mandatory and the below example doesn't use it
+	// You might find it easier to use this library instead of the low-level API
+	// https://docs.mongodb.com/php-library/current/tutorial/
+	require_once "../vendor/autoload.php";
+
+	
+	// a simple function to generate random strings
 	include './readable_random_string.php';
 
 	// display debug messages
@@ -28,7 +36,7 @@ try {
 
 	// menu of actions
 	
-	echo "<p />Actions";
+	echo "<p><h2>Actions</h2>";
     echo '<form method="post" action="./sample-mongo.php">';
     echo '<input type="submit" name="action" value="Read" />';
     echo '<input type="submit" name="action" value="CreateCollection" />';
@@ -130,7 +138,7 @@ try {
 
     $resultArray = current($result->toArray());
 
-	echo '<p>Database Names';
+	echo '<p><h2>Database Names</h2>';
 	echo '<p><pre>';
     foreach ($resultArray->databases as $el) {
         echo $el->name . "\n";
@@ -143,12 +151,20 @@ try {
 
     $resultArray = $result->toArray();
 
-	echo "<p>Collection Names in db $dbName";
-	echo '<p><pre>';
+	echo "<h2>Collection Names in db $dbName</h2>";
+	echo '<p><pre><table>';
     foreach ($resultArray as $el) {
-        echo $el->name . "\n";
+		$name = $el->name;
+        echo "<tr><th>$name</th><th>";
+		if ($name != "testColl"){
+			echo '<form method="post" action="./sample-mongo.php">';
+			echo "<input type=\"hidden\" name=\"action\" value=\"DropColl\"/>";	
+			echo "<button type=\"submit\" name=\"CollToDrop\" value=\"$name\"/>Drop</button>";	
+			echo "</form>";
+		}
+		echo "</th></tr>";
     }
-	echo '</pre>';
+	echo '</table></pre>';
 
 
 
@@ -156,7 +172,7 @@ try {
     $query = new MongoDB\Driver\Query([]); // [] means get all documents
     $rows = $manager->executeQuery($dbName.'.'.$collName, $query);
     
-	echo "<p>read_all on $dbName.$collName";
+	echo "<p><h2>read_all on $dbName.$collName</h2>";
     echo '<p><pre>';
     foreach ($rows as $row) {
 //        var_dump($row);
@@ -173,7 +189,7 @@ try {
     
     $stats = current($result->toArray());
 
-	echo '<p>Database Statistics';
+	echo '<p><h2>Database Statistics</h2>';
 	echo '<pre>'; var_dump($stats); echo '</pre>';
 
 

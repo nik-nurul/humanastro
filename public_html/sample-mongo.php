@@ -82,7 +82,7 @@ try {
 				// execute the BulkWrite queue
 				$result = $manager->executeBulkWrite($dbName.'.'.$collName, $bulk);
 				echo "<p><p>Inserted: ".$result->getInsertedCount()." documents<p>";
-				var_dump($result->getUpsertedIds());
+			//	var_dump($result->getUpsertedIds());
 				
   			    break;
 				
@@ -201,6 +201,7 @@ try {
 		
 		$_id=$row->_id->__toString();
 		$rowObj = json_decode(json_encode($row));
+		// if the document has the property "myproperty", don't show a delete button
   		if ( ! property_exists($rowObj, "myproperty") ){
   			echo '<form method="post" action="./sample-mongo.php">';
   			echo "<input type=\"hidden\" name=\"action\" value=\"DeleteDoc\"/>";	

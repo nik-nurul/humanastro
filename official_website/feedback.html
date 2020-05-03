@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Astronomy Test - Feedbacks</title>
+  <meta charset="utf-8" />
+  <meta name="description" content="SEPA Project G3" />
+  <meta name="keywords" content="HTML5" />
+  <meta name="author" content="Syabil Shamsul"  />
+  
+  <!--References to external CSS file-->
+  <link rel="stylesheet" type="text/css" href="styles/expsliders.css">
+  <link rel="stylesheet" type="text/css" href="styles/WebsiteStyle.css">
+  
+  <!-- Stylesheet link for font -->
+  <!--<link href='https://fonts.googleapis.com/css?family=Squada One' rel='stylesheet'>-->
+  <link href='https://fonts.googleapis.com/css?family=Russo One' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Alata' rel='stylesheet'>
+  
+  <!-- Style for font -->
+  <style>
+       .heading_font {
+         font-family: 'Russo One';
+         letter-spacing: 3.5px;
+         color: rgba(250, 250, 250, 0.8);
+       }
+
+       .paragraph_font {
+         font-family: 'Alata';
+         letter-spacing: 0.5px;
+       }
+  </style>
+</head>
+
+<body>
+	
+	<!-- Navigation bar section -->
+	<header>
+		<div class="navibar">
+			<a href ="login.html">Login</a>
+			<a href="about.html" class="navitab">About</a>
+			<a href="contact.html" class="navitab">Contact</a>
+			<a href="home.html" class="active navitab">Home</a>
+		</div>
+	</header>
+
+  <!-- division for user feedback form-->
+  <section>  
+	
+    <!-- feedback button (sticky to the left page) -->
+    <a href="feedback.html"><button type="button" class="bttnfeedback"> Feedback </button></a>
+	
+	<div id="content_paragraph">
+
+		<!--Page header-->
+		<h2 class="heading_font">User Feedbacks</h2>
+		<hr class="heading"><br/>
+		
+		<!--Content paragraph-->
+		<p class="paragraph_font"-->The following questions is designed to record your experience throughout the process of using the website and completing the test.
+		Future improvements and maintanance will be done based on the rate (1 to 5) given to us. 
+		You can also provide additional feedbacks in the issues/comments section.</p>
+		
+		<br/>
+		<br/>
+ 
+		<form>
+			<p>
+				Design, feel and clarity  
+				<div class="range">
+					<input type="range" min="1" max="6" steps="1" value="6">
+				</div>
+	
+					<ul class="range-labels">
+					<li>1</li>
+					<li>2</li>
+					<li>3</li>
+					<li>4</li>
+					<li>5</li>
+					<li>No answer</li>
+					</ul>
+			</p>
+			<br/>
+			<br/>
+			
+			<p>
+				Navigation and control  
+				<div class="range">
+					<input type="range" min="1" max="6" steps="1" value="6">
+				</div>
+	
+					<ul class="range-labels">
+					<li>1</li>
+					<li>2</li>
+					<li>3</li>
+					<li>4</li>
+					<li>5</li>
+					<li>No answer</li>
+					</ul>
+			</p>
+			<br/>
+			<br/>
+			
+			<p>
+				Loading time  
+				<div class="range">
+					<input type="range" min="1" max="6" steps="1" value="6">
+				</div>
+	
+					<ul class="range-labels">
+					<li>1</li>
+					<li>2</li>
+					<li>3</li>
+					<li>4</li>
+					<li>5</li>
+					<li>No answer</li>
+					</ul>
+			</p>
+			<br/>
+			<br/>
+			
+			<p>
+				Test completion experience  
+				<div class="range">
+					<input type="range" min="1" max="6" steps="1" value="6">
+				</div>
+	
+					<ul class="range-labels">
+					<li>1</li>
+					<li>2</li>
+					<li>3</li>
+					<li>4</li>
+					<li>5</li>
+					<li>No answer</li>
+					</ul>
+			</p>
+			<br/>
+			<br/>
+			
+			<!--Best aspect-->
+			<p><label for="baspect">Best aspect of the website:</label>
+			<br/>
+					<input class="resize" type="text" name= "Best aspect" id="baspect" maxlength="40" size="50" required="required"/>
+			</p>		
+			<!--Worse aspect-->
+			<p><label for="waspect">Aspect that require improvement/attention:</label> 
+			<br/>		
+					<input class="resize" type="text" name= "Last name" id="waspect" maxlength="40" size="50" required="required"/>
+			</p>
+			
+			<p><label for="comment">Additional comments/issues</label>
+				<br />
+					<textarea id="comment" name="Comment" placeholder="Eg: Specify and explain any addition comments you have or issues encountered." rows="8" cols="60"></textarea>	
+			</p>
+		</form>
+
+	  
+		<!-- section for buttons  -->
+		<!-- this button will redirect to homepage -->
+		<a href="home.html"><input id="quitBttn" type= "reset" value="Exit to Home"/></a>
+		<!-- this button will redirect to webcam calibration page-->
+		<a href="calibration.html"><input id="submitBttn" type= "submit" value="Submit and continue"/></a>
+		
+		<br/>
+		
+	</div>
+  </section>
+  
+	<br/>
+	<!--footer section-->
+	<footer>
+		<p>Software Engineering Project A<p>
+		<p>&#169; Swinburne University of Technology</p>
+	</footer>
+
+</body>
+</html>

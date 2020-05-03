@@ -16,9 +16,7 @@ error_reporting(E_ALL);
 	
 	<!--References to external Javascript file-->
 	<script src="javascript/validatedemographic.js"></script>	
-	
 </head>
-
 
 <body id="demographicpage">
 	
@@ -38,13 +36,14 @@ error_reporting(E_ALL);
 		<form id="demoform" action="experience.html"> 
 		<!--The action should be change to the URL where we want to save the data from the form-->
 <?php
-	$dbName = 'humanastro';
-	$Qcoll = 'demographic_Qs';
-	$Ucoll = 'users';
+	$dbName = 'humanastro';		// database name
+	$Qcoll = 'demographic_Qs';	// question collection name
+	$Ucoll = 'users';			// user collection name
 
 try {
-	$manager = new MongoDB\Driver\Manager("mongodb://localhost:27017");
+	$manager = new MongoDB\Driver\Manager("mongodb://localhost:27017"); // connect to the Mongo DB
 	
+	// set up a query to retrieve questions from the database
 	$filter = []; // return all documents (filter is empty)
 	$options = ['sort' => ['question_num' => 1]]; // sort the results based on question_num
 	$query = new MongoDB\Driver\Query($filter,$options); // create a query object with the above parameters
@@ -54,8 +53,8 @@ try {
 	
 	// iterate over each question document
 	foreach ($cursor as $q){
-		$question = $q->question;
-		$q_id = $q->q_id;
+		$question = $q->question; // the full text of the question
+		$q_id = $q->q_id;		// the abbreviated question identifier
 		echo '
 				<!--'.$question.'-->';
 	
@@ -67,8 +66,8 @@ try {
 				<p>'.$question.':
 				<br/>';
 				foreach ($q->options as $optObj){
-					$o = $optObj->option;
-					$o_id = $optObj->opt_id;
+					$o = $optObj->option;	// the full text of the question option
+					$o_id = $optObj->opt_id; // the abbreviated option identifier
 					echo'
 					<input type="radio" id="'.$o_id.'" name="'.$q_id.'" value="'.$o_id.'" required="required"/>
 						<label for="'.$o_id.'">'.$o.'</label>
@@ -90,14 +89,12 @@ try {
 				<p><label for="'.$q_id.'">'.$question.'</label>
 				<br/>				
 					<select class="selectsize" name="'.$question.'" id="'.$q_id.'" required="required">
-						<option value="">Please Select</option>
-';
+						<option value="">Please Select</option>';
 				foreach ($q->options as $optObj){
-					$o = $optObj->option;
-					$o_id = $optObj->opt_id;
+					$o = $optObj->option;	// the full text of the question option
+					$o_id = $optObj->opt_id; // the abbreviated option identifier
 					echo'
-						<option id="'.$o_id.'" value="'.$o.'">'.$o.'</option>
-';
+						<option id="'.$o_id.'" value="'.$o.'">'.$o.'</option>';
 				}
 				echo '
 					</select>
@@ -109,8 +106,6 @@ try {
 				echo '\n				<p>Error! Question Type not specified\n';
 		}		
 	}
-
-
 
 // exception handling for the database connection	
 } catch (MongoDB\Driver\Exception\Exception $e) {
@@ -124,7 +119,6 @@ try {
     echo "In file:", $e->getFile(), "\n";
     echo "On line:", $e->getLine(), "\n";       
 }
-
 ?>
 				<br/>
 				<input id="inpbutton2" type= "reset" value="Reset Form"/>
@@ -148,5 +142,3 @@ try {
 
 </body>
 </html>
-	
-</body>

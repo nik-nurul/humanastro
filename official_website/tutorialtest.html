@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="SWE40001 Project - Semester 1/2020 " />
+    <meta name="keywords" content="HTML5, CSS, Javascript, PHP" />
+    <meta name="author" content="SWE40001_Group_3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href= "styles/WebsiteStyle.css" rel="stylesheet"/>
+    <!-- Stylesheet link for font -->
+    <!--<link href='https://fonts.googleapis.com/css?family=Squada One' rel='stylesheet'>-->
+    <link href='https://fonts.googleapis.com/css?family=Russo One' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Alata' rel='stylesheet'>
+    <script src="javascript/WebsiteJS.js"></script>
+    <!--page title -displayed on tab- -->
+    <title>Astronomy Test - Tutorial Test</title>
+    <!-- Style for font -->
+    <style>
+        .heading_font {
+          font-family: 'Russo One';
+          letter-spacing: 3.5px;
+          color: rgba(250, 250, 250, 0.9);
+        }
+
+        .paragraph_font {
+          font-family: 'Alata';
+          letter-spacing: 0.5px;
+        }
+  	</style>
+</head>
+
+<body>
+      <!--Header section-->
+      <!-- Navigation bar section -->
+      <header>
+          <div class="navibar">
+              <a href ="login.html">Login</a>
+              <a href="about.html" class="navitab">About</a>
+              <a href="contact.html" class="navitab">Contact</a>
+              <a href="home.html" class="active navitab">Home</a>
+          </div>
+      </header>
+
+
+      <!-- division for website name -->
+      <section>
+        <!-- There will be no feedback button in tutorial test page and test pages -->
+
+        <!-- division part for consent statement -->
+        <div id="content_paragraph">
+            <h2 class="heading_font"> Tutorial Test </h2>
+            <hr class="heading">
+            <p class="paragraph_font">
+                This is a tutorial test before the real test take place. Below is the instructions that need
+                to be followed to complete the test successfully.
+            </p><br/><br/>
+            <p>
+              <!-- 7/5/2020: The instructions written below are not the real instructions. It is just purely for the prototype purpose only. -->
+                <ul class="bullet_style paragraph_font">
+                    <li>There will be a series of images that will be presented</li>
+                    <li>Please stare at the images and find similar patterns</li>
+                    <li>Each image will have its own timer</li>
+                    <li>The timer wil start as soon as you click 'Take Test'</li>
+                    <li>There will be 1 image for the tutorial test</li>
+                    <li>There will be 6 images for the real test</li>
+                </ul>
+            </p>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+
+            <!-- button to take the test-->
+            <a href="tutorialtest.html#tutorial_image"><button id="taketest" type="button" class="bttn">Take Test</button></a>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+      <div>
+
+
+      <!-- This section will initially be hidden. If the user click the 'take test' button, it'll be shown -->
+      <div id="tutorial_image" class="hide_tutorial">
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <img src="space.jpg" alt="space" height="442" width="572"/>
+          <br/>
+          <br/>
+      </div>
+
+
+      </section>
+
+
+    	<!--footer section-->
+    	<footer>
+    		<p>Software Engineering Project A<p>
+    		<p>&#169; Swinburne University of Technology</p>
+    	</footer>
+</body>
+
+</html>

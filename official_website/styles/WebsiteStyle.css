@@ -2,7 +2,7 @@
 filename: WebsiteStyle.css
 author: SWE40001 Group 3
 created: 24TH APRIL 2020
-last modified: 2ND MAY 2020
+last modified: 5TH MAY 2020
 purpose: CSS Stylesheet for Astronomy Website
 */
 
@@ -134,6 +134,10 @@ hr.heading {
   list-style-type: circle;
 }
 
+/*this is to hide the tutorial before customer click 'take test' button*/
+.hide_tutorial {
+	display: none;
+}
 
 /* Style for footer */
 footer {

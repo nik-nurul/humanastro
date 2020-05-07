@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="SEPA Project G3" />
+  <meta name="keywords" content="HTML5" />
+  <meta name="author" content="Fakhirah Shamsul"  />
+    
+  <!--page title -displayed on tab- -->
+  <title>Visualisation Test Page - Other Test</title>
+  
+  <!--References to external Javascript file-->
+  <script src="javascript/vistest.js"></script>
+  
+  <!--References to external CSS file-->
+  <link rel="stylesheet" type="text/css" href="styles/WebsiteStyle.css">
+
+  <!-- Stylesheet link for font -->
+  <!--<link href='https://fonts.googleapis.com/css?family=Squada One' rel='stylesheet'>-->
+  <link href='https://fonts.googleapis.com/css?family=Russo One' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Alata' rel='stylesheet'>
+  
+  <!-- Style for font -->
+  <style>
+       .heading_font {
+         font-family: 'Russo One';
+         letter-spacing: 3.5px;
+         color: rgba(250, 250, 250, 0.8);
+       }
+
+       .paragraph_font {
+         font-family: 'Alata';
+         letter-spacing: 0.5px;
+       }
+  </style>
+  
+  <!-- Viewport set to scale 1.0-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+	
+	<!-- Navigation bar section -->
+	<header>
+		<div class="navibar">
+			<a href ="login.html">Login</a>
+			<a href="about.html" class="navitab">About</a>
+			<a href="contact.html" class="navitab">Contact</a>
+			<a href="home.html" class="active navitab">Home</a>
+		</div>
+	</header>
+	
+  <section> 
+	
+	<!-- feedback button (sticky to the left page) -->
+    <a href="feedback.html"><button type="button" class="bttnfeedback"> Feedback </button></a>
+  
+	<div id="content_paragraph">
+	
+		<!--Page header-->
+		<h2 class="heading_font">Other Test</h2>
+		<hr class="heading"><br/>
+	
+		<div class="timer">
+			<label id="minutes">00</label> min <label id="seconds">00</label> sec
+		</div>
+		
+		<p class="paragraph_font" id="timercomm">The timer above will record the time taken for you to complete the test</p>
+		<br/><br/>
+		<p class="paragraph_font"> Other test will go here.. </p>
+		<br/>
+		<br/>
+		<br/>
+		
+		<!-- section for buttons -->
+		<div>
+			<!-- Finish button -->
+			<a href="thankyou.html"><input class="bttn" id="finishBttn" type= "submit" value="Finish"/></a>
+		</div>
+		
+	</div>
+  </section>
+	
+	<!--footer section-->
+	<footer>
+		<p>Software Engineering Project A<p>
+		<p>&#169; Swinburne University of Technology</p>
+	</footer>
+</body>
+
+</html>

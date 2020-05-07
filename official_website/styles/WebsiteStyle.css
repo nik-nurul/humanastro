@@ -2,7 +2,7 @@
 filename: WebsiteStyle.css
 author: SWE40001 Group 3
 created: 24TH APRIL 2020
-last modified: 5TH MAY 2020
+last modified: 8TH MAY 2020
 purpose: CSS Stylesheet for Astronomy Website
 */
 
@@ -81,9 +81,59 @@ div.navibar a {
 
 /* style for horizontal line below heading */
 hr.heading {
-  border: 2px solid rgba(250, 250, 250, 0.8);;
+  border: 2px solid rgba(250, 250, 250, 0.8);
 }
 
+/* style for calbration division section and red dot inside (calibration.html)*/
+div.calibration {
+  background-color: rgb(211,211,211);
+  border: 7px solid grey;
+  padding-bottom: 10px;
+  margin-bottom: 80px;
+  padding-left: 10px;
+}
+
+#RedDot {
+	font-size: 20px;
+	text-align: center;
+}
+
+/*style for timer section*/
+div.timer {
+	text-align:center;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	font-weight:bold;
+	font-size: 40px;
+	border-style: solid;
+	margin-left: 180px;
+	margin-right: 180px;
+	border-radius: 25px;
+}
+
+#timercomm {
+	text-align: center;
+}
+
+/* this is division for the official visualisation test section */
+div.test {
+	background-color: rgb(211,211,211);
+	border: 7px solid grey;
+	padding-left: 40px;
+	padding-bottom: 30px;
+	margin: 20px;
+}
+
+#spaceimg {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+}
+
+#questionno {
+	text-decoration: underline;
+}
 
 /* style for button */
 .bttn {
@@ -144,7 +194,7 @@ footer {
   background-color: rgb(130, 130, 130);
   padding: 5px;
   text-align: center;
-	margin-bottom: 0%;
+  margin-bottom: 0%;
   margin-top: 20%;
-	clear: both;
+  clear: both;
 }

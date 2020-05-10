@@ -2,7 +2,7 @@
 filename: WebsiteStyle.css
 author: SWE40001 Group 3
 created: 24TH APRIL 2020
-last modified: 8TH MAY 2020
+last modified: 10TH MAY 2020
 purpose: CSS Stylesheet for Astronomy Website
 */
 
@@ -18,6 +18,39 @@ body.bg{
   background-repeat: no-repeat;
   background-size: 100% 600px;
 }
+
+
+
+/*Background style for Contact.html*/
+.Contactbg{
+  background-image: url("pictures/background4.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 830px;
+}
+
+/* white background */
+.contentbg {
+  background-color: rgba(250, 250, 250, 0.65);
+  width:63%;
+  color: black;
+  padding: 20px 90px 20px 90px;
+}
+
+/* Style for text under heading name (home.html)*/
+#contact_paragraph{
+  margin-top: 100px;
+  margin-right: auto;
+  margin-bottom: 50px;
+  margin-right: 50px;
+  padding-left: 50px;
+  width: 44%;
+  color: rgb(186, 186, 186);
+  font-size: 16px;
+  text-align: center justified;
+}
+
+
+
 
 
 

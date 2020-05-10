@@ -99,7 +99,7 @@ try {
 					$bulk->delete(
 						["_id"=> $_id ],
 						["limit" => 1] // limit = 1 means only delete one document
-						); 
+					); 
 
 					$result = $manager->executeBulkWrite($dbName.'.'.$collName, $bulk);
 					echo "<p><p>Deleted: ".$result->getDeletedCount()." documents<p>";

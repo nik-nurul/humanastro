@@ -3,15 +3,6 @@
 <p><h1>MongoDB Sample program</h1>
 <p>
 <?php
-/*
-used Mongo shell to insert a record in database 'test':
- > db.testColl.insertOne({"myproperty":{"facts":["sky is blue", "pope is catholic", "bear shits in the woods"]}})
- 
- verified record was created:
- > db.testColl.find()
-{ "_id" : ObjectId("5e9fb269790596da5d7784a1"), "myproperty" : { "facts" : [ "sky is blue", "pope is catholic", "bear shits in the woods" ] } }
- 
-*/
 
 	// this library isn't mandatory and the below example doesn't use it
 	// You might find it easier to use this library instead of the low-level API

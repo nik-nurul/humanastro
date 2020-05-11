@@ -44,12 +44,45 @@ error_reporting(E_ALL);
 	  <form>
 	  
 <?php
+	echo '<p>$_POST: <br><pre>';
+	var_dump($_POST);
+	echo '</pre>';
+
 	$dbName = 'humanastro';		// database name
 	$Qcoll = 'experience_Qs';	// experience collection name
 	$Ucoll = 'users';			// user collection name
+
+	$userId = $_POST["userId"]; // extract userID string
+	unset($_POST["userId"]); // remove userID from POST array
 	  
 try {
 	$manager = new MongoDB\Driver\Manager("mongodb://localhost:27017"); // connect to the Mongo DB
+
+	// add the demographic answers to the user record
+	$bulk = new MongoDB\Driver\BulkWrite(['ordered' => true]);
+
+	// create user ID object with which to ID the user record
+	$_id = new MongoDB\BSON\ObjectID($userId);
+
+
+// mongo shell - working example of how to set the "answer" property inside the question element of the "demographic_data" array
+// db.users.updateOne({"_id": ObjectId("5eb8b54323e858761f1ca452"), "demographic_data": {$elemMatch: {"q_id":"astarea"}}},{$set: {"demographic_data.$.answer":"foo"}})
+
+	// iterate through each demographic answer, add answer to question element in user record
+    foreach ($_POST as $q_id => $value) {
+		// find specific question in this user document
+		$filter = [
+			"_id" => $_id, // this is the document or object (user, in this case) ID
+			"demographic_data" => [ '$elemMatch' => [ "q_id" => $q_id ] ] // demographic_data contains questions and answers
+		];
+		// set the answer value for this question
+		$bulk->update(
+			$filter,
+			[ '$set' => [ "demographic_data.$.answer" => $value ]]
+		);
+    }	
+	// execute writing all the demographic answers
+	$result = $manager->executeBulkWrite($dbName.'.'.$Ucoll, $bulk);
 	
 	// set up a query to retrieve questions from the database
 	$filter = []; // return all documents (filter is empty)

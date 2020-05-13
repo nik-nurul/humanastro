@@ -205,7 +205,7 @@ include 'includes/feeback-link.html';
 	}		
 ?>
 		  <!-- section for buttons  -->
-		  <div>
+		  <div id="content_paragraph">
 			<!-- this button will redirect to webcam calibration page-->
 			<input class="bttn" id="inpbutton" type="submit" value="Submit and Continue"/>
 			<!-- this button will redirect to homepage -->

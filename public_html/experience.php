@@ -163,7 +163,7 @@ include 'includes/feeback-link.html';
 					<br/>';
 				}
 				echo '
-				</div>
+				
 				</br>
 				</br>';
 			

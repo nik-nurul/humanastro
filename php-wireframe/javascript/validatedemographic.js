@@ -57,7 +57,7 @@ function validatedemo(){
 }
 
 function gohome(){
-	window.location = "home.php";
+	window.location = "home.html";
 }
 
 //function to enfore required on textbox

@@ -74,6 +74,7 @@
 	font-size: 14px;
 }
 
+
 .range-labels .selected::before {
 	background: #37adbf;
 }

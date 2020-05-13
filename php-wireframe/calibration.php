@@ -7,59 +7,34 @@ error_reporting(E_ALL);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Webcam Calibration</title>
-<?php
-include 'includes/head-base.html';
-?>
+  <meta charset="utf-8" />
+  <meta name="description" content="SEPA Project G3" />
+  <meta name="keywords" content="HTML5" />
+  <meta name="author" content="Fakhirah Shamsul"  />
+  <link rel="stylesheet" type="text/css" href="styles/WebsiteStyle.css">
+  <!--page title -displayed on tab- -->
+  <title>Webcam Calibration Page</title>
+  <!-- Viewport set to scale 1.0-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
 <body>
-<?php
-include 'includes/header.html';
-?>
-  <!-- division for content-->
-  <section> 
-<?php
-include 'includes/feeback-link.html';
-?>
-	<div id="content_paragraph">
-
-		<!--Page header-->
-		<h2 class="heading_font">Webcam Calibration</h2>
-		<hr class="heading"><br/>
 	
-		<!--Content paragraph-->
-		<p class="paragraph_font"> Please stare at the red dot for 10 seconds then, click the dot. <br/>
-		*** will have a pop-up message asking the user to maximize the browser window. </p>
-		<br/><br/>
-	
-		<!--division for webcam calibration task-->
-		<div class="calibration">
-			<br/>
-			<br/>
-			<p id="RedDot"> &#11093; </p>
-			<br/>
-			<br/>
-			<p id="RedDot"> &#9940; </p>
-			<br/>
-			<br/>
-			<p id="RedDot"> &#11093; </p>
-			<br/>
-			<br/>
-			<!-- comment -->
-			<!-- comment 2 -->
-			<br/>
-	
-		</div>
-
+	<!--header section-->
+	<header>
+		<!--main header-->
+		<h1 id="maintitle">Are Machines Better Than Humans (at Astronomy)?</h1>
+		<!--sub header-->
+		<h2 id="subtitle">Webcam Calibration</h2>
+	</header><hr><br/>
 <?php
 // debug
-	echo '<div class="debug"><p>DEBUG -- $_POST: <br><pre>';
+	echo '<p>DEBUG -- $_POST: <br><pre>';
 	var_dump($_POST);
 	echo '</pre>';
 	echo '<p>DEBUG -- $_SESSION: <br><pre>';
 	var_dump($_SESSION);
-	echo '</pre></div>';
+	echo '</pre>';
 
 	// update user record with experience answers
 
@@ -122,6 +97,8 @@ try {
 		// execute writing all the experience answers
 		$result = $manager->executeBulkWrite($dbName.'.'.$Ucoll, $bulk);
 	}
+
+
 	
 // exception handling for the database connection	
 } catch (MongoDB\Driver\Exception\Exception $e) {
@@ -138,20 +115,39 @@ try {
 	
 ?>
 	
-
+	<!--header for webcam calibration task-->
+	<h3> Please stare at the red dot for 10 seconds then, click the dot. </h3>
+	<p> *** will have a pop-up message asking the user to maximize the browser window. </p>
+	<br/><br/>
 	
-		<!-- section for buttons -->
-		<div>
-			<!-- will redirect to tutorial for the visualisation test -->
-			<a href="tutorialtest.php"><input class="bttn" id="submitBttn" type= "submit" value="Submit and continue"/></a>
+	<!--division for webcam calibration task-->
+	<div class="calibration">
+		<br/>
+		<br/>
+		<p id="RedDot"> &#11093; </p>
+		<br/>
+		<br/>
+		<p id="RedDot"> &#9940; </p>
+		<br/>
+		<br/>
+		<p id="RedDot"> &#11093; </p>
+		<br/>
+		<br/>
+		<!-- commnt -->
+		<!-- comment 2 -->
+		<br/>
 
-			<!-- -->
-			<a href="home.php"><input class="bttn" id="quitBttn" type= "reset" value="Exit to Home"/></a>
-			
-			<br/>
-		</div>
 	</div>
-  </section>
+	
+	<!-- section for buttons -->
+	<div>
+		<!-- -->
+		<a href="home.html"><input id="quitBttn" type= "reset" value="Exit to Home"/></a>
+		<!-- will redirect to tutorial for the visualisation test -->
+		<a href="tutorialtest.html"><input id="submitBttn" type= "submit" value="Submit and continue"/></a>
+		<br/><br/><br/><br/>
+	</div>
+	
 	
 	<!--footer section-->
 	<footer>

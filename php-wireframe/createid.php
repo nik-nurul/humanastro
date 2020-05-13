@@ -7,35 +7,34 @@ error_reporting(E_ALL);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Astronomy Test - Create User Account</title>
-<?php
-include 'includes/head-base.html';
-?>
-    <script src="javascript/validatedemographic.js"></script>
+	<meta charset="utf-8" />
+	<meta name="description" content="SWE40001 Group 3" />
+	<meta name="keywords" content="PHP " />
+	<meta name="author" content="Group 3" />
+	<title>Create User ID Page - Astronomy Image Test</title>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<!--References to external Javascript file-->
+	<script src="javascript/validatedemographic.js"></script>	
 </head>
 
 <body id="demographicpage">
+	
+	<!--header section-->
+	<header>
+		<!--main header-->
+		<h1 id="maintitle">Are Machines Better Than Humans (at Astronomy)?</h1>
+		<!--sub header-->
+		<h2 id="subtitle">Astronomy Image Test</h2>
+	</header>
+	
+	<!--division for content-->
+	<div id="content">
+		<p>The questions provided on this page are intended to record minimal demographic information approved by ethics committee</p>
 
-<?php
-include 'includes/header.php';
-?>
-
-  <!-- division for user information form-->
-  <section>
-
-<?php
-include 'includes/feeback-link.html';
-?>
-
-
-      <div id="content_paragraph">
-        <h2 class="heading_font"> Create Account </h2>
-        <hr class="heading"><br/>
-          	<p class="paragraph_font">The questions provided on this page are intended to record minimal demographic
-              information approved by ethics committee</p><br/><br/>
-
-              <!--Form starts here-->
-		<form class="paragraph_font" id="demoform" action="experience.php" method="post"> 
+		<!--Form starts here-->
+		<form id="demoform" action="experience.php" method="post"> 
 		<!--The action should be change to the URL where we want to save the data from the form-->
 <?php
 
@@ -107,12 +106,12 @@ try {
 		$filter = [ "_id" => $_id ]; // return only this user
 
 	// debug
-		echo '<div class="debug"><p>DEBUG -- $_POST: <br><pre>';
+		echo '<p>DEBUG -- $_POST: <br><pre>';
 		var_dump($_POST);
 		echo '</pre>';
 		echo '<p>DEBUG -- $_SESSION: <br><pre>';
 		var_dump($_SESSION);
-		echo '</pre></div>';
+		echo '</pre>';
 
 
 	// read all documents in $Dcoll and $Ecoll
@@ -232,22 +231,19 @@ try {
     echo "On line:", $e->getLine(), "\n";       
 }
 ?>
-
-              				<br/>
-              				<input class="bttn" id="inpbutton2" type= "reset" value="Reset Form"/>
-
-              				<br/>
-              				<br/>
-              				<br/>
-
-              				<input class="bttn" id="inpbutton" type="submit" value="Submit and Continue"/>
-              				<button class="bttn" id="homebutt" type="button">Exit to Home</button>
-              		</form>
-
-      </div>
-  </section>
-
-
+				<br/>
+				<input id="inpbutton2" type= "reset" value="Reset Form"/>
+				
+				<br/>
+				<br/>
+				<br/>
+				
+				<button id="homebutt" type="button">Exit to Home</button>
+				<input id="inpbutton" type="submit" value="Submit and Continue"/>
+		</form>
+			
+	</div>
+	
 	<br/>
 	<!--footer section-->
 	<footer>

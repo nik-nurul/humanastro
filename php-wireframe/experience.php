@@ -7,50 +7,54 @@ error_reporting(E_ALL);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Astronomy Test - Experience Question</title>
-<?php
-include 'includes/head-base.html';
-?>
-	<link rel="stylesheet" type="text/css" href="styles/expsliders.css">
+  <title>Experience Question</title>
+  <meta charset="utf-8" />
+  <meta name="description" content="SEPA Project G3" />
+  <meta name="keywords" content="HTML5" />
+  <meta name="author" content="Fakhirah Shamsul, Michael Choi"  />
+  
+    <!--References to external CSS file-->
+  <link rel="stylesheet" type="text/css" href="css/expsliders.css">
+  
 </head>
 
-<body id="experiencepage">
-	
-<?php
-include 'includes/header.html';
-?>
+<body>
 
-  <!-- division for user experience form-->
-  <section>  
-<?php
-include 'includes/feeback-link.html';
-?>
-	<div id="content_paragraph">
+	<!--header section-->
+	<header>
+		<!--main header-->
+		<h1 id="maintitle">Are Machines Better Than Humans (at Astronomy)?</h1>
+		<!--sub header-->
+		<h2 id="subtitle">About yourself</h2>
+	</header><hr><br/>
+
+	<!-- Section for questions -->
+	<div class="container">
+	  <h2>Questions regarding Visualisation Experience</h2>
+	  <!-- description about the questions-->
+	  <p>The following questions will help us understand more about your current experience with visual 
+	  inspection of astronomical images.  For each question, please select the 
+	  option that is the closest match.  When entering text information, 
+	  please try to avoid including details that might allow yourself to be 
+	  identified.  </p>
+	</div>
 	
-		<!--Page header-->
-		<h2 class="heading_font">About Yourself</h2>
-		<hr class="heading"><br/>
-		<!-- Content paragraph-->
-		<p class="paragraph_font">The following questions will help us understand more about your current experience with visual 
-		inspection of astronomical images.  For each question, please select the 
-		option that is the closest match.  When entering text information, 
-		please try to avoid including details that might allow yourself to be 
-		identified.  </p>	
-		
-		<br/>
-		<br/>
-		
-		<form class="paragraph_font" id="expform" action="calibration.php" method="post"> 
+	<div class="sliders">	 
+	  <!-- qustion section. Used radio button-->
+	  <p> Please select your answer </p><br/>
+
+		<!--Form starts here-->
+		<form id="expform" action="calibration.php" method="post"> 
 		<!--The action should be change to the URL where we want to save the data from the form-->
 	  
 <?php
 // debug
-	echo '<div class="debug"><p>DEBUG -- $_POST: <br><pre>';
+	echo '<p>DEBUG -- $_POST: <br><pre>';
 	var_dump($_POST);
 	echo '</pre>';
 	echo '<p>DEBUG -- $_SESSION: <br><pre>';
 	var_dump($_SESSION);
-	echo '</pre></div>';
+	echo '</pre>';
 
 	// don't do anything if consent is not true
 	if ( isset( $_SESSION["consent"] ) and $_SESSION["consent"] ) {
@@ -206,24 +210,13 @@ include 'includes/feeback-link.html';
 ?>
 		  <!-- section for buttons  -->
 		  <div>
-			<!-- this button will redirect to webcam calibration page-->
-			<input class="bttn" id="inpbutton" type="submit" value="Submit and Continue"/>
 			<!-- this button will redirect to homepage -->
-			<a href="home.php"><input class="bttn" id="quitBttn" type= "reset" value="Exit to Home"/></a>
+			<a href="home.html"><input id="quitBttn" type= "reset" value="Exit to Home"/></a>
+			<!-- this button will redirect to webcam calibration page-->
+			<input id="inpbutton" type="submit" value="Submit and Continue"/>
 		  </div>
 		  <br/>
 		</form>
-		
-	    <br/>
-	</div>
-  </section>
-
-	<br/>
-	<!--footer section-->
-	<footer>
-		<p>Software Engineering Project A<p>
-		<p>&#169; Swinburne University of Technology</p>
-	</footer>
 
 </body>
 </html>

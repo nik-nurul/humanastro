@@ -209,7 +209,7 @@ include 'includes/feeback-link.html';
 			<!-- this button will redirect to webcam calibration page-->
 			<input class="bttn" id="inpbutton" type="submit" value="Submit and Continue"/>
 			<!-- this button will redirect to homepage -->
-			<a href="home.php"><input class="bttn" id="quitBttn" type= "reset" value="Exit to Home"/></a>
+			<a href="index.php"><input class="bttn" id="quitBttn" type= "reset" value="Exit to Home"/></a>
 		  </div>
 		  <br/>
 		</form>

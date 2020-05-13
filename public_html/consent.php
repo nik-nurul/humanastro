@@ -48,7 +48,7 @@ include 'includes/feeback-link.html';
 			<form id="consent" action="createid.php" method="post">
 				<input id="consent_yes" type="hidden" name="consent" value="true"/>
 				<input class="bttn" id="consent" type="submit" value="Yes"/>
-				<a href="home.php"><button class="bttn" id="nobutt" type="button">No</button></a>
+				<a href="index.php"><button class="bttn" id="nobutt" type="button">No</button></a>
 			</form>
       </div>
 

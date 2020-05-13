@@ -32,7 +32,7 @@ span.line {
   display: inline-block;
 }
 
-/* Background style for the first webpage (home.php) */
+/* Background style for the first webpage (index.php) */
 body {
   background-color: rgb(22, 6, 19);
 }
@@ -60,7 +60,7 @@ body.bg{
   padding: 20px 90px 20px 90px;
 }
 
-/* Style for text under heading name (home.php)*/
+/* Style for text under heading name (index.php)*/
 #contact_paragraph{
   margin-top: 100px;
   margin-right: auto;
@@ -99,7 +99,7 @@ div.navibar a {
 
 
 
-/* Style for website title (home.php) */
+/* Style for website title (index.php) */
 #web_title{
     font-size: 4.7em;
     margin-top: 3em;
@@ -113,7 +113,7 @@ div.navibar a {
 
 
 
-/* Style for text under heading name (home.php)*/
+/* Style for text under heading name (index.php)*/
 #content_paragraph{
   margin-top: 250px;
   margin-left: auto;

@@ -42,7 +42,7 @@ include 'includes/feeback-link.html';
 		<!-- section for buttons -->
 		<div>
 			<!-- Buttons to return to home-->
-			<a href="home.php"><input class="bttn" id="homeBttn" type= "submit" value="Exit to Home"/></a>
+			<a href="index.php"><input class="bttn" id="homeBttn" type= "submit" value="Exit to Home"/></a>
 			<br/>
 		</div>
 	

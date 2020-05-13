@@ -1,7 +1,7 @@
 "use strict";
 
 function timer () {
-	alert('Your time for tutorisal test image test has run out. Good luck on the real test!');
+	alert('Your time for tutorial test image test has run out. Good luck on the real test!');
   //after the time ends, it will redirect the user to imagetest.html
 	window.location.assign("imagetest.php");
 }

@@ -128,9 +128,9 @@ include 'includes/header.html';
 	  
 		<!-- section for buttons  -->
 		<!-- this button will redirect to homepage -->
-		<a href="home.html"><input id="quitBttn" type= "reset" value="Exit to Home"/></a>
+		<a href="index.php"><input id="quitBttn" type= "reset" value="Exit to Home"/></a>
 		<!-- this button will redirect to webcam calibration page-->
-		<a href="calibration.html"><input id="submitBttn" type= "submit" value="Submit and continue"/></a>
+		<a href="calibration.php"><input id="submitBttn" type= "submit" value="Submit and continue"/></a>
 		
 		<br/>
 		

@@ -38,7 +38,7 @@ include 'includes/feeback-link.html';
             </p>
 
             <p  class="paragraph_font contentbg">
-                Can visit <a href ="feedback.html">this page</a> if you have any enquiries or feedback
+                Can visit <a href ="feedback.php">this page</a> if you have any enquiries or feedback
             </p>
 
         </div>

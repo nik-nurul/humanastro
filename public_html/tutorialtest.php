@@ -70,12 +70,9 @@ include 'includes/header.html';
 
       </section>
 
+<?php
+include 'includes/footer.html';
+?>
 
-    	<!--footer section-->
-    	<footer>
-    		<p>Software Engineering Project A<p>
-    		<p>&#169; Swinburne University of Technology</p>
-    	</footer>
 </body>
-
 </html>

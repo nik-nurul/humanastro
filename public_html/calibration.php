@@ -145,11 +145,9 @@ try {
 	</div>
   </section>
 	
-	<!--footer section-->
-	<footer>
-		<p>Software Engineering Project A<p>
-		<p>&#169; Swinburne University of Technology</p>
-	</footer>
+<?php
+include 'includes/footer.html';
+?>
 
 </body>
 </html>

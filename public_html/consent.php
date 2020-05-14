@@ -20,7 +20,7 @@ include 'includes/header.html';
 ?>
     <section>
 <?php
-include 'includes/feeback-link.html';
+include 'includes/feeback-link.php';
 ?>
       <!-- division part for consent statement -->
       <div id="content_paragraph">
@@ -46,8 +46,8 @@ include 'includes/feeback-link.html';
 			<!--Yes button will direct the user to the next page (create user ID),
 			No button will direct the user back to the home page-->
 			<form id="consent" action="createid.php" method="post">
-				<input id="consent_yes" type="hidden" name="consent" value="true"/>
-				<input class="bttn" id="consent" type="submit" value="Yes"/>
+				<input id="consent_yes" type="hidden" name="consent" value="true" />
+				<input class="bttn" id="consent" type="submit" value="Yes" />
 				<a href="index.php"><button class="bttn" id="nobutt" type="button">No</button></a>
 			</form>
       </div>

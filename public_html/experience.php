@@ -23,7 +23,7 @@ include 'includes/header.html';
   <!-- division for user experience form-->
   <section>  
 <?php
-include 'includes/feeback-link.html';
+include 'includes/feeback-link.php';
 ?>
 	<div id="content_paragraph">
 	

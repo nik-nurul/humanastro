@@ -21,7 +21,7 @@ include 'includes/header.html';
 	<!--division for paragraph about the test-->
 	<section>
 <?php
-include 'includes/feeback-link.html';
+include 'includes/feeback-link.php';
 ?>
         <div id="contact_paragraph">
             <h2 class="heading_font"> About Us </h2>

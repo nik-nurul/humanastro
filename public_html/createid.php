@@ -24,7 +24,7 @@ include 'includes/header.php';
   <section>
 
 <?php
-include 'includes/feeback-link.html';
+include 'includes/feeback-link.php';
 ?>
 
 

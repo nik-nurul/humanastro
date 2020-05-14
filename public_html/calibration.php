@@ -20,7 +20,7 @@ include 'includes/header.html';
   <!-- division for content-->
   <section> 
 <?php
-include 'includes/feeback-link.html';
+include 'includes/feeback-link.php';
 ?>
 	<div id="content_paragraph">
 

@@ -53,14 +53,6 @@ include 'includes/feeback-link.html';
 		</div>
 
 <?php
-// debug
-	echo '<div class="debug"><p>DEBUG -- $_POST: <br><pre>';
-	var_dump($_POST);
-	echo '</pre>';
-	echo '<p>DEBUG -- $_SESSION: <br><pre>';
-	var_dump($_SESSION);
-	echo '</pre></div>';
-
 	// update user record with experience answers
 
 	$dbName = 'humanastro';		// database name

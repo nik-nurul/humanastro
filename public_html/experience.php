@@ -44,14 +44,6 @@ include 'includes/feeback-link.html';
 		<!--The action should be change to the URL where we want to save the data from the form-->
 	  
 <?php
-// debug
-	echo '<div class="debug"><p>DEBUG -- $_POST: <br><pre>';
-	var_dump($_POST);
-	echo '</pre>';
-	echo '<p>DEBUG -- $_SESSION: <br><pre>';
-	var_dump($_SESSION);
-	echo '</pre></div>';
-
 	// don't do anything if consent is not true
 	if ( isset( $_SESSION["consent"] ) and $_SESSION["consent"] ) {
 

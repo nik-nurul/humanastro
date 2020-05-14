@@ -106,15 +106,6 @@ try {
 		$_id = new MongoDB\BSON\ObjectID($userId);
 		$filter = [ "_id" => $_id ]; // return only this user
 
-	// debug
-		echo '<div class="debug"><p>DEBUG -- $_POST: <br><pre>';
-		var_dump($_POST);
-		echo '</pre>';
-		echo '<p>DEBUG -- $_SESSION: <br><pre>';
-		var_dump($_SESSION);
-		echo '</pre></div>';
-
-
 	// read all documents in $Dcoll and $Ecoll
 		$query = new MongoDB\Driver\Query([]); // [] means get all documents
 

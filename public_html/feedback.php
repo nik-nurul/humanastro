@@ -14,11 +14,11 @@ error_reporting(E_ALL);
 if ( isset($_POST["feedbackcomment"]) ) {
 	if ( ! isset($_POST["feedbackreturn"]) )
 		$_POST["feedbackreturn"] = "no data";
-	$newFeedback = [
-		"date" => date("Y-m-d H:i:s\Z"), // return date/time as a Zulu string
-		"from_page" => $_POST["feedbackreturn"],
-		"comment" => $_POST["feedbackcomment"]
-	];
+		$newFeedback = [
+			"date" => date("Y-m-d H:i:s\Z"), // return date/time as a Zulu string
+			"from_page" => $_POST["feedbackreturn"],
+			"comment" => $_POST["feedbackcomment"]
+		];
 
 	$dbName = 'humanastro';		// database name
 	$Fcoll = 'userfeedback';	// feedback collection name

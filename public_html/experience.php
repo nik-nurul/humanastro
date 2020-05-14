@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Astronomy Test - Experience Question</title>
+  <title>Astronomy Test - Experience Questions</title>
 <?php
 include 'includes/head-base.html';
 ?>
@@ -40,8 +40,6 @@ include 'includes/feeback-link.php';
 		<br/>
 		<br/>
 		
-		<form class="paragraph_font" id="expform" action="calibration.php" method="post"> 
-		<!--The action should be change to the URL where we want to save the data from the form-->
 	  
 <?php
 	// don't do anything if consent is not true
@@ -52,14 +50,7 @@ include 'includes/feeback-link.php';
 		$dbName = 'humanastro';		// database name
 		$Ucoll = 'users';			// user collection name
 
-		$userId = $_SESSION["userId"];
-	//	$userId = $_POST["userId"]; // extract userID string
-		unset($_POST["userId"]); // remove userID from POST array
-
-		// pass the user ID on to the next page
-		echo '
-				<input type="hidden" name="userId" value="'.$userId.'"/>';	
-
+		$userId = $_GET["userId"];
 		  
 		try {
 			$manager = new MongoDB\Driver\Manager("mongodb://localhost:27017"); // connect to the Mongo DB
@@ -122,6 +113,12 @@ include 'includes/feeback-link.php';
 						);
 					}
 				}
+				// write the current page the user is on so the user can
+				// resume an interrupted session
+				$bulk->update(
+					$q_filter,
+					[ '$set' => [ "current_page" => "experience" ] ]
+				);
 
 				// execute writing all the demographic answers (if the user is an adult)
 				$result = $manager->executeBulkWrite($dbName.'.'.$Ucoll, $bulk);
@@ -129,7 +126,11 @@ include 'includes/feeback-link.php';
 				// ****** output experience questions ***********
 				// we already have the user document from the above -- $userDoc
 				// which contains the experience questions
-				
+
+				// start form here
+				echo '
+			  <form class="paragraph_font" id="expform" action="calibration.php?userId='.$userId.'" method="post"> 
+';
 				// iterate over each experience question
 				foreach ($userDoc->experience_data as $q){
 					$question = $q->question; // the full text of the question
@@ -159,6 +160,7 @@ include 'includes/feeback-link.php';
 				</br>
 				</br>';
 			
+			// user is not an adult
 			} else {
 				$_SESSION["consent"] = false;
 				// set the user consent to false in the DB

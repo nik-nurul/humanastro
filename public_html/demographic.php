@@ -115,7 +115,7 @@ try {
 						if ( isset($optObj->freetext_answer) && $optObj->freetext_answer ){
 							echo'
 							<label for="'.$optObj->freetext_id.'">'.$optObj->freetext_desc.'</label> 
-								<input class="resize" type="text" name= "'.$optObj->freetext_id.'" id="'.$optObj->freetext_id.'" maxlength="'.$optObj->freetext_length.'" size="'.$optObj->freetext_length.'"/>';
+								<input class="resize" type="text" pattern="^[A-Za-z ]{0,20}$" name= "'.$optObj->freetext_id.'" id="'.$optObj->freetext_id.'" maxlength="'.$optObj->freetext_length.'" size="'.$optObj->freetext_length.'"/>';
 						}
 					}
 					echo '

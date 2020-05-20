@@ -51,7 +51,8 @@ try {
 
 		$bulk = new MongoDB\Driver\BulkWrite(['ordered' => true]);
 
-		$userId = $_GET["userId"]; // userId passed by GET variable
+		$userId = filter_input(INPUT_GET,"userId",FILTER_SANITIZE_STRING); // userId passed by GET variable
+//		$userId = $_GET["userId"]; // userId passed by GET variable
 		
 		// pass the user ID on to the next page
 		// via a session variable

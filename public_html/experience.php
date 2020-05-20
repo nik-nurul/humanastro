@@ -100,7 +100,10 @@ include 'includes/feeback-link.php';
 					
 					// set the answer, if it exists in the $_POST array
 					if (isset($_POST[$q_id])) {
-						$answer = $_POST[$q_id];
+						
+//						$answer = $_POST[$q_id];
+						$answer = filter_input(INPUT_POST,$q_id,FILTER_SANITIZE_STRING);
+
 						// find specific question in this user document
 						$u_filter = [
 							"_id" => $_id, // this is the document or object (user, in this case) ID
@@ -109,7 +112,8 @@ include 'includes/feeback-link.php';
 						// handle self-described Gender
 						//	- change answer to freetext gender description
 						if ( $q_id == "Gender" and $answer == "sd" and isset($_POST["gendesc"]) )
-							$answer = $_POST["gendesc"];
+							$answer = filter_input(INPUT_POST,"gendesc",FILTER_SANITIZE_STRING);
+//							$answer = $_POST["gendesc"];
 						// set the answer value for this question
 						$bulk->update(
 							$u_filter,

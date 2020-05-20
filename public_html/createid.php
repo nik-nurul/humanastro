@@ -58,7 +58,9 @@ try {
 	// the "consent" propery in the user document in the database
 	// is the canonical record of consent
 	// - this must override other variables
-	if ( isset($_POST["consent"]) and $_POST["consent"] == "true"){
+	if ( isset($_POST["consent"]) and filter_input(INPUT_POST,"consent",FILTER_SANITIZE_STRING) == "true"){
+
+
 
 		$_SESSION["consent"] = true;
 		$manager = new MongoDB\Driver\Manager("mongodb://localhost:27017"); // connect to the Mongo DB

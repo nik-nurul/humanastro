@@ -97,7 +97,8 @@ try {
 			$q_id = $q->q_id;		// the abbreviated question identifier
 			// set the answer, if it exists in the $_POST array
 			if (isset($_POST[$q_id])) {
-				$answer = $_POST[$q_id];
+				$answer = filter_input(INPUT_POST,$q_id,FILTER_SANITIZE_STRING);
+				// $answer = $_POST[$q_id];
 				// find specific question in this user document
 				$u_filter = [
 					"_id" => $_id, // this is the document or object (user, in this case) ID

@@ -42,6 +42,17 @@ include 'includes/feeback-link.php';
 		
 	  
 <?php
+	// sanitise self describe gender to remove all special characters
+	function sanitise_input($data) {
+		//Removes leading or trailing spaces
+		$data = trim($data);
+		//Remove backslashes in front of quotes
+		$data = stripslashes($data);
+		//Remove any special characters
+		$data = preg_replace('/[^A-Za-z ]/', '', $data);
+	return $data;
+	}
+
 	// don't do anything if consent is not true
 	if ( isset( $_SESSION["consent"] ) and $_SESSION["consent"] ) {
 
@@ -112,8 +123,10 @@ include 'includes/feeback-link.php';
 						// handle self-described Gender
 						//	- change answer to freetext gender description
 						if ( $q_id == "Gender" and $answer == "sd" and isset($_POST["gendesc"]) )
-							$answer = filter_input(INPUT_POST,"gendesc",FILTER_SANITIZE_STRING);
-//							$answer = $_POST["gendesc"];
+							$genderdesc = $_POST["gendesc"];
+							$answer = sanitise_input($genderdesc);
+							//$answer = filter_input(INPUT_POST,"gendesc",FILTER_SANITIZE_STRING);
+							//$answer = $_POST["gendesc"];
 						// set the answer value for this question
 						$bulk->update(
 							$u_filter,

@@ -4,8 +4,20 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// declare variables to page scope
+$dbName = $Dcoll = $Ecoll = $Ucoll = '';
+$userId = $_id = $manager = $bulk = '';
+
+//require('includes/page-init.php');
+
+// declare globals here until we get page-init.php working
+	$dbName = 'humanastro';		// database name
+	$Dcoll = 'demographic_Qs';	// question collection name
+	$Ecoll = 'experience_Qs';	// experience collection name
+	$Ucoll = 'users';			// user collection name
+
 /* TO DO
-	use GET user ID to resume sessions - but!
+	GET user ID to resume sessions - but!
 		do not allow user to see what was previously entered
 		i.e. do not populate questions with previous responses
 			(this would be a privacy breach)
@@ -40,10 +52,6 @@ error_reporting(E_ALL);
 		
 */
 
-	$dbName = 'humanastro';		// database name
-	$Dcoll = 'demographic_Qs';	// question collection name
-	$Ecoll = 'experience_Qs';	// experience collection name
-	$Ucoll = 'users';			// user collection name
 
 try {
 	// Consent - "Yes" button was clicked - flag consent as true in session 

@@ -106,6 +106,10 @@ include 'includes/feeback-link.php';
 							"_id" => $_id, // this is the document or object (user, in this case) ID
 							"demographic_data" => [ '$elemMatch' => [ "q_id" => $q_id ] ] // demographic_data contains questions and answers
 						];
+						// handle self-described Gender
+						//	- change answer to freetext gender description
+						if ( $q_id == "Gender" and $answer == "sd" and isset($_POST["gendesc"]) )
+							$answer = $_POST["gendesc"];
 						// set the answer value for this question
 						$bulk->update(
 							$u_filter,

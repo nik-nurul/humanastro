@@ -44,12 +44,12 @@ include 'includes/feeback-link.php';
 <?php
 	// sanitise self describe gender to remove all special characters
 	function sanitise_input($data) {
+		//Remove any special characters
+		$data = preg_replace('/[^A-Za-z ]/', '', $data);
 		//Removes leading or trailing spaces
 		$data = trim($data);
 		//Remove backslashes in front of quotes
 		$data = stripslashes($data);
-		//Remove any special characters
-		$data = preg_replace('/[^A-Za-z ]/', '', $data);
 	return $data;
 	}
 

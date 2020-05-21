@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 <head>
   <title>Astronomy Test - Experience Questions</title>
 <?php
-include 'includes/head-base.html';
+require 'includes/head-base.html';
 ?>
 	<link rel="stylesheet" type="text/css" href="styles/expsliders.css">
 </head>
@@ -17,13 +17,13 @@ include 'includes/head-base.html';
 <body id="experiencepage">
 	
 <?php
-include 'includes/header.html';
+require 'includes/header.html';
 ?>
 
   <!-- division for user experience form-->
   <section>  
 <?php
-include 'includes/feeback-link.php';
+require 'includes/feeback-link.php';
 ?>
 	<div id="content_paragraph">
 	
@@ -42,6 +42,8 @@ include 'includes/feeback-link.php';
 		
 	  
 <?php
+	require 'includes/functions.php';
+/*
 	// sanitise self describe gender to remove all special characters
 	function sanitise_input($data) {
 		//Remove any special characters
@@ -52,7 +54,7 @@ include 'includes/feeback-link.php';
 		$data = stripslashes($data);
 	return $data;
 	}
-
+*/
 	// don't do anything if consent is not true
 	if ( isset( $_SESSION["consent"] ) and $_SESSION["consent"] ) {
 
@@ -61,7 +63,7 @@ include 'includes/feeback-link.php';
 		$dbName = 'humanastro';		// database name
 		$Ucoll = 'users';			// user collection name
 
-		$userId = $_GET["userId"];
+		$userId = sanitise_input($_GET["userId"]); // defend against malicious GET requests
 		  
 		try {
 			$manager = new MongoDB\Driver\Manager("mongodb://localhost:27017"); // connect to the Mongo DB
@@ -112,8 +114,7 @@ include 'includes/feeback-link.php';
 					// set the answer, if it exists in the $_POST array
 					if (isset($_POST[$q_id])) {
 						
-//						$answer = $_POST[$q_id];
-						$answer = filter_input(INPUT_POST,$q_id,FILTER_SANITIZE_STRING);
+						$answer = sanitise_input($_POST[$q_id]); // sanitise all form data, just in case
 
 						// find specific question in this user document
 						$u_filter = [
@@ -123,10 +124,7 @@ include 'includes/feeback-link.php';
 						// handle self-described Gender
 						//	- change answer to freetext gender description
 						if ( $q_id == "Gender" and $answer == "sd" and isset($_POST["gendesc"]) )
-							$genderdesc = $_POST["gendesc"];
-							$answer = sanitise_input($genderdesc);
-							//$answer = filter_input(INPUT_POST,"gendesc",FILTER_SANITIZE_STRING);
-							//$answer = $_POST["gendesc"];
+							$answer = sanitise_input($_POST["gendesc"]); // sanitise the freetext gender answer
 						// set the answer value for this question
 						$bulk->update(
 							$u_filter,
@@ -234,7 +232,7 @@ include 'includes/feeback-link.php';
   </section>
 
 <?php
-include 'includes/footer.html';
+require 'includes/footer.html';
 ?>
 
 </body>

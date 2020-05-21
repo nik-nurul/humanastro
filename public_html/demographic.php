@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 <head>
   <title>Astronomy Test - Demographic Questions</title>
 <?php
-include 'includes/head-base.html';
+require 'includes/head-base.html';
 ?>
     <script src="javascript/validatedemographic.js"></script>
 </head>
@@ -17,14 +17,14 @@ include 'includes/head-base.html';
 <body id="demographicpage">
 
 <?php
-include 'includes/header.html';
+require 'includes/header.html';
 ?>
 
   <!-- division for user information form-->
   <section>
 
 <?php
-include 'includes/feeback-link.php';
+require 'includes/feeback-link.php';
 ?>
 
 
@@ -35,7 +35,8 @@ include 'includes/feeback-link.php';
               information approved by ethics committee</p><br/><br/>
 
 <?php
-
+	require 'includes/functions.php';
+	
 	$dbName = 'humanastro';		// database name
 	$Ucoll = 'users';			// user collection name
 
@@ -51,8 +52,7 @@ try {
 
 		$bulk = new MongoDB\Driver\BulkWrite(['ordered' => true]);
 
-		$userId = filter_input(INPUT_GET,"userId",FILTER_SANITIZE_STRING); // userId passed by GET variable
-//		$userId = $_GET["userId"]; // userId passed by GET variable
+		$userId = sanitise_input($_GET["userId"]); // defend against malicious GET requests
 		
 		// pass the user ID on to the next page
 		// via a session variable
@@ -115,7 +115,7 @@ try {
 						if ( isset($optObj->freetext_answer) && $optObj->freetext_answer ){
 							echo'
 							<label for="'.$optObj->freetext_id.'">'.$optObj->freetext_desc.'</label> 
-								<input class="resize" type="text" pattern="^[A-Za-z ]{0,20}$" name= "'.$optObj->freetext_id.'" id="'.$optObj->freetext_id.'" maxlength="'.$optObj->freetext_length.'" size="'.$optObj->freetext_length.'"/>';
+								<input class="resize" type="text" name= "'.$optObj->freetext_id.'" id="'.$optObj->freetext_id.'" maxlength="'.$optObj->freetext_length.'" size="'.$optObj->freetext_length.'"/>';
 						}
 					}
 					echo '
@@ -185,7 +185,7 @@ try {
   </section>
 
 <?php
-include 'includes/footer.html';
+require 'includes/footer.html';
 ?>
 
 </body>

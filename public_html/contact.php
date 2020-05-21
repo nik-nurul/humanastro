@@ -9,19 +9,19 @@ error_reporting(E_ALL);
 <head>
   <title>Astronomy Test - Contact</title>
 <?php
-include 'includes/head-base.html';
+require 'includes/head-base.html';
 ?>
 </head>
 
 <body class="Contactbg">
 
 <?php
-include 'includes/header.html';
+require 'includes/header.html';
 ?>
 	<!--division for paragraph about the test-->
 	<section>
 <?php
-include 'includes/feeback-link.php';
+require 'includes/feeback-link.php';
 ?>
         <div id="contact_paragraph">
             <h2 class="heading_font"> Contact </h2>
@@ -45,7 +45,7 @@ include 'includes/feeback-link.php';
     </section>
 
 <?php
-include 'includes/footer.html';
+require 'includes/footer.html';
 ?>
 
 </body>

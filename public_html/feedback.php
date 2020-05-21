@@ -10,14 +10,16 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+require 'includes/functions.php';
+
 // if the comment is set, add it to the database
 if ( isset($_POST["feedbackcomment"]) ) {
 	if ( ! isset($_POST["feedbackreturn"]) )
 		$_POST["feedbackreturn"] = "no data";
 		$newFeedback = [
 			"date" => date("Y-m-d H:i:s\Z"), // return date/time as a Zulu string
-			"from_page" => $_POST["feedbackreturn"],
-			"comment" => $_POST["feedbackcomment"]
+			"from_page" => sanitise_input($_POST["feedbackreturn"]),
+			"comment" => sanitise_input($_POST["feedbackcomment"])
 		];
 
 	$dbName = 'humanastro';		// database name
@@ -56,14 +58,14 @@ if ( isset($_POST["feedbackcomment"]) ) {
 <head>
   <title>Astronomy Test - Feedback</title>
 <?php
-include 'includes/head-base.html';
+require 'includes/head-base.html';
 ?>
 </head>
 
 <body>
 	
 <?php
-include 'includes/header.html';
+require 'includes/header.html';
 ?>
 <!-- division for user feedback form-->
   <section>  
@@ -104,7 +106,7 @@ include 'includes/header.html';
   </section>
   
 <?php
-include 'includes/footer.html';
+require 'includes/footer.html';
 ?>
 
 </body>

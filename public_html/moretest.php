@@ -9,14 +9,14 @@ error_reporting(E_ALL);
 <head>
   <title>Visualisation Test Page - Other Test</title>
 <?php
-include 'includes/head-base.html';
+require 'includes/head-base.html';
 ?>
   <script src="javascript/vistest.js"></script>
 </head>
 
 <body>
 <?php
-include 'includes/header.html';
+require 'includes/header.html';
 ?>
   <section> 
 	<div id="content_paragraph">
@@ -46,7 +46,7 @@ include 'includes/header.html';
   </section>
 	
 <?php
-include 'includes/footer.html';
+require 'includes/footer.html';
 ?>
 
 </body>

@@ -9,19 +9,19 @@ error_reporting(E_ALL);
 <head>
   <title>Thank You</title>
 <?php
-include 'includes/head-base.html';
+require 'includes/head-base.html';
 ?>
 </head>
 
 <body>
 	
 <?php
-include 'includes/header.html';
+require 'includes/header.html';
 ?>
   <!-- division for content-->
   <section> 
 <?php
-include 'includes/feeback-link.php';
+require 'includes/feeback-link.php';
 ?>
 	<div id="content_paragraph">
 	
@@ -50,7 +50,7 @@ include 'includes/feeback-link.php';
   </section>
 	
 <?php
-include 'includes/footer.html';
+require 'includes/footer.html';
 ?>
 
 </body>

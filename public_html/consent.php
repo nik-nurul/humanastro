@@ -9,18 +9,18 @@ error_reporting(E_ALL);
 <head>
   <title>Astronomy Test - Consent</title>
 <?php
-include 'includes/head-base.html';
+require 'includes/head-base.html';
 ?>
 </head>
 
 <body>
 
 <?php
-include 'includes/header.html';
+require 'includes/header.html';
 ?>
     <section>
 <?php
-include 'includes/feeback-link.php';
+require 'includes/feeback-link.php';
 ?>
       <!-- division part for consent statement -->
       <div id="content_paragraph">
@@ -55,7 +55,7 @@ include 'includes/feeback-link.php';
   </section>
 
 <?php
-include 'includes/footer.html';
+require 'includes/footer.html';
 ?>
 
 </body>

@@ -9,18 +9,18 @@ error_reporting(E_ALL);
 <head>
   <title>Webcam Calibration</title>
 <?php
-include 'includes/head-base.html';
+require 'includes/head-base.html';
 ?>
 </head>
 
 <body>
 <?php
-include 'includes/header.html';
+require 'includes/header.html';
 ?>
   <!-- division for content-->
   <section> 
 <?php
-include 'includes/feeback-link.php';
+require 'includes/feeback-link.php';
 ?>
 	<div id="content_paragraph">
 
@@ -46,21 +46,19 @@ include 'includes/feeback-link.php';
 			<p id="RedDot"> &#11093; </p>
 			<br/>
 			<br/>
-			<!-- comment -->
-			<!-- comment 2 -->
 			<br/>
 	
 		</div>
 
 <?php
+	require 'includes/functions.php';
+	
 	// update user record with experience answers
 
 	$dbName = 'humanastro';		// database name
 	$Ucoll = 'users';			// user collection name
 
 	$userId = $_SESSION["userId"]; // get userId from session
-//	$userId = $_POST["userId"]; // extract userId string
-	unset($_POST["userId"]); // remove userID from POST array
 	  
 try {
 	$manager = new MongoDB\Driver\Manager("mongodb://localhost:27017"); // connect to the Mongo DB
@@ -97,8 +95,7 @@ try {
 			$q_id = $q->q_id;		// the abbreviated question identifier
 			// set the answer, if it exists in the $_POST array
 			if (isset($_POST[$q_id])) {
-				$answer = filter_input(INPUT_POST,$q_id,FILTER_SANITIZE_STRING);
-				// $answer = $_POST[$q_id];
+				$answer = sanitise_input($_POST[$q_id]);
 				// find specific question in this user document
 				$u_filter = [
 					"_id" => $_id, // this is the document or object (user, in this case) ID
@@ -147,7 +144,7 @@ try {
   </section>
 	
 <?php
-include 'includes/footer.html';
+require 'includes/footer.html';
 ?>
 
 </body>

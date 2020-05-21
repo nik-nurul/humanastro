@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 <head>
   <title>Are Humans Smarter Than Machines (At Astronomy)?</title>
 <?php
-include 'includes/head-base.html';
+require 'includes/head-base.html';
 ?>
 
 </head>
@@ -17,7 +17,7 @@ include 'includes/head-base.html';
 <body class="bg">
 
 <?php
-include 'includes/header.html';
+require 'includes/header.html';
 ?>
 
 	<!-- division for website name -->
@@ -32,7 +32,7 @@ include 'includes/header.html';
 	<!--division for paragraph about the test-->
 	<section>
 <?php
-include 'includes/feeback-link.php';
+require 'includes/feeback-link.php';
 ?>
         <div id="content_paragraph">
             <h2 class="heading_font"> About the test </h2>
@@ -89,7 +89,7 @@ include 'includes/feeback-link.php';
     </section>
 
 <?php
-include 'includes/footer.html';
+require 'includes/footer.html';
 ?>
 
 </body>

@@ -4,6 +4,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+require 'includes/functions.php';
+
 // declare variables to page scope
 $dbName = $Dcoll = $Ecoll = $Ucoll = '';
 $userId = $_id = $manager = $bulk = '';
@@ -58,7 +60,7 @@ try {
 	// the "consent" propery in the user document in the database
 	// is the canonical record of consent
 	// - this must override other variables
-	if ( isset($_POST["consent"]) and filter_input(INPUT_POST,"consent",FILTER_SANITIZE_STRING) == "true"){
+	if ( isset($_POST["consent"]) and sanitise_input($_POST["consent"]) == "true"){
 
 
 

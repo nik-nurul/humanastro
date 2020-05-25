@@ -9,18 +9,18 @@ error_reporting(E_ALL);
 <head>
   <title>Webcam Calibration</title>
 <?php
-require 'includes/head-base.html';
+require_once 'includes/head-base.html';
 ?>
 </head>
 
 <body>
 <?php
-require 'includes/header.html';
+require_once 'includes/header.html';
 ?>
   <!-- division for content-->
   <section> 
 <?php
-require 'includes/feeback-link.php';
+require_once 'includes/feeback-link.php';
 ?>
 	<div id="content_paragraph">
 
@@ -51,7 +51,7 @@ require 'includes/feeback-link.php';
 		</div>
 
 <?php
-	require 'includes/functions.php';
+	require_once 'includes/functions.php';
 	
 	// update user record with experience answers
 
@@ -90,6 +90,7 @@ try {
 	// only write answers to database if consent was given
 	if ( isset( $_SESSION["consent"] ) and $_SESSION["consent"] ) {
 		
+		$date = date("Y-m-d H:i:s\Z"); // date/time string to store with answer
 		// iterate through the experience questions to set their answers
 		foreach ($userDoc->experience_data as $q){
 			$q_id = $q->q_id;		// the abbreviated question identifier
@@ -106,8 +107,24 @@ try {
 					$u_filter,
 					[ '$set' => [ "experience_data.$.answer" => $answer ]]
 				);
+				// record the date of the answer
+				$bulk->update(
+					$u_filter,
+					[ '$set' => [ "experience_data.$.answerdate" => $date ]]
+				);
 			}
 		}
+/*		
+		// write the current page the user is on so the user can
+		// resume an interrupted session
+		$bulk->update(
+			$filter,
+			[ '$set' => [ "current_page" => basename(__FILE__) ] ]
+		);
+*/
+		set_current_page($bulk, $_id, basename(__FILE__)); // write the name of the current page to the user record
+
+
 
 		// execute writing all the experience answers
 		$result = $manager->executeBulkWrite($dbName.'.'.$Ucoll, $bulk);
@@ -144,7 +161,7 @@ try {
   </section>
 	
 <?php
-require 'includes/footer.html';
+require_once 'includes/footer.html';
 ?>
 
 </body>

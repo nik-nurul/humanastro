@@ -9,13 +9,13 @@ error_reporting(E_ALL);
 <head>
   <title>Astronomy Test - Tutorial Test</title>
 <?php
-require 'includes/head-base.html';
+require_once 'includes/head-base.html';
 ?>
 </head>
 
 <body>
 <?php
-require 'includes/header.html';
+require_once 'includes/header.html';
 ?>
 	<!-- division for content-->
     <section>
@@ -71,7 +71,7 @@ require 'includes/header.html';
       </section>
 
 <?php
-require 'includes/footer.html';
+require_once 'includes/footer.html';
 ?>
 
 </body>

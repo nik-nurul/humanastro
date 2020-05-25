@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 <head>
   <title>Astronomy Test - Demographic Questions</title>
 <?php
-require 'includes/head-base.html';
+require_once 'includes/head-base.html';
 ?>
     <script src="javascript/validatedemographic.js"></script>
 </head>
@@ -17,14 +17,14 @@ require 'includes/head-base.html';
 <body id="demographicpage">
 
 <?php
-require 'includes/header.html';
+require_once 'includes/header.html';
 ?>
 
   <!-- division for user information form-->
   <section>
 
 <?php
-require 'includes/feeback-link.php';
+require_once 'includes/feeback-link.php';
 ?>
 
 
@@ -32,10 +32,15 @@ require 'includes/feeback-link.php';
         <h2 class="heading_font"> Create Account </h2>
         <hr class="heading"><br/>
           	<p class="paragraph_font">The questions provided on this page are intended to record minimal demographic
-              information approved by ethics committee</p><br/><br/>
+              information approved by ethics committee.</p>
 
+			<p class="paragraph_font">This survey page stores your responses, the date and time of your response.</p>
+
+			<p class="paragraph_font">For you to remain anonymous it is your responsibility not to input any identifying details here. Do not include your name, email address or any other personally-identifying data.</p>			  
+			
+			<br/><br/>
 <?php
-	require 'includes/functions.php';
+	require_once 'includes/functions.php';
 	
 	$dbName = 'humanastro';		// database name
 	$Ucoll = 'users';			// user collection name
@@ -62,12 +67,16 @@ try {
 		$_id = new MongoDB\BSON\ObjectID($userId);
 		$filter = [ "_id" => $_id ]; // return only this user
 
+/*		
 		// write the current page the user is on so the user can
 		// resume an interrupted session
 		$bulk->update(
 			$filter,
-			[ '$set' => [ "current_page" => "demographic" ] ]
+			[ '$set' => [ "current_page" => basename(__FILE__) ] ]
 		);
+*/
+		set_current_page($bulk, $_id, basename(__FILE__)); // write the name of the current page to the user record
+
 		// write the current_page data to the user record
 		$result = $manager->executeBulkWrite($dbName.'.'.$Ucoll, $bulk);
 
@@ -185,7 +194,7 @@ try {
   </section>
 
 <?php
-require 'includes/footer.html';
+require_once 'includes/footer.html';
 ?>
 
 </body>

@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require 'includes/functions.php';
+require_once 'includes/functions.php';
 
 // declare variables to page scope
 $dbName = $Dcoll = $Ecoll = $Ucoll = '';
@@ -85,14 +85,16 @@ try {
 		// create user ID object with which to ID the user record
 		$_id = new MongoDB\BSON\ObjectID($userId);
 		$filter = [ "_id" => $_id ]; // return only this user
-		
+/*		
 		// write the current page the user is on so the user can
 		// resume an interrupted session
 		$bulk->update(
 			$filter,
-			[ '$set' => [ "current_page" => "createid" ] ]
+			[ '$set' => [ "current_page" => basename(__FILE__) ] ]
 		);
-
+*/
+		set_current_page($bulk, $_id, basename(__FILE__)); // write the name of the current page to the user record
+		
 	// read all documents in $Dcoll and $Ecoll
 		$query = new MongoDB\Driver\Query([]); // [] means get all documents
 

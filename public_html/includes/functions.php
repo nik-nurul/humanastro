@@ -9,4 +9,13 @@
 		$data = stripslashes($data);
 		return $data;
 	}
+	
+	// write the current page the user is on so the user can
+	// resume an interrupted session
+	function set_current_page($bulk, $_id, $file){
+		$bulk->update(
+			[ "_id" => $_id ],
+			[ '$set' => [ "current_page" => $file ] ]
+		);	
+	}
 ?>

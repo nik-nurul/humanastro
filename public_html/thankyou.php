@@ -9,19 +9,19 @@ error_reporting(E_ALL);
 <head>
   <title>Thank You</title>
 <?php
-require 'includes/head-base.html';
+require_once 'includes/head-base.html';
 ?>
 </head>
 
 <body>
 	
 <?php
-require 'includes/header.html';
+require_once 'includes/header.html';
 ?>
   <!-- division for content-->
   <section> 
 <?php
-require 'includes/feeback-link.php';
+require_once 'includes/feeback-link.php';
 ?>
 	<div id="content_paragraph">
 	
@@ -50,7 +50,7 @@ require 'includes/feeback-link.php';
   </section>
 	
 <?php
-require 'includes/footer.html';
+require_once 'includes/footer.html';
 ?>
 
 </body>

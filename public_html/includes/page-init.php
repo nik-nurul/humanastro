@@ -38,6 +38,7 @@
 	IF carry on:
 		connect DB
 		write current_page
+	
 		
 */
 

@@ -1,4 +1,8 @@
 <?php
+/*
+	TO DO:
+		Consent.php >> NO >> thankyou for interest	
+*/
 session_start(); // used to pass userId from page to page
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -9,18 +13,18 @@ error_reporting(E_ALL);
 <head>
   <title>Astronomy Test - Consent</title>
 <?php
-require 'includes/head-base.html';
+require_once 'includes/head-base.html';
 ?>
 </head>
 
 <body>
 
 <?php
-require 'includes/header.html';
+require_once 'includes/header.html';
 ?>
     <section>
 <?php
-require 'includes/feeback-link.php';
+require_once 'includes/feeback-link.php';
 ?>
       <!-- division part for consent statement -->
       <div id="content_paragraph">
@@ -55,7 +59,7 @@ require 'includes/feeback-link.php';
   </section>
 
 <?php
-require 'includes/footer.html';
+require_once 'includes/footer.html';
 ?>
 
 </body>

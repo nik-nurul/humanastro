@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 <head>
   <title>Astronomy Test - Experience Questions</title>
 <?php
-require 'includes/head-base.html';
+require_once 'includes/head-base.html';
 ?>
 	<link rel="stylesheet" type="text/css" href="styles/expsliders.css">
 </head>
@@ -17,13 +17,13 @@ require 'includes/head-base.html';
 <body id="experiencepage">
 	
 <?php
-require 'includes/header.html';
+require_once 'includes/header.html';
 ?>
 
   <!-- division for user experience form-->
   <section>  
 <?php
-require 'includes/feeback-link.php';
+require_once 'includes/feeback-link.php';
 ?>
 	<div id="content_paragraph">
 	
@@ -31,30 +31,15 @@ require 'includes/feeback-link.php';
 		<h2 class="heading_font">About Yourself</h2>
 		<hr class="heading"><br/>
 		<!-- Content paragraph-->
-		<p class="paragraph_font">The following questions will help us understand more about your current experience with visual 
-		inspection of astronomical images.  For each question, please select the 
-		option that is the closest match.  When entering text information, 
-		please try to avoid including details that might allow yourself to be 
-		identified.  </p>	
+		<p class="paragraph_font">The following questions will help us understand more about your current experience with visual inspection of astronomical images. For each question, please select the option that is the closest match.</p>
+		
+		<p class="paragraph_font">This survey page stores your responses, the date and time of your response.</p>
 		
 		<br/>
 		<br/>
-		
-	  
 <?php
-	require 'includes/functions.php';
-/*
-	// sanitise self describe gender to remove all special characters
-	function sanitise_input($data) {
-		//Remove any special characters
-		$data = preg_replace('/[^A-Za-z ]/', '', $data);
-		//Removes leading or trailing spaces
-		$data = trim($data);
-		//Remove backslashes in front of quotes
-		$data = stripslashes($data);
-	return $data;
-	}
-*/
+	require_once 'includes/functions.php';
+
 	// don't do anything if consent is not true
 	if ( isset( $_SESSION["consent"] ) and $_SESSION["consent"] ) {
 
@@ -104,15 +89,16 @@ require 'includes/feeback-link.php';
 
 			// is the user an adult?
 			if ( isset($_POST["Age"] ) and (
-					(in_array($_POST["Age"], array("18-25", "26-35", "36-45", ">45") ) )
+					(in_array($_POST["Age"], array("18-25", "26-35", "36-45", ">45", "agenot") ) )
 				)
 			) {
+				$date = date("Y-m-d H:i:s\Z"); // date/time string to store with answer
 				// iterate through the demographic questions to set their answers
 				foreach ($userDoc->demographic_data as $q){
 					$q_id = $q->q_id;		// the abbreviated question identifier
 					
 					// set the answer, if it exists in the $_POST array
-					if (isset($_POST[$q_id])) {
+					if (isset($_POST[$q_id])) {	
 						
 						$answer = sanitise_input($_POST[$q_id]); // sanitise all form data, just in case
 
@@ -130,14 +116,22 @@ require 'includes/feeback-link.php';
 							$u_filter,
 							[ '$set' => [ "demographic_data.$.answer" => $answer ]]
 						);
+						// record the date of the answer
+						$bulk->update(
+							$u_filter,
+							[ '$set' => [ "demographic_data.$.answerdate" => $date ]]
+						);
 					}
 				}
+		/*		
 				// write the current page the user is on so the user can
 				// resume an interrupted session
 				$bulk->update(
-					$q_filter,
-					[ '$set' => [ "current_page" => "experience" ] ]
+					$filter,
+					[ '$set' => [ "current_page" => basename(__FILE__) ] ]
 				);
+		*/
+				set_current_page($bulk, $_id, basename(__FILE__)); // write the name of the current page to the user record
 
 				// execute writing all the demographic answers (if the user is an adult)
 				$result = $manager->executeBulkWrite($dbName.'.'.$Ucoll, $bulk);
@@ -232,7 +226,7 @@ require 'includes/feeback-link.php';
   </section>
 
 <?php
-require 'includes/footer.html';
+require_once 'includes/footer.html';
 ?>
 
 </body>

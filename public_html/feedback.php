@@ -10,14 +10,14 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require 'includes/functions.php';
+require_once 'includes/functions.php';
 
 // if the comment is set, add it to the database
 if ( isset($_POST["feedbackcomment"]) ) {
 	if ( ! isset($_POST["feedbackreturn"]) )
 		$_POST["feedbackreturn"] = "no data";
 		$newFeedback = [
-			"date" => date("Y-m-d H:i:s\Z"), // return date/time as a Zulu string
+			"date" => date("Y-m-d H:i:s\Z"), // return date (but not time because it is too identifying)
 			"from_page" => sanitise_input($_POST["feedbackreturn"]),
 			"comment" => sanitise_input($_POST["feedbackcomment"])
 		];
@@ -58,14 +58,14 @@ if ( isset($_POST["feedbackcomment"]) ) {
 <head>
   <title>Astronomy Test - Feedback</title>
 <?php
-require 'includes/head-base.html';
+require_once 'includes/head-base.html';
 ?>
 </head>
 
 <body>
 	
 <?php
-require 'includes/header.html';
+require_once 'includes/header.html';
 ?>
 <!-- division for user feedback form-->
   <section>  
@@ -77,8 +77,11 @@ require 'includes/header.html';
 		<hr class="heading"><br/>
 		
 		<!--Content paragraph-->
-		<p class="paragraph_font">Please describe your feedback here. Bug reports, feature requests, design issues and any 
-		other feedback are welcome.</p>
+		<p class="paragraph_font">Please describe your feedback here. Bug reports, feature requests, design issues and any other feedback are welcome.</p>
+
+		<p class="paragraph_font">This feedback form stores your comment, the date (but not the time), the comment was made and the page you were on when before you came to this feedback page.</p>
+
+		<p class="paragraph_font">For you to remain anonymous it is your responsibility not to input any identifying details here. Do not include your name, email address or any other personally-identifying data.</p>
 		
 		<br/>
  
@@ -106,7 +109,7 @@ require 'includes/header.html';
   </section>
   
 <?php
-require 'includes/footer.html';
+require_once 'includes/footer.html';
 ?>
 
 </body>

@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 <head>
   <title>Error!</title>
 <?php
-require 'includes/head-base.html';
+require_once 'includes/head-base.html';
 ?>
 
 </head>
@@ -17,11 +17,11 @@ require 'includes/head-base.html';
 <body class="bg">
 
 <?php
-require 'includes/header.html';
+require_once 'includes/header.html';
 ?>
   <section>
 <?php
-require 'includes/feeback-link.php';
+require_once 'includes/feeback-link.php';
 ?>  
 	<div>
 	<h1 id="web_title" class="web_title_font">
@@ -37,7 +37,7 @@ require 'includes/feeback-link.php';
   </section>
 
 <?php
-require 'includes/footer.html';
+require_once 'includes/footer.html';
 ?>
 
 </body>

@@ -180,13 +180,14 @@ try {
 ?>
 
               				<br/>
+							<input class="bttn" id="submitBttn" type="submit" value="Submit and Continue"/>
+
+              				<br/>
+              				<br/>
+              				<br/>
+
               				<input class="bttn" id="inpbutton2" type= "reset" value="Reset Form"/>
-
-              				<br/>
-              				<br/>
-              				<br/>
-
-              				<input class="bttn" id="inpbutton" type="submit" value="Submit and Continue"/>
+							
               				<button class="bttn" id="homebutt" type="button">Exit to Home</button>
               		</form>
 

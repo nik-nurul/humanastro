@@ -98,10 +98,10 @@ require_once 'includes/header.html';
 	echo '			<input id="feedbackreturn" type="hidden" name="feedbackreturn" value="'.$feedbackreturn.'" />
 ';
 ?>
-			<input class="bttn" id="submitBttn" type= "submit" value="Submit and continue"/>
+			<input id="submitBttn" type= "submit" value="Submit and continue"/>
 			<!-- this button will redirect to homepage -->
 		</form>
-		<br/>
+
 		<a href="index.php"><input class="bttn" id="quitBttn" type= "reset" value="Cancel to Home"/></a>
 		
 		<br/>

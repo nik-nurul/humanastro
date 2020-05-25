@@ -244,9 +244,8 @@ div.test {
 	padding: 15px;
     font-size: 15px;
 	margin: auto;
-	text-align: centred;
-	text-decoration: none;
-	float: none;
+	text-align: right;
+	float: right;
 }
 
 .bttnsubmit:hover {

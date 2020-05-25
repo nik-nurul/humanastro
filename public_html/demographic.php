@@ -180,7 +180,7 @@ try {
 ?>
 
               				<br/>
-							<input class="bttn" id="submitBttn" type="submit" value="Submit and Continue"/>
+							<input class="bttnsubmit" id="inpbutton1" type="submit" value="Submit and Continue"/>
 
               				<br/>
               				<br/>

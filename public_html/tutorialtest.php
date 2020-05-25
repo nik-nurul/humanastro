@@ -9,13 +9,13 @@ error_reporting(E_ALL);
 <head>
   <title>Astronomy Test - Tutorial Test</title>
 <?php
-require_once 'includes/head-base.html';
+require 'includes/head-base.html';
 ?>
 </head>
 
 <body>
 <?php
-require_once 'includes/header.html';
+require 'includes/header.html';
 ?>
 	<!-- division for content-->
     <section>
@@ -64,14 +64,14 @@ require_once 'includes/header.html';
           <br/>
           <br/>
           <!-- Button for user to click if they finish it-->
-          <a href="imagetest.php"><button id="finishtutorial" type="button" class="bttn">Finish</button></a>
+          <a href="firsttest.php"><button id="tutorialdone" type="button" class="bttn">Finish</button></a>
       </div>
 
 
       </section>
 
 <?php
-require_once 'includes/footer.html';
+require 'includes/footer.html';
 ?>
 
 </body>

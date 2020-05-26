@@ -191,10 +191,10 @@ try {
               				<br/>
 							<br/>
               				
-
+							<button class="bttn" id="homebutt" type="button">Exit to Home</button>
               				<input class="bttn" id="inpbutton2" type= "reset" value="Reset Form"/>
 							
-              				<button class="bttn" id="homebutt" type="button">Exit to Home</button>
+              				
               		</form>
 
       </div>

@@ -99,7 +99,7 @@ require_once 'includes/header.html';
 ';
 ?>
 		<div class="container">
-			<div class="vertical-center">
+			<div class="center">
 				<input class="bttnsubmit" id="submitBttn" type= "submit" value="Submit and continue"/>
 			</div>
 		</div>

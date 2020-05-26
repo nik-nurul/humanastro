@@ -181,7 +181,7 @@ try {
 
               				<br/>
 							<div class="container">
-								<div class="vertical-center">
+								<div class="center">
 									<input class="bttnsubmit" id="inpbutton1" type="submit" value="Submit and Continue"/>
 								</div>
 							</div>

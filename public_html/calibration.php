@@ -150,8 +150,10 @@ try {
 		<!-- section for buttons -->
 		<div>
 			<!-- will redirect to tutorial for the visualisation test -->
-			<a href="tutorialtest.php"><input class="bttn" id="submitBttn" type= "submit" value="Submit and continue"/></a>
-
+			<a href="tutorialtest.php"><input class="bttnsubmit" id="submitBttn" type= "submit" value="Submit and continue"/></a>
+			<br/>
+            <br/>
+			<br/>  
 			<!-- -->
 			<a href="index.php"><input class="bttn" id="quitBttn" type= "reset" value="Exit to Home"/></a>
 			

@@ -103,13 +103,9 @@ require_once 'includes/header.html';
 				<input class="bttnsubmit" id="submitBttn" type= "submit" value="Submit and continue"/>
 			</div>
 		</div>
-			
+		
 		</form>
-		
 		<br/>
-        <br/>
-        <br/>
-		
 		<!-- this button will redirect to homepage -->
 		<a href="index.php"><input class="bttn" id="quitBttn" type= "reset" value="Exit to Home"/></a>
 		

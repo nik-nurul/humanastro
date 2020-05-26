@@ -155,9 +155,8 @@ try {
 					<a href="tutorialtest.php"><input class="bttnsubmit" id="submitBttn" type= "submit" value="Submit and continue"/></a>
 				</div>
 			</div>
+			
 			<br/>
-            <br/>
-			<br/>  
 			<!-- -->
 			<a href="index.php"><input class="bttn" id="quitBttn" type= "reset" value="Exit to Home"/></a>
 			

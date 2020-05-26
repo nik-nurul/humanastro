@@ -180,9 +180,16 @@ try {
 ?>
 
               				<br/>
-							<input class="bttnsubmit" id="inpbutton1" type="submit" value="Submit and Continue"/>
-
+							<div class="container">
+								<div class="vertical-center">
+									<input class="bttnsubmit" id="inpbutton1" type="submit" value="Submit and Continue"/>
+								</div>
+							</div>
+							
               				<br/>
+              				<br/>
+              				<br/>
+							<br/>
               				<br/>
               				<br/>
 

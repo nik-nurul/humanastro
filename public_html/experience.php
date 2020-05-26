@@ -213,12 +213,19 @@ require_once 'includes/feeback-link.php';
 ?>
 		  <!-- section for buttons  -->
 		  <div>
-			<!-- this button will redirect to webcam calibration page-->
-			<input class="bttnsubmit" id="inpbutton" type="submit" value="Submit and Continue"/>
+			<div class="container">
+				<div class="vertical-center">
+				<!-- this button will redirect to webcam calibration page-->
+					<input class="bttnsubmit" id="inpbutton" type="submit" value="Submit and Continue"/>
+				</div>
+			</div>
 			
 			<br/>
             <br/>
 			<br/>
+			<br/>
+            <br/>
+            <br/>
             
 			<!-- this button will redirect to homepage -->
 			<a href="index.php"><input class="bttn" id="quitBttn" type= "reset" value="Exit to Home"/></a>

@@ -150,7 +150,11 @@ try {
 		<!-- section for buttons -->
 		<div>
 			<!-- will redirect to tutorial for the visualisation test -->
-			<a href="tutorialtest.php"><input class="bttnsubmit" id="submitBttn" type= "submit" value="Submit and continue"/></a>
+			<div class="container">
+				<div class="center">
+					<a href="tutorialtest.php"><input class="bttnsubmit" id="submitBttn" type= "submit" value="Submit and continue"/></a>
+				</div>
+			</div>
 			<br/>
             <br/>
 			<br/>  

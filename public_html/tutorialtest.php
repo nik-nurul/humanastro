@@ -11,6 +11,8 @@ error_reporting(E_ALL);
 <?php
 require 'includes/head-base.html';
 ?>
+	<!-- javascript file for the timer-->
+	<script src="javascript/firsttestTimer.js"></script>
 </head>
 
 <body>

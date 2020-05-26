@@ -179,7 +179,7 @@ try {
 }
 ?>
 
-              				<br/>
+              				
 							<div class="container">
 								<div class="center">
 									<input class="bttnsubmit" id="inpbutton1" type="submit" value="Submit and Continue"/>
@@ -190,8 +190,7 @@ try {
               				<br/>
               				<br/>
 							<br/>
-              				<br/>
-              				<br/>
+              				
 
               				<input class="bttn" id="inpbutton2" type= "reset" value="Reset Form"/>
 							

@@ -12,7 +12,7 @@ error_reporting(E_ALL);
 require 'includes/head-base.html';
 ?>
 	<!-- javascript file for the timer-->
-	<script src="javascript/firsttestTimer.js"></script>
+	<script src="javascript/tutorialtest.js"></script>
 </head>
 
 <body>

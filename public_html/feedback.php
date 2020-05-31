@@ -17,7 +17,7 @@ if ( isset($_POST["feedbackcomment"]) ) {
 	if ( ! isset($_POST["feedbackreturn"]) )
 		$_POST["feedbackreturn"] = "no data";
 		$newFeedback = [
-			"date" => date("Y-m-d H:i:s\Z"), // return date (but not time because it is too identifying)
+			"date" => date("Y-m-d"), // return date (but not time because it is too identifying)
 			"from_page" => sanitise_input($_POST["feedbackreturn"]),
 			"comment" => sanitise_input($_POST["feedbackcomment"])
 		];

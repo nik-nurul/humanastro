@@ -107,6 +107,10 @@ require_once 'includes/feeback-link.php';
 							"_id" => $_id, // this is the document or object (user, in this case) ID
 							"demographic_data" => [ '$elemMatch' => [ "q_id" => $q_id ] ] // demographic_data contains questions and answers
 						];
+// TO DO - make this more generic
+// currently only works for the specific case of gender description
+// sould actually act on "freetext_id" or "freetext_name"
+// -- work out how to set up the value "key" for freetext items
 						// handle self-described Gender
 						//	- change answer to freetext gender description
 						if ( $q_id == "Gender" and $answer == "sd" and isset($_POST["gendesc"]) )

@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Are Humans Smarter Than Machines (At Astronomy)?</title>
+  <title>Are Machines Better Than Humans (at Astronomy)?</title>
 <?php
 require_once 'includes/head-base.html';
 ?>
@@ -23,8 +23,8 @@ require_once 'includes/header.html';
 	<!-- division for website name -->
 	<div>
 	<h1 id="web_title" class="web_title_font">
-		<span class="line">Are Humans Better Than Machines</span>
-		<span class="line">(At Astronomy)?</span>
+		<span class="line">Are Machines Better Than Humans</span>
+		<span class="line">(at Astronomy)?</span>
 	</h1>
 	</div>
 

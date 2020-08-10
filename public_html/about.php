@@ -31,7 +31,7 @@ require_once 'includes/feeback-link.php';
               are expected to make discoveries for astronomers.  However, the human visual system is
               regularly proposed as being the gold standard for novel discovery in astronomy, but with
               limited research to support that claim. Hence, this project is to create application to measure
-              the visual-discovery skills of astronomers.
+              the visual-discovery skills of astronomers. HELLO TEST 
             <p>
 
             <p  class="paragraph_font contentbg">

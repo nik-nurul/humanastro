@@ -28,8 +28,13 @@
 		headYawArray = [];
 		headPitchArray = [];
 		headRollArray = [];
+		//Counter for the index of arrays
+		indexCounter = -1;
 	
 		function PlotGaze(GazeData) {
+			//Update counter
+			indexCounter += 1;
+			
 			/*
 			GazeData.state // 0: valid gaze data; -1 : face tracking lost, 1 : gaze uncalibrated
 			GazeData.docX // gaze x in document coordinates
@@ -43,6 +48,7 @@
 			document.getElementById("HeadRotData").innerHTML = " Yaw: " + GazeData.HeadYaw + " Pitch: " + GazeData.HeadPitch + " Roll: " + GazeData.HeadRoll;
 			
 			//Push gaze data into array
+			//timeArray.push("timestamp => " + GazeData.time);
 			timeArray.push(GazeData.time);
 			docXArray.push(GazeData.docX);
 			docYArray.push(GazeData.docY);
@@ -75,30 +81,36 @@
 					gaze  .style.display = 'block';
 			}
 		}
-         
-		//Send data from JS to PHP via AJAX
-		/*if (window.XMLHttpRequest){
-			//request data from modern browsers
-			xmlhttp = new XMLHttpRequest();
-		} else {
-			//request data from old IE browsers
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		
+		//How will be run this function to submit data? Button to begin next question and submit data?
+		function ajax() {
+			// begin ajax request
+			var xhttp = new XMLHttpRequest();
+  
+			/*xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.getElementById("demo").innerHTML =
+					this.responseText;
+				}
+			};*/
+			
+			for (i = indexCounter; i < timeStamp.length; i += 1) {
+				//do something with the data
+				
+				
+				// post request to the PHP page
+				xhttp.open("POST", "xxxx.php", true);
+  
+				// the data type in the POST data to JSON
+				xhttp.setRequestHeader("Content-type", "application/json");
+				xhttp.withCredentials = true; 
+
+				// convert javascript object to a JSON string and submit with the POST request
+				xhttp.send(JSON.stringify(data));
+			}		
 		}
-		//page to send data to
-		var pageToSendTo = "index.php?";
-		//PHP variable name
-		var placeholder = "eyeX=";
-		//JavaScript variable
-		var eyeX = GazeData.docX;
-		//completed URL
-		var urlToSend = pageToSendTo + placeholder + eyeX;
 		
-		xmlhttp.open("GET", urlToSend, false);
-		xmlhttp.send();*/
-		
-		 
         //////set callbacks/////////
-   
 		GazeCloudAPI.OnCalibrationComplete =function(){ console.log('gaze Calibration Complete')  }
 		GazeCloudAPI.OnCamDenied =  function(){ console.log('camera  access denied')  }
 		GazeCloudAPI.OnError =  function(msg){ console.log('err: ' + msg)  }
@@ -120,8 +132,6 @@
          </p>
       </div>
       <div id ="gaze" style ='position: absolute;display:none;width: 100px;height: 100px;border-radius: 50%;border: solid 2px  rgba(255, 255,255, .2);	box-shadow: 0 0 100px 3px rgba(125, 125,125, .5);	pointer-events: none;	z-index: 999999'></div>
-      ;  
-	  
 <?php
 	require_once '../includes/functions.php';
 	

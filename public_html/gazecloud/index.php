@@ -132,44 +132,5 @@
          </p>
       </div>
       <div id ="gaze" style ='position: absolute;display:none;width: 100px;height: 100px;border-radius: 50%;border: solid 2px  rgba(255, 255,255, .2);	box-shadow: 0 0 100px 3px rgba(125, 125,125, .5);	pointer-events: none;	z-index: 999999'></div>
-<?php
-	require_once '../includes/functions.php';
-	
-	// don't do anything if consent is not true
-	if ( isset( $_SESSION["consent"] ) and $_SESSION["consent"] ) {
-
-		$dbName = 'humanastro';		// database name
-		$Ucoll = 'users';			// user collection name
-
-		$userId = sanitise_input($_GET["userId"]); // defend against malicious GET requests
-		
-		try {
-			$manager = new MongoDB\Driver\Manager("mongodb://localhost:27017"); // connect to the Mongo DB
-			$bulk = new MongoDB\Driver\BulkWrite(['ordered' => true]);
-			
-			// pass the user ID on to the next page
-			// via a session variable
-			$_SESSION["userId"] = (string)$userId;
-			
-			// create user ID object with which to ID the user record
-			$_id = new MongoDB\BSON\ObjectID($userId);
-			$filter = [ "_id" => $_id ]; // return only this user
-			
-			//Get data from JS to PHP
-			//$eyeX = $_GET["eyeX"];
-			//echo("GazeX value is: " . $eyeX);
-			//alert("GazeX value is: " . $eyex);
-			
-		} catch (MongoDB\Driver\Exception\Exception $e) {
-			$filename = basename(__FILE__);
-			
-			echo "The $filename script has experienced an error.\n";
-			echo "It failed with the following exception:\n";
-			echo "Exception: ", $e->getMessage(), "\n";
-			echo "In file: ", $e->getFile(), "\n";
-			echo "On line: ", $e->getLine(), "\n";
-		}
-	}
-?>
    </body>
 </html>

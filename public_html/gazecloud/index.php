@@ -5,7 +5,7 @@
 	error_reporting(E_ALL);
 
 	// user ID - this would be the user ID already created in the demographic question process
-	$_id = new MongoDB\BSON\ObjectId();
+	$_id = new MongoDB\BSON\ObjectId(bin2hex(random_bytes(12)));
 	$userIdStr = (string)$_id;
 
 ?>

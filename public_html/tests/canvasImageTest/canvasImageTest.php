@@ -16,7 +16,7 @@ error_reporting(E_ALL);
 	<p>
 
 	<div id="demo">
-	  <h2>Change the image</h2>
+	  <h2>Change the image - click button or press the spacebar</h2>
 	  <button type="button" id="changeContent">Change Image</button>
 	</div>
 </header>

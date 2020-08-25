@@ -73,9 +73,12 @@ function init(){
 window.onload = init;
 window.onresize = resizeCanvas; // resize the canvas whenever the browser window is resized
 window.addEventListener("keydown", function(event){ // change the image if the spacebar is pressed
+		console.log('spacebar pressed'); // debug
 		if (event.defaultPrevented) {
 			return; // Do nothing if the event was already processed
 		}		
-		if (event.key == " ") doIt();
-	}, {once: true}
+		if (event.key === " ") doIt();
+		// Cancel the default action to avoid it being handled twice
+		event.preventDefault();
+	}, true
 );

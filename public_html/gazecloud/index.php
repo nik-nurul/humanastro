@@ -5,9 +5,11 @@
 	error_reporting(E_ALL);
 
 	// user ID - this would be the user ID already created in the demographic question process
-	$_id = new MongoDB\BSON\ObjectId(bin2hex(random_bytes(12)));
-	$userIdStr = (string)$_id;
-
+	## $_id = new MongoDB\BSON\ObjectId(bin2hex(random_bytes(12)));
+	## $userIdStr = (string)$_id;
+	
+	require_once '../includes/functions.php';
+	$userIdStr = sanitise_input($_GET["userId"]); // defend against malicious GET requests
 ?>
 
 <!DOCTYPE HTML >
@@ -25,6 +27,7 @@
 
 		// Init GazeData Array
 		var GazeDataArray = [];
+		//console.log(GazeDataArray);
 		
 		// new AJAX object
 		var xhttp = new XMLHttpRequest();

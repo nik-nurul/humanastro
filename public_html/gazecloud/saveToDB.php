@@ -4,8 +4,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$dbName = 'test';		// database name
-$collName = 'testGazeData';	// collection name
+$dbName = 'humanastro';		// database name
+$collName = 'users';	// collection name
 
 // output text of this PHP will be logged to the JS console
 // just echo messages and they will be seen on the console log
@@ -16,11 +16,8 @@ function isJson($string) {
  return (json_last_error() == JSON_ERROR_NONE);
 }
 
-
-
 // get the raw input data from the POST request to this page
 $jsonStr = file_get_contents('php://input');
-
 
 //echo $jsonStr;
 
@@ -54,18 +51,16 @@ if (isJson($jsonStr)){ // is it JSON?
 			$options = [ "upsert" => true ];
 			
 			// push each element of the GazeDataArray into the DB under the DB Array GazeData
-			
 			$bulk->update(
 				$filter, // only operate on this particular user
 				[ '$push' => [ // append this data to an array already in the DB document
-					"GazeData" => [ 
+					"task_data" => [ 
 						'$each' => $GazeDataArray // act on each element of the GazeDataArray separately
 						]	// i.e. push each element to the DB separately,
 					]		// don't push the $GazeDataArray as a single element to the DB
 				],
 				$options // upsert = true
 			);
-			
 			
 			$result = $manager->executeBulkWrite($dbName.'.'.$collName, $bulk); // do the upsert
 			

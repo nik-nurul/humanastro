@@ -67,15 +67,21 @@ try {
 		$_SESSION["consent"] = true;
 		$manager = new MongoDB\Driver\Manager("mongodb://localhost:27017"); // connect to the Mongo DB
 
+		$bulk = new MongoDB\Driver\BulkWrite(['ordered' => true]);
+		
+		// create randomised user ID
+		$_id = new MongoDB\BSON\ObjectId(bin2hex(random_bytes(12)));
+
 		// create new user record
 		$newUser = [
+			"_id" => $_id,
 			"consent" => true,
 			"demographic_data" => [],
 			"experience_data" => [],
 			"task_data" => []
 		];
 
-		$bulk = new MongoDB\Driver\BulkWrite(['ordered' => true]);
+
 		$userId = $bulk->insert($newUser);
 		
 		// pass the user ID on to the next page

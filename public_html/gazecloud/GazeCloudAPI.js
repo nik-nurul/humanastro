@@ -2,7 +2,7 @@
  * GazeCloudAPI.js v1.0.0 | JavaScript WebCam Eye-Tracking
  *
  * Copyright 2009-2019 GazeRecorder <contact@gazerecorder.com> www.gazerecorder.com- All rights reserved.
- *
+ **
  */
 
  var GazeCloudAPI = new function GazeCloudAPIInit() {

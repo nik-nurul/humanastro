@@ -6,7 +6,7 @@
  */
 
  var GazeCloudAPI = new function GazeCloudAPIInit() {
-this.APIKey = "AppKeyDemo";
+ this.APIKey = "AppKeyDemo";
 
  //////Callback//////
  this.CalibrationType = 0;

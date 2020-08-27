@@ -1,4 +1,4 @@
-gk<?php
+<?php
 session_start(); // used to pass userId from page to page
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);

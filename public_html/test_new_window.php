@@ -25,23 +25,25 @@ error_reporting(E_ALL);
 
     <!-- division part for consent statement -->
     <div id="explanationDiv" class="content_paragraph" style="margin-top:100px; margin-bottom:20px; display:block;">
-        <h2 class="heading_font"> Tutorial Test </h2>
+        <h2 id="testHeading" class="heading_font"> Tutorial Test </h2>
         <hr class="heading">
-        <p class="paragraph_font">
+        <p id="explainationPara" class="paragraph_font">
             There will be a tutorial test before the real test take place. Below is the instructions that need
             to be followed to complete the test successfully.
         </p><br/><br/>
-        <p>
-          <!-- 7/5/2020: The instructions written below are not the real instructions. It is just purely for the prototype purpose only. -->
-            <ul class="bullet_style paragraph_font">
-                <li>There will be a series of images that will be presented</li>
-                <li>Please stare at the images and find similar patterns</li>
-                <li>Each image will have its own timer</li>
-                <li>The timer wil start as soon as you click 'Take Test'</li>
-                <li>There will be 1 image for the tutorial test</li>
-                <li>There will be 6 images for the real test</li>
-            </ul>
-        </p>
+        <div id="explainationBullet">
+            <p>
+              <!-- 7/5/2020: The instructions written below are not the real instructions. It is just purely for the prototype purpose only. -->
+                <ul class="bullet_style paragraph_font">
+                    <li>There will be a series of images that will be presented</li>
+                    <li>Please stare at the images and find similar patterns</li>
+                    <li>Each image will have its own timer</li>
+                    <li>The timer wil start as soon as you click 'Take Test'</li>
+                    <li>There will be 3 images for the tutorial test</li>
+                    <li>There will be 6 images for the real test</li>
+                </ul>
+            </p>
+        </div>
         <p class="paragraph_font">
             Click the button to proceed.
         </p>
@@ -57,6 +59,8 @@ error_reporting(E_ALL);
       <div id='buttonsDiv'class="content_paragraph" style="margin-top:20px; margin-bottom:20px; float:right;">
           <!-- Button to start tutorial-->
           <button id="startTutorial" type="button" class="bttn">Take Tutorial Test</button>
+          <!-- Button to start real test. Initially hidden-->
+          <button id="startReal" type="button" class="bttn" style="display:none;">Take Real Test</button>
           <br/>
       </div>
 

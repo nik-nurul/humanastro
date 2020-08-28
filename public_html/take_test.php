@@ -20,7 +20,7 @@ error_reporting(E_ALL);
 	<!-- javascript file for the timer-->
 	<script src="javascript/tutorialtest.js"></script>
   <!-- Javascript file for the images slide -->
-  <script src="javascript/testImages2.js"></script>
+  <script src="javascript/visualisation_test.js"></script>
 </head>
 
 <body>

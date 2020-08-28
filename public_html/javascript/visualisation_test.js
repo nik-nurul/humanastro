@@ -43,12 +43,13 @@ function changeToRealTest(){
 		var explainBullet = document.getElementById("explainationBullet");
 		explainBullet.style.display = "none";
 
-		/* Show Take real test button*/
+		/* Show Take Real Test button*/
 		var realTestBttn = document.getElementById("startReal");
 		realTestBttn.style.display = "block";
 		realTestBttn.onclick = callFunctions2; //call function to slide through images and change content
 }
 
+/* to control which section should be shown and which should be hidden*/
 function changeSection(){
 	/* Show and hide explanation section*/
 	 var explanationSect = document.getElementById("explanationDiv");
@@ -80,7 +81,7 @@ function changeSection(){
 // 	return imgUrl;
 // }
 
-
+/* used to get imgUrl from second array of images (for tutorial test)*/
 function getNextImgUrl(){
 		 if (i<imgList.length ) {
 			 console.log(i);
@@ -95,7 +96,7 @@ function getNextImgUrl(){
 		};
 }
 
-/* used to get imgUrl from second array of images */
+/* used to get imgUrl from second array of images (for real test)*/
 function getNextImgUrl2(){
 		 if (i<imgList2.length ) {
 			 console.log(i);
@@ -136,7 +137,7 @@ function doIt() {
 		}
 };
 
-/* To iterate through the second array of images */
+/* To iterate through the second array of images (for real test) */
 function doIt2() {
 		img = new Image();
 		img.src = getNextImgUrl2(); // every time this is called, a new image is loaded -- no need for ajax (yet)!
@@ -145,20 +146,30 @@ function doIt2() {
 		}
 };
 
+/* to control the state of the session either it's tutorial or real test */
 function changeRealTestVariable(){
 		realTest = "yes";
 }
 
+/* for tutorial test*/
 function callFunctions(){
 		doIt();
 		changeSection();
 }
 
+/* for real test*/
 function callFunctions2(){
+	/* hide the "Take Real Test" button */
+	var realTestBttn = document.getElementById("startReal");
+	realTestBttn.style.display = "none";
+
+	/* call related functions*/
 	changeRealTestVariable();
 	doIt2();
 	changeSection();
 }
+
+
 
 function init(){
 		 c = document.getElementById("myCanvas");

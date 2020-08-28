@@ -29,8 +29,8 @@ require_once 'includes/functions.php';
 	  click button or press the spacebar</h2>
 	  <button type="button" id="changeContent">Change Image</button>
 	</div>
-	<button  type="button" id="startEyeTracking" onclick="GazeCloudAPI.StartEyeTracking();">Start</button>
-	<button  type="button" id="stopEyeTracking"  onclick="GazeCloudAPI.StopEyeTracking();">Stop</button>
+	<button  type="button" id="startEyeTracking">Start</button>
+	<button  type="button" id="stopEyeTracking">Stop</button>
 	<div >
 		<p >  
 			Real-Time Result:
@@ -39,6 +39,9 @@ require_once 'includes/functions.php';
 			<p id = "TimeData" > </p>
 			<p id = "SessionTime" > </p>
 			<p id = "Frame" > </p>
+			<p id = "imageName" > </p>
+			<p id = "windowPixelRatio" > </p>
+			<p id = "CanvasScale" > </p>
 			<p id = "innerWidth" > </p>
 			<p id = "innerHeight" > </p>
 			<p id = "AbsInnerWidth" > </p>
@@ -49,13 +52,15 @@ require_once 'includes/functions.php';
 			<p id = "MouseDocY" > </p>
 			<p id = "MouseAbsDocX" > </p>
 			<p id = "MouseAbsDocY" > </p>
+			<p id = "MouseScaledDocX" > </p>
+			<p id = "MouseScaledDocY" > </p>
 			<p id = "GazeDataDocX" > </p>
 			<p id = "GazeDataDocY" > </p>
-			<p id = "MouseScreenX" > </p>
+			<!--p id = "MouseScreenX" > </p>
 			<p id = "MouseScreenY" > </p>
 			<p id = "GazeDataX" > </p>
 			<p id = "GazeDataY" > </p>
-			<!--p id = "HeadPhoseData" > </p>
+			<p id = "HeadPhoseData" > </p>
 			<p id = "HeadRotData" > </p-->
 		</p>
 	</div>

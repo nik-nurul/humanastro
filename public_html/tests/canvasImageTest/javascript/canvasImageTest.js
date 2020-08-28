@@ -16,7 +16,39 @@ var startTime = Date.now();
 
 var mouseDocX, mouseDocY, mouseScreenX, mouseScreenY;
 
-// **** GazeCloud functions ****
+//} **** end GazeCloud global vars ****
+
+//{ **** Canvas test global vars ***
+
+// based on: https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/createImageBitmap
+
+// these image names could be gotten from the MongoDB
+// or the images themselves could be stored there, in base64 text format
+var imgList = [
+	"0000-000",
+	"0480-270",
+	"0480-540",
+	"0480-810",
+	"0960-270",
+	"0960-540",
+	"0960-810",
+	"1440-270",
+	"1440-540",
+	"1440-810",
+	"1920-1080",
+	"starfield1_1920x1080",
+	"starfield2_1280x0649"
+];
+
+var i = 7; // global current pointer to image URL
+var c, ctx, img; // canvas, canvas-context, image vars
+var imgScaleRatio; // scale ratio of original image to displayed image in canvas
+img = new Image(); // initialise image var with a blank image
+
+//} **** end Canvas Test Global Vars
+
+
+//{ **** GazeCloud functions ****
 
 function setMouseCoords(event){
 	mouseDocX = event.clientX;
@@ -24,6 +56,9 @@ function setMouseCoords(event){
 	mouseScreenX = event.screenX;
 	mouseScreenY = event.screenY;
 //	console.log(event); // debug
+	document.getElementById("imageName").innerHTML = "image name: " + imgList[i-1];
+	document.getElementById("windowPixelRatio").innerHTML = "window Pixel Ratio %: " + Math.floor(parseFloat(window.devicePixelRatio*100));
+	document.getElementById("CanvasScale").innerHTML = "Canvas Scale %: " + Math.floor(parseFloat(imgScaleRatio*100));
 	document.getElementById("innerWidth").innerHTML = "innerWidth: " + Math.floor(parseFloat(window.innerWidth));
 	document.getElementById("innerHeight").innerHTML = "innerHeight: " + Math.floor(parseFloat(window.innerHeight));
 	document.getElementById("AbsInnerWidth").innerHTML = "Absolute innerWidth: " + Math.floor(parseFloat(window.innerWidth*window.devicePixelRatio));
@@ -32,8 +67,10 @@ function setMouseCoords(event){
 	document.getElementById("MouseDocY").innerHTML = "Mouse docY: " + Math.floor(parseFloat(mouseDocY));
 	document.getElementById("MouseAbsDocX").innerHTML = "Mouse absolute docX: " + Math.floor(parseFloat(mouseDocX*window.devicePixelRatio));
 	document.getElementById("MouseAbsDocY").innerHTML = "Mouse absolute docY: " + Math.floor(parseFloat(mouseDocY*window.devicePixelRatio));
-	document.getElementById("MouseScreenX").innerHTML = "Mouse screenX: " + Math.floor(parseFloat(mouseScreenX));
-	document.getElementById("MouseScreenY").innerHTML = "Mouse screenY: " + Math.floor(parseFloat(mouseScreenY));
+	document.getElementById("MouseScaledDocX").innerHTML = "Mouse scaled docX: " + Math.floor(parseFloat(mouseDocX/imgScaleRatio));
+	document.getElementById("MouseScaledDocY").innerHTML = "Mouse scaled docY: " + Math.floor(parseFloat(mouseDocY/imgScaleRatio));
+	//document.getElementById("MouseScreenX").innerHTML = "Mouse screenX: " + Math.floor(parseFloat(mouseScreenX));
+	//document.getElementById("MouseScreenY").innerHTML = "Mouse screenY: " + Math.floor(parseFloat(mouseScreenY));
 }
 
 // takes the GazeData object, adds userData and converts to JSON
@@ -129,8 +166,8 @@ function PlotGaze(GazeData) {
 	document.getElementById("Calibration").innerHTML = "Calibration:  " + gaze.state;
 	document.getElementById("GazeDataDocX").innerHTML = "Gaze docX: " + Math.floor(parseFloat(GazeData.docX));
 	document.getElementById("GazeDataDocY").innerHTML = "Gaze docY: " + Math.floor(parseFloat(GazeData.docY));
-	document.getElementById("GazeDataX").innerHTML = "Gaze Screen X: " + Math.floor(parseFloat(GazeData.GazeX));
-	document.getElementById("GazeDataY").innerHTML = "Gaze Screen Y: " + Math.floor(parseFloat(GazeData.GazeY));
+//	document.getElementById("GazeDataX").innerHTML = "Gaze Screen X: " + Math.floor(parseFloat(GazeData.GazeX));
+//	document.getElementById("GazeDataY").innerHTML = "Gaze Screen Y: " + Math.floor(parseFloat(GazeData.GazeY));
 //	document.getElementById("HeadPhoseData").innerHTML = " HeadX: " + GazeData.HeadX + " HeadY: " + GazeData.HeadY + " HeadZ: " + GazeData.HeadZ;
 //	document.getElementById("HeadRotData").innerHTML = " Yaw: " + GazeData.HeadYaw + " Pitch: " + GazeData.HeadPitch + " Roll: " + GazeData.HeadRoll;
 
@@ -149,31 +186,7 @@ console.log('setMouseCoords here');
 
 //} **** end GazeCloud code
 
-//{ **** Canvas test global vars ***
-
-// based on: https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/createImageBitmap
-
-// these image names could be gotten from the MongoDB
-// or the images themselves could be stored there, in base64 text format
-var imgList = [
-	"0000-000",
-	"0480-270",
-	"0480-540",
-	"0480-810",
-	"0960-270",
-	"0960-540",
-	"0960-810",
-	"1440-270",
-	"1440-540",
-	"1440-810",
-	"1920-1080",
-	"starfield1_1920x1080",
-	"starfield2_1280x0649"
-];
-
-var i = 0; // global current pointer to image URL
-var c, ctx, img; // canvas, canvas-context, image vars
-img = new Image(); // initialise image var with a blank image
+//{ **** Canvas Test Functions
 
 // cycle through the image URLs - call a new image each time this is called
 function getNextImgUrl(){
@@ -192,13 +205,14 @@ function resizeCanvas(){
 	// will fill the browser window width or side, leaving black (body background) in the unused space
 	var hRatio = c.width / img.width    ;
 	var vRatio = c.height / img.height  ;
-	var ratio  = Math.min ( hRatio, vRatio );
+	imgScaleRatio  = Math.min ( hRatio, vRatio );
 
 	ctx.drawImage(img,	0, 0, img.width,	img.height,     // source rectangle
-						0, 0, img.width*ratio, img.height*ratio); // destination rectangle
+						0, 0, img.width*imgScaleRatio, img.height*imgScaleRatio); // destination rectangle
 
 	console.log('new Canvas width:', c.width); // debug
 	console.log('new Canvas height:', c.height); // debug
+	console.log('Canvas scale ratio %:', Math.floor(parseFloat(imgScaleRatio*100))); // debug
 }
 
 
@@ -220,6 +234,12 @@ function init(){
     /*If the user clicks the 'changeContent' button*/
     var changeContent = document.getElementById("changeContent");
     changeContent.onclick = doIt;
+	
+	// start and stop eye tracking
+	var startEyeTracking = document.getElementById("startEyeTracking");
+	var stopEyeTracking = document.getElementById("stopEyeTracking");
+	startEyeTracking.onclick = GazeCloudAPI.StartEyeTracking;
+	stopEyeTracking.onclick = GazeCloudAPI.stopEyeTracking;
 
 }
 

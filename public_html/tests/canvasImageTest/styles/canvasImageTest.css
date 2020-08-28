@@ -6,12 +6,10 @@ body {
 	overflow: hidden;
 }
 
-p {
-	margin-bottom: 16px;
-}
 
 /* text floats over the canvas */
 #header {
+	color: black;
     position: absolute;
     margin: 50px;
     padding: 8px;
@@ -38,4 +36,10 @@ p {
 	box-shadow: 0 0 100px 3px rgba(125, 125,125, .5);
 	pointer-events: none;
 	z-index: 999999
+}
+
+p {
+	line-height: 1.5;
+	margin-top: 0;
+	margin-bottom: 0;
 }

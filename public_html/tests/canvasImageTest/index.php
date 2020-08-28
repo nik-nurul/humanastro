@@ -22,15 +22,18 @@ require_once 'includes/functions.php';
 		<script src="javascript/canvasImageTest.js"></script>
 	</head>
 <body>
-
+<label id="userId" hidden="true"><?php echo $userIdStr ?></label>
 <header id="header">
 	<div id="demo">
 	  <h2>Change the image<br/>
 	  click button or press the spacebar</h2>
 	  <button type="button" id="changeContent">Change Image</button>
 	</div>
-	<button  type="button" id="startEyeTracking">Start</button>
-	<button  type="button" id="stopEyeTracking">Stop</button>
+<!--	<button  type="button" id="startEyeTracking">Start</button>
+	<button  type="button" id="stopEyeTracking">Stop</button> -->
+      <button  type="button" onclick="GazeCloudAPI.StartEyeTracking();">Start</button>
+      <button  type="button" onclick="GazeCloudAPI.StopEyeTracking();">Stop</button>
+	
 	<div >
 		<p >  
 			Real-Time Result:
@@ -56,6 +59,8 @@ require_once 'includes/functions.php';
 			<p id = "MouseScaledDocY" > </p>
 			<p id = "GazeDataDocX" > </p>
 			<p id = "GazeDataDocY" > </p>
+			<p id = "GazeDataScaledDocX" > </p>
+			<p id = "GazeDataScaledDocY" > </p>
 			<!--p id = "MouseScreenX" > </p>
 			<p id = "MouseScreenY" > </p>
 			<p id = "GazeDataX" > </p>
@@ -71,6 +76,7 @@ require_once 'includes/functions.php';
 <!-- the circle that follows the user's gaze -->
 <div id ="gaze"></div>
 
+<!-- where the image gets drawn -->
 <canvas id="myCanvas">
 
 </body>

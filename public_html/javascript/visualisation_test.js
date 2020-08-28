@@ -16,7 +16,7 @@ img = new Image(); // initialise image var with a blank image
 
 function openNewWindow(){
 	myWindow = window.open("", "", "width=900, height=720");
-  myWindow.location.href = "https://astronomy.swin.edu.au/~cfluke/eyegaze";
+  myWindow.location.href = "https://humanastro.csproject.org/test_new_window.php";
   myWindow.focus();
 }
 
@@ -63,6 +63,8 @@ function openNewWindow(){
 // }
 
 
+var myWindow;
+
 function init(){
 		// c = document.getElementById("myCanvas");
 		// ctx = c.getContext("2d");
@@ -78,14 +80,14 @@ function init(){
 }
 
 window.onload = init;
-window.onresize = resizeCanvas; // resize the canvas whenever the browser window is resized
-window.addEventListener("keydown", function(event){ // change the image if the spacebar is pressed
-		console.log('key pressed'); // debug
-		if (event.defaultPrevented) {
-			return; // Do nothing if the event was already processed
-		}
-		if (event.key === " ") doIt();
-		// Cancel the default action to avoid it being handled twice
-		event.preventDefault();
-	}, true
-);
+// window.onresize = resizeCanvas; // resize the canvas whenever the browser window is resized
+// window.addEventListener("keydown", function(event){ // change the image if the spacebar is pressed
+// 		console.log('key pressed'); // debug
+// 		if (event.defaultPrevented) {
+// 			return; // Do nothing if the event was already processed
+// 		}
+// 		if (event.key === " ") doIt();
+// 		// Cancel the default action to avoid it being handled twice
+// 		event.preventDefault();
+// 	}, true
+// );

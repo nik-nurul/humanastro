@@ -10,12 +10,16 @@ var imgList = [
 	"starfield3_504x284"
 ];
 
+var myWindow;
+var cali_width = screen.width;
+var cali_height = screen.height;
+
 var i = 0; // global current pointer to image URL
 var c, ctx, img; // canvas, canvas-context, image vars
 img = new Image(); // initialise image var with a blank image
 
 function openNewWindow(){
-	myWindow = window.open("", "", "width=900, height=720");
+	myWindow = window.open("", "", "width="+cali_width+", height=" +cali_height);
   myWindow.location.href = "https://humanastro.csproject.org/test_new_window.php";
   myWindow.focus();
 }
@@ -62,8 +66,6 @@ function openNewWindow(){
 // 		changeSection();
 // }
 
-
-var myWindow;
 
 function init(){
 		// c = document.getElementById("myCanvas");

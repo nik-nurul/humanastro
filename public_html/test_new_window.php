@@ -27,11 +27,11 @@ error_reporting(E_ALL);
     <div id="explanationDiv" class="content_paragraph" style="margin-top:100px; margin-bottom:20px; display:block;">
         <h2 id="testHeading" class="heading_font"> Tutorial Test </h2>
         <hr class="heading">
-        <p id="explainationPara" class="paragraph_font">
+        <p id="explanationPara" class="paragraph_font">
             There will be a tutorial test before the real test take place. Below is the instructions that need
             to be followed to complete the test successfully.
         </p><br/><br/>
-        <div id="explainationBullet">
+        <div id="explanationBullet">
             <p>
               <!-- 7/5/2020: The instructions written below are not the real instructions. It is just purely for the prototype purpose only. -->
                 <ul class="bullet_style paragraph_font">

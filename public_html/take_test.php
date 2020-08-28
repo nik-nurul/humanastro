@@ -108,7 +108,7 @@ require 'includes/header.html';
           <!-- division for calibration button -->
           <div id='buttonsDiv'class="content_paragraph" style="margin-top:20px; margin-bottom:20px; float:right;">
               <!-- Button to start tutorial-->
-              <button id="startCalibration" type="button" class="bttn">Start Calibration</button>
+              <button id="startCalibration" type="button" class="bttn" onclick="GazeCloudAPI.StartEyeTracking()">Start Calibration</button>
               <br/>
               <br/>
           </div>

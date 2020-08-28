@@ -18,6 +18,8 @@ error_reporting(E_ALL);
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" type="text/css" href="styles/WebsiteStyle2.css">
 
+  <!-- To include GazeCloud API funcitions -->
+  <script src="https://api.gazerecorder.com/GazeCloudAPI.js" ></script>
 	<!-- javascript file for the timer-->
 	<script src="javascript/tutorialtest.js"></script>
   <!-- Javascript file for the images slide -->

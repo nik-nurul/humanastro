@@ -35,12 +35,12 @@ function changeToRealTest(){
 		var testHead = document.getElementById("testHeading");
 		testHead.innerHTML = "Real Test";
 
-		/* Change the text for explaination paragraph*/
-		var explainPara = document.getElementById("explainationPara");
+		/* Change the text for explanation paragraph*/
+		var explainPara = document.getElementById("explanationPara");
 		explainPara.innerHTML = "Congratulations on finishing the tutorial test! Now click the 'Take Real Test' button to proceed.";
 
 		/* Hide the bullet section from previous*/
-		var explainBullet = document.getElementById("explainationBullet");
+		var explainBullet = document.getElementById("explanationBullet");
 		explainBullet.style.display = "none";
 
 		/* Show Take Real Test button*/

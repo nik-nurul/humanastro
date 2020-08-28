@@ -10,7 +10,7 @@ var GazeDataArray = [];
 // new AJAX object
 var xhttp = new XMLHttpRequest();
 
-var userIdStr = "<?php echo $userIdStr ?>"; // get user ID string from PHP
+var userIdStr;  // get user ID string from PHP
 
 var startTime = Date.now();
 
@@ -166,6 +166,8 @@ function PlotGaze(GazeData) {
 	document.getElementById("Calibration").innerHTML = "Calibration:  " + gaze.state;
 	document.getElementById("GazeDataDocX").innerHTML = "Gaze docX: " + Math.floor(parseFloat(GazeData.docX));
 	document.getElementById("GazeDataDocY").innerHTML = "Gaze docY: " + Math.floor(parseFloat(GazeData.docY));
+	document.getElementById("GazeDataScaledDocX").innerHTML = "Gaze scaled docX: " + Math.floor(parseFloat(GazeData.docX/imgScaleRatio));
+	document.getElementById("GazeDataScaledDocY").innerHTML = "Gaze scaled docY: " + Math.floor(parseFloat(GazeData.docY/imgScaleRatio));
 //	document.getElementById("GazeDataX").innerHTML = "Gaze Screen X: " + Math.floor(parseFloat(GazeData.GazeX));
 //	document.getElementById("GazeDataY").innerHTML = "Gaze Screen Y: " + Math.floor(parseFloat(GazeData.GazeY));
 //	document.getElementById("HeadPhoseData").innerHTML = " HeadX: " + GazeData.HeadX + " HeadY: " + GazeData.HeadY + " HeadZ: " + GazeData.HeadZ;
@@ -231,6 +233,9 @@ function init(){
 	ctx = c.getContext("2d");
 	resizeCanvas();
 	
+	userIdStr = document.getElementById("userId").innerHTML;
+	console.log('userIdStr:',userIdStr); // debug
+
     /*If the user clicks the 'changeContent' button*/
     var changeContent = document.getElementById("changeContent");
     changeContent.onclick = doIt;
@@ -245,8 +250,7 @@ function init(){
 
 window.onload = init;
 window.onresize = resizeCanvas; // resize the canvas whenever the browser window is resized
-
-window.addEventListener("keydown", function(event){ // change the image if the spacebar is pressed
+/*ow.addEventListener("keydown", function(event){ // change the image if the spacebar is pressed
 		console.log('spacebar pressed'); // debug
 		if (event.defaultPrevented) {
 			return; // Do nothing if the event was already processed
@@ -256,4 +260,5 @@ window.addEventListener("keydown", function(event){ // change the image if the s
 		event.preventDefault();
 	}, true
 );
+*/
 //} **** end Canvas Test code

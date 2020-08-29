@@ -170,7 +170,7 @@ function callFunctions2(){
 }
 
 function setTimer(){
-	if (realTest == "no" && i < imgList.length){
+	if (realTest == "no" && i <= imgList.length){
 		doIt();
 		console.log("5 seconds timer started for tutorial test");
 		window.setTimeout(function(){
@@ -178,12 +178,14 @@ function setTimer(){
 		}, 5000);
 	} 	
 	else{
-		return;
+		i=0
+		changeToRealTest();
+		changeSection(); ;
 	} 
 };
 
 function setTimer2(){
-	if (realTest == "yes" && i < imgList2.length){
+	if (realTest == "yes" && i <= imgList2.length){
 		doIt2();
 		console.log("5 seconds timer started for real test");
 		window.setTimeout(function(){

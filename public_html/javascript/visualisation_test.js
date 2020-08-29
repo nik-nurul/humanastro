@@ -182,7 +182,7 @@ function setTimer(){
 		doIt2();
 		window.setTimeout(function(){
 			setTimer()
-		}, 5000);
+		}, 7000);
 	} 
 };
 

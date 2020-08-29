@@ -171,7 +171,7 @@ function callFunctions2(){
 }
 
 function setTimer(){
-	if (realTest == "no" && i <= imgList.length && timer = "start"){
+	if (realTest == "no" && i < imgList.length){
 		doIt();
 		console.log("5 seconds timer started for tutorial test");
 		window.setTimeout(function(){

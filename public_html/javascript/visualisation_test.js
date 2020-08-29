@@ -169,28 +169,24 @@ function callFunctions2(){
 	setTimer();
 }
 
-var timecounter = 1;
-
 function setTimer(){
-	if (realTest == "no" && timecounter <= 3){
+	if (realTest == "no" && i < imgList.length){
 		doIt();
 		console.log("5 seconds timer started for tutorial test");
 		window.setTimeout(function(){
-			timecounter + 1;
 			setTimer();
 		}, 5000);
 	} 	
 	else{
-		timecounter = 0;
+		return;
 	} 
 };
 
 function setTimer2(){
-	if (realTest == "yes" && timecounter <= 6){
+	if (realTest == "yes" && i < imgList2.length){
 		doIt2();
-		console.log("5 seconds timer started for tutorial test");
+		console.log("5 seconds timer started for real test");
 		window.setTimeout(function(){
-			timecounter + 1;
 			setTimer2();
 		}, 5000);
 	} 	
@@ -218,10 +214,8 @@ window.addEventListener("keydown", function(event){
 			return; // Do nothing if the event was already processed
 		}
 		if (event.key === " " && realTest == "no"){
-				timecounter + 1;
 				setTimer();
 		} else if (event.key === " " && realTest == "yes") {
-				timecounter + 1;
 				setTimer2();
 				console.log(realTest); //for bug
 		}

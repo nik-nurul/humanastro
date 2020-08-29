@@ -100,7 +100,7 @@ function getNextImgUrl(){
 function getNextImgUrl2(){
 		 if (i<imgList2.length ) {
 			 console.log(i);
-		   console.log(imgList2[i]); // debug
+		     console.log(imgList2[i]); // debug
 			 	var imgUrl = "/javascript/spaceImages/RealTest-"+imgList2[i++]+".png";
 				console.log(imgUrl); // debug
 				return imgUrl;
@@ -199,3 +199,17 @@ window.addEventListener("keydown", function(event){
 		event.preventDefault();
 	}, true
 );
+
+function setTimer(){
+	setTimeout(doIt(), 5000);
+	console.log("5 seconds timer started");
+};
+
+if (window.addEventListener){
+	window.addEventListener("load", setTimer, false);
+} else {
+	window.attachEvent("onload", setTimer);
+	console.log("Time's up")
+};
+
+window.addEventListener(

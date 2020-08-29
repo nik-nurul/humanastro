@@ -23,7 +23,7 @@ var i = 0; // global current pointer to image URL
 var c, ctx, img; // canvas, canvas-context, image vars
 img = new Image(); // initialise image var with a blank image
 var realTest = "no";
-var timer = "start";
+var timer = 5000;
 
 /* Will close the test window and direct user to thankyou.php*/
 function completeTest(){
@@ -176,7 +176,7 @@ function setTimer(){
 		console.log("5 seconds timer started for tutorial test");
 		window.setTimeout(function(){
 			setTimer();
-		}, 5000);
+		}, timer);
 	} 	
 	else{
 		doIt();
@@ -189,7 +189,7 @@ function setTimer2(){
 		console.log("5 seconds timer started for real test");
 		window.setTimeout(function(){
 			setTimer2();
-		}, 5000);
+		}, timer);
 	} 	
 	else{
 		doIt2();
@@ -215,9 +215,11 @@ window.addEventListener("keydown", function(event){
 			return; // Do nothing if the event was already processed
 		}
 		if (event.key === " " && realTest == "no"){
-				setTimer();
+				doIt();
+				timer = 5000;
 		} else if (event.key === " " && realTest == "yes") {
-				setTimer2();
+				doIt2();
+				timer = 5000;
 				console.log(realTest); //for bug
 		}
 		// Cancel the default action to avoid it being handled twice

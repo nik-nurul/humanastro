@@ -169,20 +169,33 @@ function callFunctions2(){
 	setTimer();
 }
 
+var timecounter = 1;
+
 function setTimer(){
-	if (realTest == "no"){
+	if (realTest == "no" && timecounter <= 3){
 		doIt();
 		console.log("5 seconds timer started for tutorial test");
 		window.setTimeout(function(){
+			timecounter + 1;
 			setTimer();
 		}, 5000);
-	} 
+	} 	
 	else{
-		console.log("5 seconds timer started for real test");
+		timecounter = 0;
+	} 
+};
+
+function setTimer2(){
+	if (realTest == "yes" && timecounter <= 6){
 		doIt2();
+		console.log("5 seconds timer started for tutorial test");
 		window.setTimeout(function(){
-			setTimer()
-		}, 7000);
+			timecounter + 1;
+			setTimer2();
+		}, 5000);
+	} 	
+	else{
+		return;
 	} 
 };
 
@@ -205,9 +218,11 @@ window.addEventListener("keydown", function(event){
 			return; // Do nothing if the event was already processed
 		}
 		if (event.key === " " && realTest == "no"){
+				timecounter + 1;
 				setTimer();
 		} else if (event.key === " " && realTest == "yes") {
-				setTimer();
+				timecounter + 1;
+				setTimer2();
 				console.log(realTest); //for bug
 		}
 		// Cancel the default action to avoid it being handled twice

@@ -154,8 +154,6 @@ function changeRealTestVariable(){
 /* for tutorial test*/
 function callFunctions(){
 		setTimer();
-		changeSection();
-		
 }
 
 /* for real test*/
@@ -167,19 +165,25 @@ function callFunctions2(){
 	/* call related functions*/
 	changeRealTestVariable();
 	setTimer();
-	changeSection();
-	
 }
 
 function setTimer(){
 	if (realTest == "no"){
+		doIt();
+		changeSection();
 		console.log("5 seconds timer started for tutorial test");
-		setTimeout(doIt(), 5000);
+		window.setTimeout(function(){
+			setTimer();
+		}, 5000);
 	} 
 	else{
 		console.log("5 seconds timer started for real test");
-		setTimeout(doIt2(), 5000);
-	}; 
+		doIt2();
+		changeSection();
+		window.setTimeout(function(){
+			setTimer()
+		}, 5000);
+	} 
 };
 
 function init(){
@@ -201,9 +205,9 @@ window.addEventListener("keydown", function(event){
 			return; // Do nothing if the event was already processed
 		}
 		if (event.key === " " && realTest == "no"){
-				doIt();
+				setTimer();
 		} else if (event.key === " " && realTest == "yes") {
-				doIt2();
+				setTimer();
 				console.log(realTest); //for bug
 		}
 		// Cancel the default action to avoid it being handled twice

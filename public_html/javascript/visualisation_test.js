@@ -154,6 +154,7 @@ function changeRealTestVariable(){
 
 /* for tutorial test*/
 function callFunctions(){
+		doIt();
 		changeSection();
 		setTimer();
 }
@@ -167,7 +168,7 @@ function callFunctions2(){
 	/* call related functions*/
 	changeRealTestVariable();
 	changeSection();
-	setTimer();
+	setTimer2();
 }
 
 function setTimer(){
@@ -184,7 +185,7 @@ function setTimer(){
 };
 
 function setTimer2(){
-	if (realTest == "yes" && i <= imgList2.length){
+	if (realTest == "yes" && i < imgList2.length){
 		doIt2();
 		console.log("5 seconds timer started for real test");
 		window.setTimeout(function(){
@@ -192,7 +193,7 @@ function setTimer2(){
 		}, 5000);
 	} 	
 	else{
-		return;
+		doIt2();
 	} 
 };
 

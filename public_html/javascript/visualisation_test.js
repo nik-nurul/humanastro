@@ -23,6 +23,7 @@ var i = 0; // global current pointer to image URL
 var c, ctx, img; // canvas, canvas-context, image vars
 img = new Image(); // initialise image var with a blank image
 var realTest = "no";
+var timer = "start";
 
 /* Will close the test window and direct user to thankyou.php*/
 function completeTest(){
@@ -170,7 +171,7 @@ function callFunctions2(){
 }
 
 function setTimer(){
-	if (realTest == "no" && i <= imgList.length){
+	if (realTest == "no" && i <= imgList.length && timer = "start"){
 		doIt();
 		console.log("5 seconds timer started for tutorial test");
 		window.setTimeout(function(){
@@ -178,9 +179,7 @@ function setTimer(){
 		}, 5000);
 	} 	
 	else{
-		i=0
-		changeToRealTest();
-		changeSection(); ;
+		timer = "stop";
 	} 
 };
 

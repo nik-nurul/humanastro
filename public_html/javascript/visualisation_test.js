@@ -23,7 +23,7 @@ var i = 0; // global current pointer to image URL
 var c, ctx, img; // canvas, canvas-context, image vars
 img = new Image(); // initialise image var with a blank image
 var realTest = "no";
-var timer = 5000;
+var timer = 5000; //default timer value everytime it is called
 
 /* Will close the test window and direct user to thankyou.php*/
 function completeTest(){
@@ -170,28 +170,34 @@ function callFunctions2(){
 	setTimer2();
 }
 
+//function for controlling image changes using timer for tutorial test
 function setTimer(){
 	if (realTest == "no" && i < imgList.length){
 		doIt();
 		console.log("5 seconds timer started for tutorial test");
 		window.setTimeout(function(){
+			//loop the function as long as the last image in the imgList(tutorial images) is not loaded
 			setTimer();
 		}, timer);
 	} 	
 	else{
+		//stop loop and proceed
 		doIt();
 	} 
 };
 
+//function for controlling image changes using timer for tutorial test
 function setTimer2(){
 	if (realTest == "yes" && i < imgList2.length){
 		doIt2();
 		console.log("5 seconds timer started for real test");
 		window.setTimeout(function(){
+			//loop the function as long as the last image in the imgList2(real images) is not loaded
 			setTimer2();
 		}, timer);
 	} 	
 	else{
+		//stop loop and proceed
 		doIt2();
 	} 
 };
@@ -216,10 +222,10 @@ window.addEventListener("keydown", function(event){
 		}
 		if (event.key === " " && realTest == "no"){
 				doIt();
-				timer = 5000;
+				timer = 5000;//reset timer back to 5 seconds everytime spacebar is pressed
 		} else if (event.key === " " && realTest == "yes") {
 				doIt2();
-				timer = 5000;
+				timer = 5000; //reset timer back to 5 seconds everytime spacebar is pressed
 				console.log(realTest); //for bug
 		}
 		// Cancel the default action to avoid it being handled twice

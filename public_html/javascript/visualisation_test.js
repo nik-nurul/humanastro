@@ -179,7 +179,7 @@ function setTimer(){
 		}, 5000);
 	} 	
 	else{
-		timer = "stop";
+		doIt();
 	} 
 };
 

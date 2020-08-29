@@ -153,6 +153,7 @@ function changeRealTestVariable(){
 
 /* for tutorial test*/
 function callFunctions(){
+		changeSection();
 		setTimer();
 }
 
@@ -164,13 +165,13 @@ function callFunctions2(){
 
 	/* call related functions*/
 	changeRealTestVariable();
+	changeSection();
 	setTimer();
 }
 
 function setTimer(){
 	if (realTest == "no"){
 		doIt();
-		changeSection();
 		console.log("5 seconds timer started for tutorial test");
 		window.setTimeout(function(){
 			setTimer();
@@ -179,7 +180,6 @@ function setTimer(){
 	else{
 		console.log("5 seconds timer started for real test");
 		doIt2();
-		changeSection();
 		window.setTimeout(function(){
 			setTimer()
 		}, 5000);

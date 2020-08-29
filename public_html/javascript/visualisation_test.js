@@ -154,7 +154,6 @@ function changeRealTestVariable(){
 
 /* for tutorial test*/
 function callFunctions(){
-		doIt();
 		changeSection();
 		setTimer();
 }

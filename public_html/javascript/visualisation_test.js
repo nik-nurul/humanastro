@@ -155,6 +155,7 @@ function changeRealTestVariable(){
 function callFunctions(){
 		doIt();
 		changeSection();
+		setTimer();
 }
 
 /* for real test*/
@@ -167,9 +168,19 @@ function callFunctions2(){
 	changeRealTestVariable();
 	doIt2();
 	changeSection();
+	setTimer();
 }
 
-
+function setTimer(){
+	if (realTest == "no"){
+		console.log("5 seconds timer started for tutorial test");
+		setTimeout(doIt(), 5000);
+	} 
+	else{
+		console.log("5 seconds timer started for real test");
+		setTimeout(doIt2(), 5000);
+	} 
+};
 
 function init(){
 		 c = document.getElementById("myCanvas");
@@ -200,16 +211,5 @@ window.addEventListener("keydown", function(event){
 	}, true
 );
 
-function setTimer(){
-	setTimeout(doIt(), 5000);
-	console.log("5 seconds timer started");
-};
-
-if (window.addEventListener){
-	window.addEventListener("load", setTimer, false);
-} else {
-	window.attachEvent("onload", setTimer);
-	console.log("Time's up")
-};
 
 

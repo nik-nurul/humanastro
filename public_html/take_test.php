@@ -30,15 +30,7 @@ error_reporting(E_ALL);
 <?php
 require 'includes/header.html';
 ?>
-  <script>
-  /* function to start eye calibration */
-  function start() {
 
-          GazeCloudAPI.StartEyeTracking();
-          GazeCloudAPI.SetFps(15);
-      }
-    
-    </script>
 	<!-- division for content-->
     <section>
         <!-- There will be no feedback button in tutorial test page and test pages -->
@@ -58,7 +50,7 @@ require 'includes/header.html';
           <!-- division for calibration button -->
           <div id='buttonsDiv'class="content_paragraph" style="margin-top:20px; margin-bottom:20px; float:right;">
               <!-- Button to start tutorial-->
-              <button id="startCalibration" type="button" class="bttn" onclick="Start() ">Start Calibration</button>
+              <button id="startCalibration" type="button" class="bttn">Start Calibration</button>
               <br/>
               <br/>
           </div>

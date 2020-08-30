@@ -30,7 +30,7 @@ error_reporting(E_ALL);
 <?php
 require 'includes/header.html';
   /* function to start eye calibration */
-  ?/*   function start() {
+  /*   function start() {
 
           GazeCloudAPI.StartEyeTracking();
           GazeCloudAPI.SetFps(15);

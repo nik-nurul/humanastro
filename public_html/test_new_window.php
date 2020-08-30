@@ -19,9 +19,22 @@ error_reporting(E_ALL);
 
    <!-- Javascript file for the images slide -->
    <script src="javascript/visualisation_test.js"></script>
+   <!-- GazeCloud API functions -->
+   <script src="https://api.gazerecorder.com/GazeCloudAPI.js" ></script>
 </head>
 
-<body>
+<Script>
+  
+  function startCalibration()
+  {
+    GazeCloudAPI.StartEyeTracking();
+    GazeCloudAPI.SetFps(15);
+  }
+
+</Script>
+
+<body onload = "startCalibration()">
+
 
     <!-- division part for consent statement -->
     <div id="explanationDiv" class="content_paragraph" style="margin-top:100px; margin-bottom:20px; display:block;">

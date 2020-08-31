@@ -86,7 +86,8 @@ function getNextImgUrl(){
 		 if (i<imgList.length ) {
 			 console.log(i);
 		   console.log(imgList[i]); // debug
-			 	var imgUrl = "/javascript/spaceImages/Calibration-"+imgList[i++]+".png";
+			 	//var imgUrl = "/javascript/spaceImages/Calibration-"+imgList[i++]+".png";
+				var imgUrl = "/humanastro/javascript/spaceImages/Calibration-"+imgList[i++]+".png";
 				console.log(imgUrl); // debug
 				return imgUrl;
 		} else if (i>=imgList.length) {
@@ -101,7 +102,8 @@ function getNextImgUrl2(){
 		 if (i<imgList2.length ) {
 			 console.log(i);
 		   console.log(imgList2[i]); // debug
-			 	var imgUrl = "/javascript/spaceImages/RealTest-"+imgList2[i++]+".png";
+			 	//var imgUrl = "/javascript/spaceImages/RealTest-"+imgList2[i++]+".png";
+				var imgUrl = "/humanastro/javascript/spaceImages/Calibration-"+imgList[i++]+".png";
 				console.log(imgUrl); // debug
 				return imgUrl;
 		} else if (i>=imgList2.length) {
@@ -120,7 +122,11 @@ function resizeCanvas(){
 		var vRatio = 722 / img.height  ;
 		var ratio  = Math.min ( hRatio, vRatio );
 
-		ctx.drawImage(img,	0, 0, img.width,	img.height,     // source rectangle
+		/*ctx.drawImage(img,	0, 0, img.width,	img.height,     // source rectangle
+							0, 0, img.width*ratio, img.height*ratio); // destination rectangle*/
+							
+		// hard coded canvas elements as variables were not being read
+		document.getElementById("myCanvas").getContext("2d").drawImage(img,	0, 0, img.width,	img.height,     // source rectangle
 							0, 0, img.width*ratio, img.height*ratio); // destination rectangle
 
 		console.log('new Canvas width:', 1272); // debug
@@ -169,12 +175,10 @@ function callFunctions2(){
 	changeSection();
 }
 
-
-
 function init(){
 		 c = document.getElementById("myCanvas");
 		 ctx = c.getContext("2d");
-		 //resizeCanvas();
+		 resizeCanvas();
 
     /*If the user clicks the 'changeContent' button*/
      var changeContent = document.getElementById("startTutorial");

@@ -158,7 +158,9 @@ error_reporting(E_ALL);
     <!-- division for images-->
     <div id="canvasDiv" style="display:none;">
         <!-- canvas to draw the images -->
-        <canvas id="myCanvas">
+		
+		<!-- HTML5 canvas must have set width and height, default is 300x150-->
+        <canvas id="myCanvas" width="1280" height="720">
     </div>
 
     <div  style='background-color: lightblue; display: none;'>

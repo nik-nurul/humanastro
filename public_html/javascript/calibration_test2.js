@@ -14,17 +14,18 @@ img = new Image(); // initialise image var with a blank image
 
 function openNewWindow(){
 	myWindow = window.open("", "", "width="+cali_width+", height=" +cali_height);
-  myWindow.location.href = "https://humanastro.csproject.org/test_new_window2.php";
-  myWindow.focus();
+	// maximise window
+	myWindow.moveTo(0,0);
+	myWindow.resizeTo(screen.width, screen.height);
+	//myWindow.location.href = "https://humanastro.csproject.org/test_new_window2.php";
+	myWindow.location.href = "test_new_window2.php";
+	myWindow.focus();
 }
 
-
-
 function init(){
-		/* if user clicks the 'calibration' button*/
-		var startCali = document.getElementById("startCalibration");
-		startCali.onclick = openNewWindow;
-
+	/* if user clicks the 'calibration' button*/
+	var startCali = document.getElementById("startCalibration");
+	startCali.onclick = openNewWindow;
 }
 
 window.onload = init;

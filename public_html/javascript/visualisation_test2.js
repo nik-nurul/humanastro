@@ -27,7 +27,22 @@ var realTest = "no";
 /* Will close the test window and direct user to thankyou.php*/
 function completeTest(){
 	location.replace("https://humanastro.csproject.org/thankyou.php");
-	//window.close();
+
+	/* Change the text for explanation paragraph*/
+	// var explainPara = document.getElementById("explanationPara");
+	// explainPara.innerHTML = "Congratulations on completing the real visualisation test! Click the 'Finish' button to clos the test.";
+	//
+	// /* Show Finish button*/
+	// var finishBttn = document.getElementById("finishBttn");
+	// finishBttn.style.display = "block";
+	//
+	// /* Show explanation section*/
+	//  var explanationSect = document.getElementById("explanationDiv");
+	//  if(explanationSect.style.display == "block"){
+	// 		 explanationSect.style.display = "none";
+	//  } else if (explanationSect.style.display == "none"){
+	// 	 	explanationSect.style.display = "block";
+	//  }
 }
 
 function changeToRealTest(){
@@ -40,8 +55,8 @@ function changeToRealTest(){
 		explainPara.innerHTML = "Congratulations on finishing the tutorial test! Now click the 'Take Real Test' button to proceed.";
 
 		/* Hide the bullet section from previous*/
-		var explainBullet = document.getElementById("explanationBullet");
-		explainBullet.style.display = "none";
+		//var explainBullet = document.getElementById("explanationBullet");
+		//explainBullet.style.display = "none";
 
 		/* Show Take Real Test button*/
 		var realTestBttn = document.getElementById("startReal");
@@ -86,8 +101,7 @@ function getNextImgUrl(){
 		 if (i<imgList.length ) {
 			 console.log(i);
 		   console.log(imgList[i]); // debug
-			 	//var imgUrl = "/javascript/spaceImages/Calibration-"+imgList[i++]+".png";
-				var imgUrl = "/humanastro/javascript/spaceImages/Calibration-"+imgList[i++]+".png";
+			 	var imgUrl = "/javascript/spaceImages/Calibration-"+imgList[i++]+".png";
 				console.log(imgUrl); // debug
 				return imgUrl;
 		} else if (i>=imgList.length) {
@@ -102,8 +116,7 @@ function getNextImgUrl2(){
 		 if (i<imgList2.length ) {
 			 console.log(i);
 		   console.log(imgList2[i]); // debug
-			 	//var imgUrl = "/javascript/spaceImages/RealTest-"+imgList2[i++]+".png";
-				var imgUrl = "/humanastro/javascript/spaceImages/Calibration-"+imgList[i++]+".png";
+			 	var imgUrl = "/javascript/spaceImages/RealTest-"+imgList2[i++]+".png";
 				console.log(imgUrl); // debug
 				return imgUrl;
 		} else if (i>=imgList2.length) {
@@ -113,24 +126,21 @@ function getNextImgUrl2(){
 
 // resize and re-add the image if the browser window is resized
 function resizeCanvas(){
-		//c.width  = window.innerWidth;
-		//c.height = window.innerHeight;
+		c.width  = window.innerWidth;
+		c.height = window.innerHeight;
 
 		// preserve the aspect ratio of the image
 		// will fill the browser window width or side, leaving black (body background) in the unused space
-		var hRatio = 1272 / img.width    ;
-		var vRatio = 722 / img.height  ;
+		var hRatio = c.width / img.width    ;
+		var vRatio = c.height / img.height  ;
 		var ratio  = Math.min ( hRatio, vRatio );
 
-		/*ctx.drawImage(img,	0, 0, img.width,	img.height,     // source rectangle
-							0, 0, img.width*ratio, img.height*ratio); // destination rectangle*/
-							
-		// hard coded canvas elements as variables were not being read
-		document.getElementById("myCanvas").getContext("2d").drawImage(img,	0, 0, img.width,	img.height,     // source rectangle
+		ctx.drawImage(img,	0, 0, img.width,	img.height,     // source rectangle
 							0, 0, img.width*ratio, img.height*ratio); // destination rectangle
 
-		console.log('new Canvas width:', 1272); // debug
-		console.log('new Canvas height:', 722); // debug
+							console.log('new Canvas width:', c.width); // debug
+							console.log('new Canvas height:', c.height); // debug
+							console.log('Canvas scale ratio %:', Math.floor(parseFloat(imgScaleRatio*100))); // debug
 }
 
 // perform action when button is clicked
@@ -147,9 +157,9 @@ function doIt() {
 function doIt2() {
 		img = new Image();
 		img.src = getNextImgUrl2(); // every time this is called, a new image is loaded -- no need for ajax (yet)!
-		//img.onload = function(){ // after the image is loaded, draw it in the canvas
-		//	resizeCanvas(); // resize the image to fit the current browser window size
-		//}
+		img.onload = function(){ // after the image is loaded, draw it in the canvas
+			resizeCanvas(); // resize the image to fit the current browser window size
+		}
 };
 
 /* to control the state of the session either it's tutorial or real test */
@@ -175,10 +185,12 @@ function callFunctions2(){
 	changeSection();
 }
 
+
+
 function init(){
 		 c = document.getElementById("myCanvas");
 		 ctx = c.getContext("2d");
-		 resizeCanvas();
+		 //resizeCanvas();
 
     /*If the user clicks the 'changeContent' button*/
      var changeContent = document.getElementById("startTutorial");
@@ -186,8 +198,8 @@ function init(){
 }
 
 window.onload = init;
-//window.onresize = resizeCanvas; // resize the canvas whenever the browser window is resized
-// This will change the image if the spacebar is pressed
+window.onresize = resizeCanvas; // resize the canvas whenever the browser window is resized
+//This will change the image if the spacebar is pressed
 window.addEventListener("keydown", function(event){
 		console.log('key pressed'); // debug
 		if (event.defaultPrevented) {

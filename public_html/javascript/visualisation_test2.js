@@ -59,12 +59,14 @@ function changeToRealTest(){
 		//var explainBullet = document.getElementById("explanationBullet");
 		//explainBullet.style.display = "none";
 		
-		/*Change the status of real test variable(to med until start real test bttn is clicked) to stop timer from continue looping when spacebar is pressed*/
-		realTest = "med";
 		
 		/* Show Take Real Test button*/
 		var realTestBttn = document.getElementById("startReal");
 		realTestBttn.style.display = "block";
+		window.setTimeout(function(){
+			/*Change the status of real test variable(to med until start real test bttn is clicked) to stop timer from continue looping when spacebar is pressed*/
+			realTest = "med";
+		}, timer);
 		realTestBttn.onclick = callFunctions2; //call function to slide through images and change content
 }
 
@@ -108,7 +110,7 @@ function getNextImgUrl(){
 			 	var imgUrl = "/javascript/spaceImages/Calibration-"+imgList[i++]+".png";
 				console.log(imgUrl); // debug
 				return imgUrl;
-		} else if (i>imgList.length) {
+		} else if (i>=imgList.length) {
 				i=0
 				changeToRealTest();
 				changeSection(); //will change section back to get ready for the real test

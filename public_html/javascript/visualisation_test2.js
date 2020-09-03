@@ -63,10 +63,8 @@ function changeToRealTest(){
 		/* Show Take Real Test button*/
 		var realTestBttn = document.getElementById("startReal");
 		realTestBttn.style.display = "block";
-		window.setTimeout(function(){
-			/*Change the status of real test variable(to med until start real test bttn is clicked) to stop timer from continue looping when spacebar is pressed*/
-			realTest = "med";
-		}, timer);
+		/*Change the status of real test variable(to med until start real test bttn is clicked) to stop timer from continue looping when spacebar is pressed*/
+		realTest = "med";
 		realTestBttn.onclick = callFunctions2; //call function to slide through images and change content
 }
 

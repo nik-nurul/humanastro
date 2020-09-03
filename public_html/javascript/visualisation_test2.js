@@ -58,7 +58,10 @@ function changeToRealTest(){
 		/* Hide the bullet section from previous*/
 		//var explainBullet = document.getElementById("explanationBullet");
 		//explainBullet.style.display = "none";
-
+		
+		/*Change the status of real test variable(to med until start real test bttn is clicked) to stop timer from continue looping when spacebar is pressed*/
+		realTest = "med";
+		
 		/* Show Take Real Test button*/
 		var realTestBttn = document.getElementById("startReal");
 		realTestBttn.style.display = "block";
@@ -195,6 +198,8 @@ function setTimer(){
 			//loop the function as long as the last image in the imgList(tutorial images) is not loaded
 			setTimer();
 		}, timer);
+		//debug timer loop count
+		console.log(realTest+","+i);
 	} 	
 	else{
 		//debug exit loop
@@ -213,6 +218,8 @@ function setTimer2(){
 			//loop the function as long as the last image in the imgList2(real images) is not loaded
 			setTimer2();
 		}, timer);
+		//debug timer loop count
+		console.log(realTest+","+i);
 	} 	
 	else{
 		//debug exit loop
@@ -241,11 +248,9 @@ window.addEventListener("keydown", function(event){
 			return; // Do nothing if the event was already processed
 		}
 		if (event.key === " " && realTest == "no"){
-				i++;
 				doIt();
 				timer = 5000;//reset timer back to 5 seconds everytime spacebar is pressed
 		} else if (event.key === " " && realTest == "yes") {
-				i++;
 				doIt2();
 				timer = 5000;//reset timer back to 5 seconds everytime spacebar is pressed
 				console.log(realTest); //for bug

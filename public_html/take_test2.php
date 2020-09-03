@@ -66,7 +66,18 @@ error_reporting(E_ALL);
 
   <!-- Script for GAZECLOUD -->
    <script type = "text/javascript" >
-
+		var docx = GazeData.docX;
+		var docy = GazeData.docY;
+		var gazex = [];
+		var gazey = [];
+		var headx = [];
+		var heady = [];
+		var headz = [];
+		var headyaw = [];
+		var headpitch = [];
+		var headroll = [];		
+		var timestamp = [];
+		
        function PlotGaze(GazeData) {
           /*
            GazeData.state // 0: valid gaze data; -1 : face tracking lost, 1 : gaze uncalibrated
@@ -78,6 +89,29 @@ error_reporting(E_ALL);
            document.getElementById("HeadPhoseData").innerHTML = " HeadX: " + GazeData.HeadX + " HeadY: " + GazeData.HeadY + " HeadZ: " + GazeData.HeadZ;
            document.getElementById("HeadRotData").innerHTML = " Yaw: " + GazeData.HeadYaw + " Pitch: " + GazeData.HeadPitch + " Roll: " + GazeData.HeadRoll;
           //
+		  
+		  gazex.push(GazeData.GazeX);
+		  gazey.push(GazeData.GazeY);
+		  headx.push(GazeData.HeadX);
+		  heady.push(GazeData.HeadY);
+		  headz.push(GazeData.HeadZ);
+		  headyaw.push(GazeData.HeadYaw);
+		  headpitch.push(GazeData.HeadPitch);
+		  headroll.push(GazeData.HeadRoll);
+		  timestamp.push(GazeData.time);
+		  
+		  /*debug data log*/
+		  console.log("gaze-x: "+gazex);
+		  console.log("gaze-y: "+gazey);
+		  console.log("head-x: "+headx);
+		  console.log("head-y: "+heady);
+		  console.log("head-z: "+headz);
+		  console.log("headyaw: "+headyaw);
+		  console.log("headpitch: "+headpitch);
+		  console.log("headroll: "+headroll);
+		  console.log("timestamp: "+timestamp);
+		  
+		  
           if( !document.getElementById("ShowHeatMapId").checked) { // gaze plot
                var x = GazeData.docX;
                var y = GazeData.docY;

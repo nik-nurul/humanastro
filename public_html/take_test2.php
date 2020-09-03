@@ -90,7 +90,7 @@ error_reporting(E_ALL);
            document.getElementById("HeadRotData").innerHTML = " Yaw: " + GazeData.HeadYaw + " Pitch: " + GazeData.HeadPitch + " Roll: " + GazeData.HeadRoll;
           //
 		  
-		  /*gazex.push(GazeData.GazeX);
+		  gazex.push(GazeData.GazeX);
 		  gazey.push(GazeData.GazeY);
 		  headx.push(GazeData.HeadX);
 		  heady.push(GazeData.HeadY);
@@ -100,7 +100,7 @@ error_reporting(E_ALL);
 		  headroll.push(GazeData.HeadRoll);
 		  timestamp.push(GazeData.time);
 		  
-		  //debug data log
+		  /*debug data log
 		  console.log("gaze-x: "+gazex);
 		  console.log("gaze-y: "+gazey);
 		  console.log("head-x: "+headx);

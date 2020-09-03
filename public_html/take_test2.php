@@ -66,8 +66,7 @@ error_reporting(E_ALL);
 
   <!-- Script for GAZECLOUD -->
    <script type = "text/javascript" >
-		var docx = GazeData.docX;
-		var docy = GazeData.docY;
+		
 		var gazex = [];
 		var gazey = [];
 		var headx = [];
@@ -77,6 +76,7 @@ error_reporting(E_ALL);
 		var headpitch = [];
 		var headroll = [];		
 		var timestamp = [];
+		
 		
        function PlotGaze(GazeData) {
           /*
@@ -90,7 +90,7 @@ error_reporting(E_ALL);
            document.getElementById("HeadRotData").innerHTML = " Yaw: " + GazeData.HeadYaw + " Pitch: " + GazeData.HeadPitch + " Roll: " + GazeData.HeadRoll;
           //
 		  
-		  gazex.push(GazeData.GazeX);
+		  /*gazex.push(GazeData.GazeX);
 		  gazey.push(GazeData.GazeY);
 		  headx.push(GazeData.HeadX);
 		  heady.push(GazeData.HeadY);
@@ -100,7 +100,7 @@ error_reporting(E_ALL);
 		  headroll.push(GazeData.HeadRoll);
 		  timestamp.push(GazeData.time);
 		  
-		  /*debug data log*/
+		  //debug data log
 		  console.log("gaze-x: "+gazex);
 		  console.log("gaze-y: "+gazey);
 		  console.log("head-x: "+headx);
@@ -110,7 +110,7 @@ error_reporting(E_ALL);
 		  console.log("headpitch: "+headpitch);
 		  console.log("headroll: "+headroll);
 		  console.log("timestamp: "+timestamp);
-		  
+		  */
 		  
           if( !document.getElementById("ShowHeatMapId").checked) { // gaze plot
                var x = GazeData.docX;

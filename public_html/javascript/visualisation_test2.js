@@ -108,7 +108,7 @@ function getNextImgUrl(){
 			 	var imgUrl = "/javascript/spaceImages/Calibration-"+imgList[i++]+".png";
 				console.log(imgUrl); // debug
 				return imgUrl;
-		} else if (i>=imgList.length) {
+		} else if (i>imgList.length) {
 				i=0
 				changeToRealTest();
 				changeSection(); //will change section back to get ready for the real test

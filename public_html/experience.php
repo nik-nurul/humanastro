@@ -220,7 +220,7 @@ require_once 'includes/feeback-link.php';
 			<div class="container">
 				<div class="center">
 				<!-- this button will redirect to webcam calibration page-->
-					<input class="bttnsubmit" id="inpbutton" type="submit" value="Submit and Continue"/>
+					<a href="take_test2.php"><input class="bttnsubmit" id="inpbutton" type="submit" value="Submit and Continue"/>
 				</div>
 			</div>
 			

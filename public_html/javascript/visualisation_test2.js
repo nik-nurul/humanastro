@@ -197,6 +197,8 @@ function setTimer(){
 		}, timer);
 	} 	
 	else{
+		//debug exit loop
+		console.log("Timer loop exited")
 		//stop loop and proceed
 		doIt();
 	} 
@@ -213,6 +215,8 @@ function setTimer2(){
 		}, timer);
 	} 	
 	else{
+		//debug exit loop
+		console.log("Timer2 loop exited")
 		//stop loop and proceed
 		doIt2();
 	} 
@@ -237,9 +241,11 @@ window.addEventListener("keydown", function(event){
 			return; // Do nothing if the event was already processed
 		}
 		if (event.key === " " && realTest == "no"){
+				i++;
 				doIt();
 				timer = 5000;//reset timer back to 5 seconds everytime spacebar is pressed
 		} else if (event.key === " " && realTest == "yes") {
+				i++;
 				doIt2();
 				timer = 5000;//reset timer back to 5 seconds everytime spacebar is pressed
 				console.log(realTest); //for bug

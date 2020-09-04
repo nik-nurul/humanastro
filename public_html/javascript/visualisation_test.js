@@ -437,9 +437,8 @@ function init(){
 	c = document.getElementById("myCanvas");
 	ctx = c.getContext("2d");
 
-// for when we add userId to take_test.php	
-//	userIdStr = document.getElementById("userId").innerHTML;
-//	console.log('userIdStr:',userIdStr); // debug
+	userIdStr = document.getElementById("userId").innerHTML;
+	console.log('userIdStr:',userIdStr); // debug
 
 	var startCalibrationBtn = document.getElementById("startCalibration");
 	startCalibrationBtn.onclick = startCalibration;

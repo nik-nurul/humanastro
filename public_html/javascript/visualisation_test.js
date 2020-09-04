@@ -4,13 +4,13 @@
 
 // these image names could be gotten from the MongoDB
 // or the images themselves could be stored there, in base64 text format
-var imgList = [
+var tutorialImages = [
 	"starfield1_1920x1080",
 	"starfield2_1280x0649",
 	"starfield3_504x284"
 ];
 
-var imgList2 = [
+var realTestImages = [
 	"space1_1280x720",
 	"space2_1920x1080",
 	"space3_1920x1080",
@@ -22,7 +22,7 @@ var imgList2 = [
 var i = 0; // global current pointer to image URL
 var c, ctx, img; // canvas, canvas-context, image vars
 img = new Image(); // initialise image var with a blank image
-var realTest = "no";
+var realTestStatus = "no";
 var timer = 5000; //default timer value everytime it is called
 
 /* Will close the test window and direct user to thankyou.php*/
@@ -64,7 +64,7 @@ function changeToRealTest(){
 		var realTestBttn = document.getElementById("startReal");
 		realTestBttn.style.display = "block";
 		/*Change the status of real test variable(to med until start real test bttn is clicked) to stop timer from continue looping when spacebar is pressed*/
-		realTest = "med";
+		realTestStatus = "med";
 		realTestBttn.onclick = callFunctions2; //call function to slide through images and change content
 }
 
@@ -93,8 +93,8 @@ function changeSection(){
 
 //// cycle through the image URLs - call a new image each time this is called
 // function getNextImgUrl(){
-// 	if (i>=imgList.length) i=0; //will return back to i=0 if it reaches the end of array
-// 	var imgUrl = '/javascript/spaceImages/Calibration-'+imgList[i++]+'.png';
+// 	if (i>=tutorialImages.length) i=0; //will return back to i=0 if it reaches the end of array
+// 	var imgUrl = '/javascript/spaceImages/Calibration-'+tutorialImages[i++]+'.png';
 // 	console.log(imgUrl); // debug
 //
 // 	return imgUrl;
@@ -102,13 +102,13 @@ function changeSection(){
 
 /* used to get imgUrl from second array of images (for tutorial test)*/
 function getNextImgUrl(){
-		 if (i<imgList.length ) {
+		 if (i<tutorialImages.length ) {
 			 console.log(i);
-		   console.log(imgList[i]); // debug
-			 	var imgUrl = "/javascript/spaceImages/Calibration-"+imgList[i++]+".png";
+		   console.log(tutorialImages[i]); // debug
+			 	var imgUrl = "/javascript/spaceImages/Calibration-"+tutorialImages[i++]+".png";
 				console.log(imgUrl); // debug
 				return imgUrl;
-		} else if (i>=imgList.length) {
+		} else if (i>=tutorialImages.length) {
 				i=0
 				changeToRealTest();
 				changeSection(); //will change section back to get ready for the real test
@@ -117,13 +117,13 @@ function getNextImgUrl(){
 
 /* used to get imgUrl from second array of images (for real test)*/
 function getNextImgUrl2(){
-		 if (i<imgList2.length ) {
+		 if (i<realTestImages.length ) {
 			 console.log(i);
-		   console.log(imgList2[i]); // debug
-			 	var imgUrl = "/javascript/spaceImages/RealTest-"+imgList2[i++]+".png";
+		   console.log(realTestImages[i]); // debug
+			 	var imgUrl = "/javascript/spaceImages/RealTest-"+realTestImages[i++]+".png";
 				console.log(imgUrl); // debug
 				return imgUrl;
-		} else if (i>=imgList2.length) {
+		} else if (i>=realTestImages.length) {
 				completeTest(); //call this function once completed
 		};
 }
@@ -142,9 +142,9 @@ function resizeCanvas(){
 		ctx.drawImage(img,	0, 0, img.width,	img.height,     // source rectangle
 							0, 0, img.width*ratio, img.height*ratio); // destination rectangle
 
-							console.log('new Canvas width:', c.width); // debug
-							console.log('new Canvas height:', c.height); // debug
-							console.log('Canvas scale ratio %:', Math.floor(parseFloat(imgScaleRatio*100))); // debug
+		console.log('new Canvas width:', c.width); // debug
+		console.log('new Canvas height:', c.height); // debug
+		console.log('Canvas scale ratio %:', Math.floor(parseFloat(imgScaleRatio*100))); // debug
 }
 
 // perform action when button is clicked
@@ -168,13 +168,13 @@ function doIt2() {
 
 /* to control the state of the session either it's tutorial or real test */
 function changeRealTestVariable(){
-		realTest = "yes";
+		realTestStatus = "yes";
 }
 
 /* for tutorial test*/
 function callFunctions(){
 		changeSection();
-		setTimer();
+		setTutorialTimer();
 }
 
 /* for real test*/
@@ -184,22 +184,22 @@ function callFunctions2(){
 	realTestBttn.style.display = "none";
 
 	/* call related functions*/
-	changeRealTestVariable();
+	changeRealTestVariable(); // change realTestStatus to "yes"
 	changeSection();
-	setTimer2();
+	setRealTestTimer();
 }
 
 //function for controlling image changes using timer for tutorial test
-function setTimer(){
-	if (realTest == "no" && i < imgList.length){
+function setTutorialTimer(){
+	if (realTestStatus == "no" && i < tutorialImages.length){
 		doIt();
 		console.log("5 seconds timer started for tutorial test");
 		window.setTimeout(function(){
-			//loop the function as long as the last image in the imgList(tutorial images) is not loaded
-			setTimer();
+			//loop the function as long as the last image in the tutorialImages(tutorial images) is not loaded
+			setTutorialTimer();
 		}, timer);
 		//debug timer loop count
-		console.log(realTest+","+i);
+		console.log(realTestStatus+","+i);
 	} 	
 	else{
 		//debug exit loop
@@ -210,29 +210,29 @@ function setTimer(){
 };
 
 //function for controlling image changes using timer for tutorial test
-function setTimer2(){
-	if (realTest == "yes" && i < imgList2.length){
+function setRealTestTimer(){
+	if (realTestStatus == "yes" && i < realTestImages.length){
 		doIt2();
 		console.log("5 seconds timer started for real test");
 		window.setTimeout(function(){
-			//loop the function as long as the last image in the imgList2(real images) is not loaded
-			setTimer2();
+			//loop the function as long as the last image in the realTestImages(real images) is not loaded
+			setRealTestTimer();
 		}, timer);
 		//debug timer loop count
-		console.log(realTest+","+i);
+		console.log(realTestStatus+","+i);
 	} 	
 	else{
 		//debug exit loop
-		console.log("Timer2 loop exited")
+		console.log("RealTestTimer loop exited")
 		//stop loop and proceed
 		doIt2();
 	} 
 };
 
 function init(){
-		 c = document.getElementById("myCanvas");
-		 ctx = c.getContext("2d");
-		 //resizeCanvas();
+	 c = document.getElementById("myCanvas");
+	 ctx = c.getContext("2d");
+	 //resizeCanvas();
 
     /*If the user clicks the 'changeContent' button*/
      var changeContent = document.getElementById("startTutorial");
@@ -247,13 +247,13 @@ window.addEventListener("keydown", function(event){
 		if (event.defaultPrevented) {
 			return; // Do nothing if the event was already processed
 		}
-		if (event.key === " " && realTest == "no"){
+		if (event.key === " " && realTestStatus == "no"){
 				doIt();
 				timer = 5000;//reset timer back to 5 seconds everytime spacebar is pressed
-		} else if (event.key === " " && realTest == "yes") {
+		} else if (event.key === " " && realTestStatus == "yes") {
 				doIt2();
 				timer = 5000;//reset timer back to 5 seconds everytime spacebar is pressed
-				console.log(realTest); //for bug
+				console.log(realTestStatus); //for bug
 		}
 		// Cancel the default action to avoid it being handled twice
 		event.preventDefault();

@@ -29,21 +29,6 @@ var timer = 5000; //default timer value everytime it is called
 function completeTest(){
 	location.replace("https://humanastro.csproject.org/thankyou.php");
 
-	/* Change the text for explanation paragraph*/
-	// var explainPara = document.getElementById("explanationPara");
-	// explainPara.innerHTML = "Congratulations on completing the real visualisation test! Click the 'Finish' button to clos the test.";
-	//
-	// /* Show Finish button*/
-	// var finishBttn = document.getElementById("finishBttn");
-	// finishBttn.style.display = "block";
-	//
-	// /* Show explanation section*/
-	//  var explanationSect = document.getElementById("explanationDiv");
-	//  if(explanationSect.style.display == "block"){
-	// 		 explanationSect.style.display = "none";
-	//  } else if (explanationSect.style.display == "none"){
-	// 	 	explanationSect.style.display = "block";
-	//  }
 }
 
 function changeToRealTest(){
@@ -65,7 +50,7 @@ function changeToRealTest(){
 		realTestBttn.style.display = "block";
 		/*Change the status of real test variable(to med until start real test bttn is clicked) to stop timer from continue looping when spacebar is pressed*/
 		realTestStatus = "med";
-		realTestBttn.onclick = callFunctions2; //call function to slide through images and change content
+		realTestBttn.onclick = startRealTest; //call function to slide through images and change content
 }
 
 /* to control which section should be shown and which should be hidden*/
@@ -91,17 +76,9 @@ function changeSection(){
 	 tutorBttn.style.display = "none";
 }
 
-//// cycle through the image URLs - call a new image each time this is called
-// function getNextImgUrl(){
-// 	if (i>=tutorialImages.length) i=0; //will return back to i=0 if it reaches the end of array
-// 	var imgUrl = '/javascript/spaceImages/Calibration-'+tutorialImages[i++]+'.png';
-// 	console.log(imgUrl); // debug
-//
-// 	return imgUrl;
-// }
 
 /* used to get imgUrl from second array of images (for tutorial test)*/
-function getNextImgUrl(){
+function getNextTutorialImgUrl(){
 		 if (i<tutorialImages.length ) {
 			 console.log(i);
 		   console.log(tutorialImages[i]); // debug
@@ -109,6 +86,7 @@ function getNextImgUrl(){
 				console.log(imgUrl); // debug
 				return imgUrl;
 		} else if (i>=tutorialImages.length) {
+				// the tutorial is finished - reset for real test
 				i=0
 				changeToRealTest();
 				changeSection(); //will change section back to get ready for the real test
@@ -116,7 +94,7 @@ function getNextImgUrl(){
 }
 
 /* used to get imgUrl from second array of images (for real test)*/
-function getNextImgUrl2(){
+function getNextRealTestImgUrl(){
 		 if (i<realTestImages.length ) {
 			 console.log(i);
 		   console.log(realTestImages[i]); // debug
@@ -139,8 +117,8 @@ function resizeCanvas(){
 		var vRatio = c.height / img.height  ;
 		var ratio  = Math.min ( hRatio, vRatio );
 
-		ctx.drawImage(img,	0, 0, img.width,	img.height,     // source rectangle
-							0, 0, img.width*ratio, img.height*ratio); // destination rectangle
+		ctx.drawImage(img,	0, 0, img.width,		img.height,     // source rectangle
+							0, 0, img.width*ratio,	img.height*ratio); // destination rectangle
 
 		console.log('new Canvas width:', c.width); // debug
 		console.log('new Canvas height:', c.height); // debug
@@ -149,42 +127,37 @@ function resizeCanvas(){
 
 // perform action when button is clicked
 // this could be called when a timer expires or on other events
-function doIt() {
-		img = new Image();
-		img.src = getNextImgUrl(); // every time this is called, a new image is loaded -- no need for ajax (yet)!
+function getNextTutorialImage() {
+//		img = new Image();
+		img.src = getNextTutorialImgUrl(); // every time this is called, a new image is loaded -- no need for ajax (yet)!
 		img.onload = function(){ // after the image is loaded, draw it in the canvas
 			resizeCanvas(); // resize the image to fit the current browser window size
 		}
 };
 
 /* To iterate through the second array of images (for real test) */
-function doIt2() {
-		img = new Image();
-		img.src = getNextImgUrl2(); // every time this is called, a new image is loaded -- no need for ajax (yet)!
+function getNextRealTestImage() {
+//		img = new Image();
+		img.src = getNextRealTestImgUrl(); // every time this is called, a new image is loaded -- no need for ajax (yet)!
 		img.onload = function(){ // after the image is loaded, draw it in the canvas
 			resizeCanvas(); // resize the image to fit the current browser window size
 		}
 };
 
-/* to control the state of the session either it's tutorial or real test */
-function changeRealTestVariable(){
-		realTestStatus = "yes";
-}
-
 /* for tutorial test*/
-function callFunctions(){
+function startTutorial(){
 		changeSection();
 		setTutorialTimer();
 }
 
 /* for real test*/
-function callFunctions2(){
+function startRealTest(){
 	/* hide the "Take Real Test" button */
 	var realTestBttn = document.getElementById("startReal");
 	realTestBttn.style.display = "none";
 
 	/* call related functions*/
-	changeRealTestVariable(); // change realTestStatus to "yes"
+	realTestStatus = "yes";
 	changeSection();
 	setRealTestTimer();
 }
@@ -192,7 +165,7 @@ function callFunctions2(){
 //function for controlling image changes using timer for tutorial test
 function setTutorialTimer(){
 	if (realTestStatus == "no" && i < tutorialImages.length){
-		doIt();
+		getNextTutorialImage();
 		console.log("5 seconds timer started for tutorial test");
 		window.setTimeout(function(){
 			//loop the function as long as the last image in the tutorialImages(tutorial images) is not loaded
@@ -205,14 +178,14 @@ function setTutorialTimer(){
 		//debug exit loop
 		console.log("Timer loop exited")
 		//stop loop and proceed
-		doIt();
+		getNextTutorialImage();
 	} 
 };
 
 //function for controlling image changes using timer for tutorial test
 function setRealTestTimer(){
 	if (realTestStatus == "yes" && i < realTestImages.length){
-		doIt2();
+		getNextRealTestImage();
 		console.log("5 seconds timer started for real test");
 		window.setTimeout(function(){
 			//loop the function as long as the last image in the realTestImages(real images) is not loaded
@@ -225,7 +198,7 @@ function setRealTestTimer(){
 		//debug exit loop
 		console.log("RealTestTimer loop exited")
 		//stop loop and proceed
-		doIt2();
+		getNextRealTestImage();
 	} 
 };
 
@@ -236,7 +209,7 @@ function init(){
 
     /*If the user clicks the 'changeContent' button*/
      var changeContent = document.getElementById("startTutorial");
-     changeContent.onclick = callFunctions;
+     changeContent.onclick = startTutorial;
 }
 
 window.onload = init;
@@ -248,10 +221,10 @@ window.addEventListener("keydown", function(event){
 			return; // Do nothing if the event was already processed
 		}
 		if (event.key === " " && realTestStatus == "no"){
-				doIt();
+				getNextTutorialImage();
 				timer = 5000;//reset timer back to 5 seconds everytime spacebar is pressed
 		} else if (event.key === " " && realTestStatus == "yes") {
-				doIt2();
+				getNextRealTestImage();
 				timer = 5000;//reset timer back to 5 seconds everytime spacebar is pressed
 				console.log(realTestStatus); //for bug
 		}

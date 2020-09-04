@@ -7,7 +7,6 @@
 // Init GazeData Array
 var GazeDataArray = [];
 
-
 // new AJAX object
 var xhttp = new XMLHttpRequest();
 
@@ -139,12 +138,8 @@ var realTasks = [
 	}
 ];
 
-//var i = 0; // global current pointer to image URL
 var c, ctx, img; // canvas, canvas-context, image vars
 img = new Image(); // initialise image var with a blank image
-var realTestStatus = "no";
-//var timer_ms = 5000; //default global timeout value (in ms)
-//var timer; // timeout object;
 var imgScaleRatio; // scale ratio of original image to displayed image in canvas
 var spacebarPressed = false;
 
@@ -161,13 +156,11 @@ var spacebarPressed = false;
 
 // Will close the test window and direct user to thankyou.php
 function completeTest(){
-//	console.log('completeTest') // debug
 	location.replace("https://humanastro.csproject.org/thankyou.php"); // jump to next page
 }
 
 // to control which section should be shown and which should be hidden
 function changeSection(){
-	console.log('changeSection') // debug
 	// Show and hide explanation section
 	 var explanationSect = document.getElementById("explanationDiv");
 	 if(explanationSect.style.display == "block"){
@@ -179,10 +172,8 @@ function changeSection(){
   // Show and hide the images within the canvas section 
 	 var canvasSect = document.getElementById("canvasDiv")
 	 if(canvasSect.style.display == 'none'){
-		console.log('showing canvas'); // debug
 		canvasSect.style.display = 'block';
 	 } else if(canvasSect.style.display == "block"){
-		console.log('hiding canvas'); // debug
 		canvasSect.style.display = "none";
 	 }
 
@@ -193,7 +184,6 @@ function changeSection(){
 
 // changes the page content to ask the user to take the real test
 function changeToRealTest(){
-	console.log('changeToRealTest'); // debug
 	// Change the text for the heading
 	var testHead = document.getElementById("testHeading");
 	testHead.innerHTML = "Real Test";
@@ -206,12 +196,10 @@ function changeToRealTest(){
 	//var explainBullet = document.getElementById("explanationBullet");
 	//explainBullet.style.display = "none";
 	
-	
 	// Show Take Real Test button
 	var realTestBttn = document.getElementById("startReal");
 	realTestBttn.style.display = "block";
 	//Change the status of real test variable(to med until start real test bttn is clicked) to stop timer from continue looping when spacebar is pressed
-	realTestStatus = "med";
 	realTestBttn.onclick = startRealTest; //call function to slide through images and change content
 	
 	changeSection();
@@ -252,10 +240,6 @@ function endTasks() {
 	resizeCanvas();
 }
 
-
-
-//var handleSpacebar;
-
 // tasks is the array of task data objects
 // i is the index number in the array of task data objects
 // afterTasksFunction is the function to execute after the last task is shown
@@ -280,7 +264,6 @@ function showEachTask(tasks, i, afterTasksFunction) {
 			return; // Do nothing if the event was already processed
 		}		
 		if (event.key === " ") {
-//			console.log('spacebar pressed'); // debug
 			window.removeEventListener("keydown", handleSpacebar); // remove the event listener for this task
 	 		clearTimeout(timer); // end the timeout for this task
 			showNextTask(tasks, i, afterTasksFunction); // jump to the next task
@@ -293,7 +276,6 @@ function showEachTask(tasks, i, afterTasksFunction) {
 	getNextImage(task);		// display the image for this task
 	window.addEventListener("keydown", handleSpacebar, false); // false = execute handleSpacebar in bubbling phase
 	timer = setTimeout(showNextTask, task.time*1000, tasks, i, afterTasksFunction);
-
 }
 
 // tasks is the array of task data objects
@@ -310,7 +292,6 @@ function startTutorial(){
 	changeSection();
 	// shows the tutorial tasks then runs changeToRealTest
 	showTasks(tutorialTasks, changeToRealTest); 
-//	showTasks(calibrationTasks, changeToRealTest);
 }
 
 // for real test
@@ -319,9 +300,6 @@ function startRealTest(){
 	var realTestBttn = document.getElementById("startReal");
 	realTestBttn.style.display = "none";
 
-	// call related functions
-	realTestStatus = "yes";
-	
 	changeSection();
 	showTasks(realTasks, completeTest); // shows the real tasks then runs completeTest
 }
@@ -343,125 +321,5 @@ function init(){
 //}
 //**** end taskrunner functions
 
-
 window.onload = init;
 window.onresize = resizeCanvas; // resize the canvas whenever the browser window is resized
-
-
-
-
-/***** OLD TASKRUNNER VERSION
-// used to get imgUrl from second array of images (for tutorial test)
-function getNextTutorialImgUrl(){
-		 if (i<tutorialTasks.length ) {
-			 console.log(i);
-		   console.log(tutorialTasks[i]); // debug
-			 	var imgUrl = "/"+task_dir+"/"+tutorialTasks[i++];
-				console.log(imgUrl); // debug
-				return imgUrl;
-		} else if (i>=tutorialTasks.length) {
-				// the tutorial is finished - reset for real test
-				i=0
-				changeToRealTest();
-				changeSection(); //will change section back to get ready for the real test
-		};
-}
-
-// used to get imgUrl from second array of images (for real test)
-function getNextRealTestImgUrl(){
-		 if (i<realTasks.length ) {
-			 console.log(i);
-		   console.log(realTasks[i]); // debug
-			 	var imgUrl = "/"+task_dir+"/"+realTasks[i++];
-				console.log(imgUrl); // debug
-				return imgUrl;
-		} else if (i>=realTasks.length) {
-				completeTest(); //call this function once completed
-		};
-}
-
-// perform action when button is clicked
-// this could be called when a timer expires or on other events
-function getNextTutorialImage() {
-//		img = new Image();
-		img.src = getNextTutorialImgUrl(); // every time this is called, a new image is loaded -- no need for ajax (yet)!
-		img.onload = function(){ // after the image is loaded, draw it in the canvas
-			resizeCanvas(); // resize the image to fit the current browser window size
-		}
-};
-
-// To iterate through the second array of images (for real test) 
-function getNextRealTestImage() {
-//		img = new Image();
-		img.src = getNextRealTestImgUrl(); // every time this is called, a new image is loaded -- no need for ajax (yet)!
-		img.onload = function(){ // after the image is loaded, draw it in the canvas
-			resizeCanvas(); // resize the image to fit the current browser window size
-		}
-};
-
-
-//function for controlling image changes using timer for tutorial test
-function setTutorialTimer(){
-	if (realTestStatus == "no" && i < tutorialTasks.length){
-		getNextTutorialImage();
-		console.log("5 seconds timer started for tutorial test");
-		window.setTimeout(function(){
-			//loop the function as long as the last image in the tutorialTasks(tutorial images) is not loaded
-			setTutorialTimer();
-		}, timer);
-		//debug timer loop count
-		console.log(realTestStatus+","+i);
-	} 	
-	else{
-		//debug exit loop
-		console.log("Timer loop exited")
-		//stop loop and proceed
-		getNextTutorialImage();
-	} 
-};
-
-//function for controlling image changes using timer for tutorial test
-function setRealTestTimer(){
-	if (realTestStatus == "yes" && i < realTasks.length){
-		getNextRealTestImage();
-		console.log("5 seconds timer started for real test");
-		window.setTimeout(function(){
-			//loop the function as long as the last image in the realTasks(real images) is not loaded
-			setRealTestTimer();
-		}, timer);
-		//debug timer loop count
-		console.log(realTestStatus+","+i);
-	} 	
-	else{
-		//debug exit loop
-		console.log("RealTestTimer loop exited")
-		//stop loop and proceed
-		getNextRealTestImage();
-	} 
-};
-
-window.onload = init;
-window.onresize = resizeCanvas; // resize the canvas whenever the browser window is resized
-
-
-//This will change the image if the spacebar is pressed
-window.addEventListener("keydown", function(event){
-		console.log('key pressed'); // debug
-		if (event.defaultPrevented) {
-			return; // Do nothing if the event was already processed
-		}
-		if (event.key === " " && realTestStatus == "no"){
-				getNextTutorialImage();
-				timer = 5000;//reset timer back to 5 seconds everytime spacebar is pressed
-		} else if (event.key === " " && realTestStatus == "yes") {
-				getNextRealTestImage();
-				timer = 5000;//reset timer back to 5 seconds everytime spacebar is pressed
-				console.log(realTestStatus); //for bug
-		}
-		// Cancel the default action to avoid it being handled twice
-		event.preventDefault();
-	}, true
-);
-
-
-***** END OLD VERSION */

@@ -64,30 +64,6 @@ error_reporting(E_ALL);
   <!-- Javascript file for the images slide -->
   <script src="javascript/visualisation_test.js"></script>
 
-  <!-- <script>
-      /* Used only when 'calibration test' button is clicked */
-      function changeToTutorial(){
-        /* Change the text for the heading */
-        var changeHead = document.getElementById("testHeading");
-        changeHead.innerHTML = "Tutorial Test";
-
-        /* Change the text for explanation paragraph*/
-        var explainPara = document.getElementById("explanationPara");
-        explainPara.innerHTML = "Congratulations on finishing the eye calibration! There will be a tutorial test before the real test take place <br/>"+
-        "Below is the instructions that need to be followed to complete the test successfully:" +
-        "<div id='explanationBullet'><p><ul class='bullet_style paragraph_font'><li>There will be a series of images that will be presented</li>"+
-        "<li>Please stare at the images and find similar patterns</li><li>Each image will have its own timer</li><li>The timer wil start as soon as you click 'Take Test'</li>" +
-        "<li>There will be 3 images for the tutorial test</li><li>There will be 6 images for the real test</li></ul></p></div>";
-
-         /*	Hide 'Start Eye Calibration' button*/
-         var caliBttn = document.getElementById("startCalibration");
-         caliBttn.style.display = "none";
-
-         /* Show "Take Tutorial Test" button */
-         var tuteBttn = document.getElementById("startTutorial");
-         tuteBttn.style.display = "block";
-      }
-  </script> -->
 </head>
 
 <body>

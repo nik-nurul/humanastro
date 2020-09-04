@@ -149,18 +149,6 @@ var spacebarPressed = false;
 
 //{ **** GazeCloud functions ****
 
-/*		
-var gazex = [];
-var gazey = [];
-var headx = [];
-var heady = [];
-var headz = [];
-var headyaw = [];
-var headpitch = [];
-var headroll = [];		
-var timestamp = [];
-*/
-
 function setMouseCoords(event){
 	mouseDocX = event.clientX;
 	mouseDocY = event.clientY;
@@ -252,65 +240,6 @@ function PlotGaze(GazeData) {
 	}
 }
 
-// old PlotGaze
-/*
-function PlotGaze(GazeData) {
-	//GazeData.state // 0: valid gaze data; -1 : face tracking lost, 1 : gaze uncalibrated
-	//GazeData.docX // gaze x in document coordinates
-	//GazeData.docY // gaze y in document cordinates
-	//GazeData.time // timestamp
-	document.getElementById("GazeData").innerHTML = "GazeX: " + GazeData.GazeX + " GazeY: " + GazeData.GazeY;
-	document.getElementById("HeadPhoseData").innerHTML = " HeadX: " + GazeData.HeadX + " HeadY: " + GazeData.HeadY + " HeadZ: " + GazeData.HeadZ;
-	document.getElementById("HeadRotData").innerHTML = " Yaw: " + GazeData.HeadYaw + " Pitch: " + GazeData.HeadPitch + " Roll: " + GazeData.HeadRoll;
-	//
-
-	gazex.push(GazeData.GazeX);
-	gazey.push(GazeData.GazeY);
-	headx.push(GazeData.HeadX);
-	heady.push(GazeData.HeadY);
-	headz.push(GazeData.HeadZ);
-	headyaw.push(GazeData.HeadYaw);
-	headpitch.push(GazeData.HeadPitch);
-	headroll.push(GazeData.HeadRoll);
-	timestamp.push(GazeData.time);
-
-//	console.log("gaze-x: "+gazex);
-//	console.log("gaze-y: "+gazey);
-//	console.log("head-x: "+headx);
-//	console.log("head-y: "+heady);
-//	console.log("head-z: "+headz);
-//	console.log("headyaw: "+headyaw);
-//	console.log("headpitch: "+headpitch);
-//	console.log("headroll: "+headroll);
-//	console.log("timestamp: "+timestamp);
-
-	if( !document.getElementById("ShowHeatMapId").checked) { // gaze plot
-	   var x = GazeData.docX;
-	   var y = GazeData.docY;
-
-	   var gaze = document.getElementById("gaze");
-	   x -= gaze .clientWidth/2;
-	   y -= gaze .clientHeight/2;
-
-	 gaze.style.left = x + "px";
-	 gaze.style.top = y + "px";
-
-
-	   if(GazeData.state != 0)
-	   {
-		 if( gaze.style.display  == 'block')
-		 gaze  .style.display = 'none';
-	   }
-	   else
-	   {
-		 if( gaze.style.display  == 'none')
-		 gaze  .style.display = 'block';
-	   }
-	}
-}
-*/
-// end old PlotGaze
-
 //////set callbacks/////////
 GazeCloudAPI.OnCalibrationComplete =function(){RemoveHeatMap();; console.log('gaze Calibration Complete')  }
 GazeCloudAPI.OnCamDenied =  function(){ console.log('camera  access denied')  }
@@ -320,14 +249,8 @@ GazeCloudAPI.OnResult = PlotGaze;
 window.onmousemove = setMouseCoords;
 
 function startCalibration() {
- // document.getElementById("startid").style.display = 'none';
-  //document.getElementById("firstid").style.display = 'block';
   GazeCloudAPI.StartEyeTracking();
   GazeCloudAPI.SetFps(15);
-  /* to change the paragraph below the heading */
- // var para = document.getElementById("para");
-  //para.innerHTML = "Click the First Test button to start with the test.";
-  
   changeToTutorial();
 }
 
@@ -353,18 +276,6 @@ function changeToTutorial(){
 	var tuteBttn = document.getElementById("startTutorial");
 	tuteBttn.style.display = "block";
 }
-
-/*
-function callFunctions1(){
-	start();
-	changeToTutorial();
-}
-
-function stop() {
-  document.getElementById("stopid").style.display = 'none';
-  GazeCloudAPI.StopEyeTracking();
-}
-*/
 
 //}
 // **** end GazeCloud functions
@@ -410,10 +321,6 @@ function changeToRealTest(){
 	var explainPara = document.getElementById("explanationPara");
 	explainPara.innerHTML = "Congratulations on finishing the tutorial test! Now click the 'Take Real Test' button to proceed.";
 
-	// Hide the bullet section from previous
-	//var explainBullet = document.getElementById("explanationBullet");
-	//explainBullet.style.display = "none";
-	
 	// Show Take Real Test button
 	var realTestBttn = document.getElementById("startReal");
 	realTestBttn.style.display = "block";
@@ -533,8 +440,6 @@ function init(){
 // for when we add userId to take_test.php	
 //	userIdStr = document.getElementById("userId").innerHTML;
 //	console.log('userIdStr:',userIdStr); // debug
-startCalibration
-
 
 	var startCalibrationBtn = document.getElementById("startCalibration");
 	startCalibrationBtn.onclick = startCalibration;
@@ -543,8 +448,6 @@ startCalibration
 	startTutorialBtn.onclick = startTutorial;
 	
 }
-
-
 
 window.onload = init;
 window.onresize = resizeCanvas; // resize the canvas whenever the browser window is resized

@@ -252,30 +252,48 @@ function endTasks() {
 	resizeCanvas();
 }
 
-// callback to setTimeout and to spacebarPressed event
-function showNextTask(tasks, i, afterTasksFunction){
-	spacebarPressed = false;
-	if (i < tasks.length) {
-		showEachTask(tasks, i, afterTasksFunction);          
-	} else {
-		endTasks();
-		afterTasksFunction(); // execute the callback function
-	}		
-}
+
+
+//var handleSpacebar;
 
 // tasks is the array of task data objects
 // i is the index number in the array of task data objects
 // afterTasksFunction is the function to execute after the last task is shown
 function showEachTask(tasks, i, afterTasksFunction) {
+	var timer; // a separate timer per task element
+	var handleSpacebar; // hoist function definition so showNextTask can see it
 
-	var task = tasks[i++];
-	console.log('task:',task);
-	getNextImage(task);
-	timer = setTimeout(showNextTask, task.time*1000, tasks, i, afterTasksFunction);
-	if (spacebarPressed){
-		console.log('showEachTask() - spacebarPressed:',spacebarPressed);
-		showNextTask(tasks, i, afterTasksFunction); // jump to the next task
+	// callback to setTimeout and to spacebarPressed event
+	var showNextTask = function(tasks, i, afterTasksFunction){
+		window.removeEventListener("keydown", handleSpacebar);
+		if (i < tasks.length) {
+			showEachTask(tasks, i, afterTasksFunction);          
+		} else {
+			endTasks();
+			afterTasksFunction(); // execute the callback function
+		}		
 	}
+
+	// change the image if the spacebar is pressed
+	handleSpacebar = function(event){
+		if (event.defaultPrevented) {
+			return; // Do nothing if the event was already processed
+		}		
+		if (event.key === " ") {
+			console.log('spacebar pressed'); // debug
+			window.removeEventListener("keydown", handleSpacebar); // remove the event listener for this task
+	 		clearTimeout(timer); // end the timeout for this task
+			showNextTask(tasks, i, afterTasksFunction); // jump to the next task
+		}
+		// Cancel the default action to avoid it being handled twice
+		event.preventDefault();
+	}
+
+	var task = tasks[i++]; // assign task element and increment counter
+	getNextImage(task);		// display the image for this task
+	window.addEventListener("keydown", handleSpacebar, false); // false = execute handleSpacebar in bubbling phase
+	timer = setTimeout(showNextTask, task.time*1000, tasks, i, afterTasksFunction);
+
 }
 
 // tasks is the array of task data objects
@@ -329,22 +347,6 @@ function init(){
 window.onload = init;
 window.onresize = resizeCanvas; // resize the canvas whenever the browser window is resized
 
-
-// This will change the image if the spacebar is pressed
-// It does this by clearing the timeout on the timer
-window.addEventListener("keydown", function(event){ // change the image if the spacebar is pressed
-		console.log('key pressed'); // debug
-		if (event.defaultPrevented) {
-			return; // Do nothing if the event was already processed
-		}		
-		if (event.key === " ") {
-//			clearTimeout(timer);
-			spacebarPressed = true;
-		}
-		// Cancel the default action to avoid it being handled twice
-		event.preventDefault();
-	}, true
-);
 
 
 

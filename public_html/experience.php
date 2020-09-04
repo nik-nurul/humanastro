@@ -146,7 +146,7 @@ require_once 'includes/feeback-link.php';
 
 				// start form here
 				echo '
-			  <form class="paragraph_font" id="expform" action="calibration.php?userId='.$userId.'" method="post"> 
+			  <form class="paragraph_font" id="expform" action="save_experience.php?userId='.$userId.'" method="post"> 
 ';
 				// iterate over each experience question
 				foreach ($userDoc->experience_data as $q){
@@ -219,8 +219,8 @@ require_once 'includes/feeback-link.php';
 		  <div>
 			<div class="container">
 				<div class="center">
-				<!-- this button will redirect to webcam calibration page-->
-					<a href="take_test2.php"><input class="bttnsubmit" id="inpbutton" type="submit" value="Submit and Continue"/>
+				<!-- this button will redirect to save_experience page-->
+					<a href="save_experience.php"><input class="bttnsubmit" id="inpbutton" type="submit" value="Submit and Continue"/>
 				</div>
 			</div>
 			

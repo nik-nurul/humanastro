@@ -161,8 +161,8 @@ var spacebarPressed = false;
 
 // Will close the test window and direct user to thankyou.php
 function completeTest(){
-	console.log('completeTest') // debug
-//	location.replace("https://humanastro.csproject.org/thankyou.php"); // jump to next page
+//	console.log('completeTest') // debug
+	location.replace("https://humanastro.csproject.org/thankyou.php"); // jump to next page
 }
 
 // to control which section should be shown and which should be hidden
@@ -263,7 +263,7 @@ function showEachTask(tasks, i, afterTasksFunction) {
 	var timer; // a separate timer per task element
 	var handleSpacebar; // hoist function definition so showNextTask can see it
 
-	// callback to setTimeout and to spacebarPressed event
+	// callback to setTimeout and to spacebar pressed event
 	var showNextTask = function(tasks, i, afterTasksFunction){
 		window.removeEventListener("keydown", handleSpacebar);
 		if (i < tasks.length) {
@@ -280,7 +280,7 @@ function showEachTask(tasks, i, afterTasksFunction) {
 			return; // Do nothing if the event was already processed
 		}		
 		if (event.key === " ") {
-			console.log('spacebar pressed'); // debug
+//			console.log('spacebar pressed'); // debug
 			window.removeEventListener("keydown", handleSpacebar); // remove the event listener for this task
 	 		clearTimeout(timer); // end the timeout for this task
 			showNextTask(tasks, i, afterTasksFunction); // jump to the next task

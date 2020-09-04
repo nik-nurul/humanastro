@@ -70,14 +70,11 @@ require_once 'includes/feeback-link.php';
           <h2 class="heading_font"> What is needed </h2>
           <hr class="heading">
           <p class="paragraph_font">
-            The test is about Airlines is one of the biggest airways company in the world with its
-            big success in aviation industry. a vision to lead Swinburne Airlines as one of the leading
-            international airline. that it is today. From only seven aircraft when it was first.
-            unched in 1999. The greatest deal that can be offered.
-            e work a variety of airbusses
-            everyday so that you can have many choice of flight. One of our mission is to provide affordable
-            price for people from all walk of lives so that everyone can fly! From the low-fare
-            flight to the comfort of the passengers
+            To successfully carry on with the visualisation test,
+            it is recommended to have a desktop or laptop computer with minimum requirements of a 2GHz processor,
+            4GB of RAM and a display resolution 1600*900px be used in order to complete the test smoothly.
+            A compatible webcam accessible through a browser is also required in order to track eye movement during the tests and
+            above all a stable wi-fi connection.
           </p><br/>
 
             <!-- button to take the test -->

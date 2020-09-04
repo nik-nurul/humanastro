@@ -45,11 +45,10 @@ require_once 'includes/feeback-link.php';
               in astronomy, but with limited research to support that claim. <br/> <br/>
               Seeing this, this website has been created to test and measure the visual-discovery skills of
               astronomers, via a series of astronomic images, tested via an eye tracking solution.
-              The outcomes will help us answer the question: Are Machines Better Than Humans (at Astronomy)?
             </p>
 
             <p class="paragraph_font">
-              The visualisation test will require users to find certain features within the displayed astronomy images
+              Seeing this, the test will require users to find certain features within the displayed astronomy images
               that have been deliberately altered with effects such as discoloration or distortion.
               Users will be shown images in which they
               are required to find specific features within a time limit
@@ -61,17 +60,9 @@ require_once 'includes/feeback-link.php';
             <h2 class="heading_font"> Purpose of the test </h2>
             <hr class="heading">
             <p class="paragraph_font">
-              The test is about Airlines is one of the biggest airways company in the world with its
-              big success in aviation industry. a vision to lead Swinburne Airlines as one of the leading
-              international airline. that it is today. From only seven aircraft when it was first.
-              unched in 1999. The greatest deal that can be offered. We work a variety of airbusses
-              everyday so that you can have many choice of flight. One of our mission is to provide affordable
-              price for people from all walk of lives so that everyone can fly! From the low-fare
-              flight to the comfort of the passengers
-
-              To explore the discovery skills of astronomers
-              To analyse the rising capabilities of Machines
-              To boldly compare the two, like no man has done before
+              This test is created to explore the discovery skills of astronomers, to analyse the rising capabilities
+              of Machines and to boldly compare the two, like no man has done before.
+              The outcomes of the test will help answer the question: Are Machines Better Than Humans (at Astronomy)?
             </p>
       </div>
 

@@ -148,6 +148,128 @@ var spacebarPressed = false;
 
 
 //{ **** GazeCloud functions ****
+		
+var gazex = [];
+var gazey = [];
+var headx = [];
+var heady = [];
+var headz = [];
+var headyaw = [];
+var headpitch = [];
+var headroll = [];		
+var timestamp = [];
+
+
+function PlotGaze(GazeData) {
+	/*
+	GazeData.state // 0: valid gaze data; -1 : face tracking lost, 1 : gaze uncalibrated
+	GazeData.docX // gaze x in document coordinates
+	GazeData.docY // gaze y in document cordinates
+	GazeData.time // timestamp
+	*/
+	document.getElementById("GazeData").innerHTML = "GazeX: " + GazeData.GazeX + " GazeY: " + GazeData.GazeY;
+	document.getElementById("HeadPhoseData").innerHTML = " HeadX: " + GazeData.HeadX + " HeadY: " + GazeData.HeadY + " HeadZ: " + GazeData.HeadZ;
+	document.getElementById("HeadRotData").innerHTML = " Yaw: " + GazeData.HeadYaw + " Pitch: " + GazeData.HeadPitch + " Roll: " + GazeData.HeadRoll;
+	//
+
+	gazex.push(GazeData.GazeX);
+	gazey.push(GazeData.GazeY);
+	headx.push(GazeData.HeadX);
+	heady.push(GazeData.HeadY);
+	headz.push(GazeData.HeadZ);
+	headyaw.push(GazeData.HeadYaw);
+	headpitch.push(GazeData.HeadPitch);
+	headroll.push(GazeData.HeadRoll);
+	timestamp.push(GazeData.time);
+
+	/*debug data log
+	console.log("gaze-x: "+gazex);
+	console.log("gaze-y: "+gazey);
+	console.log("head-x: "+headx);
+	console.log("head-y: "+heady);
+	console.log("head-z: "+headz);
+	console.log("headyaw: "+headyaw);
+	console.log("headpitch: "+headpitch);
+	console.log("headroll: "+headroll);
+	console.log("timestamp: "+timestamp);
+	*/
+
+	if( !document.getElementById("ShowHeatMapId").checked) { // gaze plot
+	   var x = GazeData.docX;
+	   var y = GazeData.docY;
+
+	   var gaze = document.getElementById("gaze");
+	   x -= gaze .clientWidth/2;
+	   y -= gaze .clientHeight/2;
+
+	 gaze.style.left = x + "px";
+	 gaze.style.top = y + "px";
+
+
+	   if(GazeData.state != 0)
+	   {
+		 if( gaze.style.display  == 'block')
+		 gaze  .style.display = 'none';
+	   }
+	   else
+	   {
+		 if( gaze.style.display  == 'none')
+		 gaze  .style.display = 'block';
+	   }
+	}
+}
+   //////set callbacks/////////
+   GazeCloudAPI.OnCalibrationComplete =function(){RemoveHeatMap();; console.log('gaze Calibration Complete')  }
+   GazeCloudAPI.OnCamDenied =  function(){ console.log('camera  access denied')  }
+   GazeCloudAPI.OnError =  function(msg){ console.log('err: ' + msg)  }
+   GazeCloudAPI.UseClickRecalibration = true;
+  GazeCloudAPI.OnResult = PlotGaze;
+
+  function start() {
+	 // document.getElementById("startid").style.display = 'none';
+	  //document.getElementById("firstid").style.display = 'block';
+      GazeCloudAPI.StartEyeTracking();
+	  GazeCloudAPI.SetFps(15);
+	  /* to change the paragraph below the heading */
+	 // var para = document.getElementById("para");
+	  //para.innerHTML = "Click the First Test button to start with the test.";
+  }
+
+  /* Used only when 'calibration test' button is clicked */
+  function changeToTutorial(){
+	/* Change the text for the heading */
+	var changeHead = document.getElementById("testHeading");
+	changeHead.innerHTML = "Tutorial Test";
+
+	/* Change the text for explanation paragraph*/
+	var explainPara = document.getElementById("explanationPara");
+	explainPara.innerHTML = "Congratulations on finishing the eye calibration! There will be a tutorial test before the real test take place <br/>"+
+	"Below is the instructions that need to be followed to complete the test successfully:" +
+	"<div id='explanationBullet'><p><ul class='bullet_style paragraph_font'><li>There will be a series of images that will be presented</li>"+
+	"<li>Please stare at the images and find similar patterns</li><li>Each image will have its own timer</li><li>The timer wil start as soon as you click 'Take Test'</li>" +
+	"<li>There will be 3 images for the tutorial test</li><li>There will be 6 images for the real test</li></ul></p></div>";
+
+	 /*	Hide 'Start Eye Calibration' button*/
+	 var caliBttn = document.getElementById("startCalibration");
+	 caliBttn.style.display = "none";
+
+	 /* Show "Take Tutorial Test" button */
+	 var tuteBttn = document.getElementById("startTutorial");
+	 tuteBttn.style.display = "block";
+  }
+
+  function callFunctions1(){
+	start();
+	changeToTutorial();
+  }
+
+  function stop() {
+	  document.getElementById("stopid").style.display = 'none';
+	  GazeCloudAPI.StopEyeTracking();
+  }
+
+
+
 //}
 // **** end GazeCloud functions
 

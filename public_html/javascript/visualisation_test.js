@@ -4,19 +4,22 @@
 
 // these image names could be gotten from the MongoDB
 // or the images themselves could be stored there, in base64 text format
+
+var task_dir = "tasks";
+
 var tutorialImages = [
-	"starfield1_1920x1080",
-	"starfield2_1280x0649",
-	"starfield3_504x284"
+	"Tutorial-starfield1_1920x1080.png",
+	"Tutorial-starfield2_1280x0649.png",
+	"Tutorial-starfield3_504x284.png"
 ];
 
 var realTestImages = [
-	"space1_1280x720",
-	"space2_1920x1080",
-	"space3_1920x1080",
-	"space4_1920x1080",
-	"space5_4096x2160",
-	"space6_1920x1108"
+	"RealTest-space1_1280x720.png",
+	"RealTest-space2_1920x1080.png",
+	"RealTest-space3_1920x1080.png",
+	"RealTest-space4_1920x1080.png",
+	"RealTest-space5_4096x2160.png",
+	"RealTest-space6_1920x1108.png"
 ];
 
 var i = 0; // global current pointer to image URL
@@ -82,7 +85,7 @@ function getNextTutorialImgUrl(){
 		 if (i<tutorialImages.length ) {
 			 console.log(i);
 		   console.log(tutorialImages[i]); // debug
-			 	var imgUrl = "/javascript/spaceImages/Calibration-"+tutorialImages[i++]+".png";
+			 	var imgUrl = "/"+task_dir+"/"+tutorialImages[i++];
 				console.log(imgUrl); // debug
 				return imgUrl;
 		} else if (i>=tutorialImages.length) {
@@ -98,7 +101,7 @@ function getNextRealTestImgUrl(){
 		 if (i<realTestImages.length ) {
 			 console.log(i);
 		   console.log(realTestImages[i]); // debug
-			 	var imgUrl = "/javascript/spaceImages/RealTest-"+realTestImages[i++]+".png";
+			 	var imgUrl = "/"+task_dir+"/"+realTestImages[i++];
 				console.log(imgUrl); // debug
 				return imgUrl;
 		} else if (i>=realTestImages.length) {

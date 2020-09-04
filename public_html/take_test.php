@@ -145,7 +145,7 @@ error_reporting(E_ALL);
           function start() {
              // document.getElementById("startid").style.display = 'none';
               //document.getElementById("firstid").style.display = 'block';
-              GazeCloudAPI.StartEyeTracking();
+//              GazeCloudAPI.StartEyeTracking();
               GazeCloudAPI.SetFps(15);
               /* to change the paragraph below the heading */
              // var para = document.getElementById("para");

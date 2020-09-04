@@ -148,7 +148,8 @@ var spacebarPressed = false;
 
 
 //{ **** GazeCloud functions ****
-		
+
+/*		
 var gazex = [];
 var gazey = [];
 var headx = [];
@@ -158,15 +159,106 @@ var headyaw = [];
 var headpitch = [];
 var headroll = [];		
 var timestamp = [];
+*/
 
+function setMouseCoords(event){
+	mouseDocX = event.clientX;
+	mouseDocY = event.clientY;
+	mouseScreenX = event.screenX;
+	mouseScreenY = event.screenY;
+}
 
+// takes the GazeData object, adds userData and converts to JSON
+// then sends the JSON by AJAX HTTP POST method to saveToDB.php
+// where it is appended to the MongoDB object for userIdStr
+function sendToDB(data) {
+	// begin ajax request
+	var jsonData = JSON.stringify(
+		{
+			"userIdStr": userIdStr,
+			"GazeDataArray": data
+		}
+	);
+
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			console.log(""+this.responseText); // just log the output to JS console
+		}
+	};
+	
+	// post request to the PHP page
+	xhttp.open("POST", "saveToDB.php", true);
+
+	// the data type in the POST data to JSON
+	xhttp.setRequestHeader("Content-type", "application/json");
+
+	// convert javascript object to a JSON string and submit with the POST request
+	xhttp.send(jsonData);
+}
+
+// pushes each GazeData point to an array
+// if the array is >= 10 elements, copy that array and append it to the MongoDB
+// then empty the GazeDataArray
+function saveData(GazeData){
+	console.log('.'); // debug
+	GazeDataArray.push(GazeData);
+	if (GazeDataArray.length >= 10){
+		sendToDB(GazeDataArray.slice()); // send a copy of the current array to the DB
+		
+		// if JS supported concurrency, we could lose data points here!
+		// because it isn't, these commands should be 'atomic'
+		
+		GazeDataArray = []; // empty the array 
+	}
+}
+
+// this is called everytime a GazaData message is received from the GazeCloud server
 function PlotGaze(GazeData) {
-	/*
-	GazeData.state // 0: valid gaze data; -1 : face tracking lost, 1 : gaze uncalibrated
-	GazeData.docX // gaze x in document coordinates
-	GazeData.docY // gaze y in document cordinates
-	GazeData.time // timestamp
-	*/
+	saveData(GazeData); // send each GazeData point to the MongoDB
+
+	var sessionTime = (parseInt(GazeData.time) - parseInt(startTime));
+
+	// update gaze data on the page (after calibration)			
+	var x = GazeData.docX;
+	var y = GazeData.docY;
+	
+	var gaze = document.getElementById("gaze");
+	x -= gaze .clientWidth/2;
+	y -= gaze .clientHeight/2;
+
+	gaze.style.left = x + "px";
+	gaze.style.top = y + "px";
+		
+	if(GazeData.state != 0){
+		if( gaze.style.display  == 'block')
+			gaze  .style.display = 'none';
+	} else {
+		if( gaze.style.display  == 'none')
+			gaze  .style.display = 'block';
+	}
+	
+	switch (GazeData.state){
+		case -1:
+			gaze.state="Face tracking lost";
+			break;
+		case 0:
+			gaze.state="Valid gaze data";
+			break;
+		case 1:
+			gaze.state="Gaze uncalibrated";
+			break;
+		default:
+			gaze.state="undefined";
+	}
+}
+
+// old PlotGaze
+/*
+function PlotGaze(GazeData) {
+	//GazeData.state // 0: valid gaze data; -1 : face tracking lost, 1 : gaze uncalibrated
+	//GazeData.docX // gaze x in document coordinates
+	//GazeData.docY // gaze y in document cordinates
+	//GazeData.time // timestamp
 	document.getElementById("GazeData").innerHTML = "GazeX: " + GazeData.GazeX + " GazeY: " + GazeData.GazeY;
 	document.getElementById("HeadPhoseData").innerHTML = " HeadX: " + GazeData.HeadX + " HeadY: " + GazeData.HeadY + " HeadZ: " + GazeData.HeadZ;
 	document.getElementById("HeadRotData").innerHTML = " Yaw: " + GazeData.HeadYaw + " Pitch: " + GazeData.HeadPitch + " Roll: " + GazeData.HeadRoll;
@@ -182,17 +274,15 @@ function PlotGaze(GazeData) {
 	headroll.push(GazeData.HeadRoll);
 	timestamp.push(GazeData.time);
 
-	/*debug data log
-	console.log("gaze-x: "+gazex);
-	console.log("gaze-y: "+gazey);
-	console.log("head-x: "+headx);
-	console.log("head-y: "+heady);
-	console.log("head-z: "+headz);
-	console.log("headyaw: "+headyaw);
-	console.log("headpitch: "+headpitch);
-	console.log("headroll: "+headroll);
-	console.log("timestamp: "+timestamp);
-	*/
+//	console.log("gaze-x: "+gazex);
+//	console.log("gaze-y: "+gazey);
+//	console.log("head-x: "+headx);
+//	console.log("head-y: "+heady);
+//	console.log("head-z: "+headz);
+//	console.log("headyaw: "+headyaw);
+//	console.log("headpitch: "+headpitch);
+//	console.log("headroll: "+headroll);
+//	console.log("timestamp: "+timestamp);
 
 	if( !document.getElementById("ShowHeatMapId").checked) { // gaze plot
 	   var x = GazeData.docX;
@@ -218,25 +308,31 @@ function PlotGaze(GazeData) {
 	   }
 	}
 }
-   //////set callbacks/////////
-   GazeCloudAPI.OnCalibrationComplete =function(){RemoveHeatMap();; console.log('gaze Calibration Complete')  }
-   GazeCloudAPI.OnCamDenied =  function(){ console.log('camera  access denied')  }
-   GazeCloudAPI.OnError =  function(msg){ console.log('err: ' + msg)  }
-   GazeCloudAPI.UseClickRecalibration = true;
-  GazeCloudAPI.OnResult = PlotGaze;
+*/
+// end old PlotGaze
 
-  function start() {
-	 // document.getElementById("startid").style.display = 'none';
-	  //document.getElementById("firstid").style.display = 'block';
-      GazeCloudAPI.StartEyeTracking();
-	  GazeCloudAPI.SetFps(15);
-	  /* to change the paragraph below the heading */
-	 // var para = document.getElementById("para");
-	  //para.innerHTML = "Click the First Test button to start with the test.";
-  }
+//////set callbacks/////////
+GazeCloudAPI.OnCalibrationComplete =function(){RemoveHeatMap();; console.log('gaze Calibration Complete')  }
+GazeCloudAPI.OnCamDenied =  function(){ console.log('camera  access denied')  }
+GazeCloudAPI.OnError =  function(msg){ console.log('err: ' + msg)  }
+GazeCloudAPI.UseClickRecalibration = true;
+GazeCloudAPI.OnResult = PlotGaze;
+window.onmousemove = setMouseCoords;
 
-  /* Used only when 'calibration test' button is clicked */
-  function changeToTutorial(){
+function startCalibration() {
+ // document.getElementById("startid").style.display = 'none';
+  //document.getElementById("firstid").style.display = 'block';
+  GazeCloudAPI.StartEyeTracking();
+  GazeCloudAPI.SetFps(15);
+  /* to change the paragraph below the heading */
+ // var para = document.getElementById("para");
+  //para.innerHTML = "Click the First Test button to start with the test.";
+  
+  changeToTutorial();
+}
+
+/* Used only when 'calibration test' button is clicked */
+function changeToTutorial(){
 	/* Change the text for the heading */
 	var changeHead = document.getElementById("testHeading");
 	changeHead.innerHTML = "Tutorial Test";
@@ -249,26 +345,26 @@ function PlotGaze(GazeData) {
 	"<li>Please stare at the images and find similar patterns</li><li>Each image will have its own timer</li><li>The timer wil start as soon as you click 'Take Test'</li>" +
 	"<li>There will be 3 images for the tutorial test</li><li>There will be 6 images for the real test</li></ul></p></div>";
 
-	 /*	Hide 'Start Eye Calibration' button*/
-	 var caliBttn = document.getElementById("startCalibration");
-	 caliBttn.style.display = "none";
+	/*	Hide 'Start Eye Calibration' button*/
+	var caliBttn = document.getElementById("startCalibration");
+	caliBttn.style.display = "none";
 
-	 /* Show "Take Tutorial Test" button */
-	 var tuteBttn = document.getElementById("startTutorial");
-	 tuteBttn.style.display = "block";
-  }
+	/* Show "Take Tutorial Test" button */
+	var tuteBttn = document.getElementById("startTutorial");
+	tuteBttn.style.display = "block";
+}
 
-  function callFunctions1(){
+/*
+function callFunctions1(){
 	start();
 	changeToTutorial();
-  }
+}
 
-  function stop() {
-	  document.getElementById("stopid").style.display = 'none';
-	  GazeCloudAPI.StopEyeTracking();
-  }
-
-
+function stop() {
+  document.getElementById("stopid").style.display = 'none';
+  GazeCloudAPI.StopEyeTracking();
+}
+*/
 
 //}
 // **** end GazeCloud functions
@@ -427,6 +523,9 @@ function startRealTest(){
 }
 
 
+//}
+//**** end taskrunner functions
+
 function init(){
 	c = document.getElementById("myCanvas");
 	ctx = c.getContext("2d");
@@ -434,14 +533,18 @@ function init(){
 // for when we add userId to take_test.php	
 //	userIdStr = document.getElementById("userId").innerHTML;
 //	console.log('userIdStr:',userIdStr); // debug
+startCalibration
 
-	var changeContent = document.getElementById("startTutorial");
-	changeContent.onclick = startTutorial;
+
+	var startCalibrationBtn = document.getElementById("startCalibration");
+	startCalibrationBtn.onclick = startCalibration;
+	
+	var startTutorialBtn = document.getElementById("startTutorial");
+	startTutorialBtn.onclick = startTutorial;
 	
 }
 
-//}
-//**** end taskrunner functions
+
 
 window.onload = init;
 window.onresize = resizeCanvas; // resize the canvas whenever the browser window is resized

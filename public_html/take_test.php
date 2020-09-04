@@ -129,7 +129,7 @@ error_reporting(E_ALL);
       <!-- division for buttons. -->
       <div id='buttonsDiv'class="content_paragraph" style="margin-top:20px; margin-bottom:20px; float:right;">
           <!-- Button to start eye calibration-->
-          <button id="startCalibration" type="button" class="bttn" onclick="callFunctions1()">Start Eye Calibration</button>
+          <button id="startCalibration" type="button" class="bttn" onclick="start()">Start Eye Calibration</button>
           <!-- Button to start tutorial. Initially hidden -->
           <button id="startTutorial" type="button" class="bttn" style="display:none;">Take Tutorial Test</button>
           <!-- Button to start real test. Initially hidden-->

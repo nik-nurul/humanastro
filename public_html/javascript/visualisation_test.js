@@ -92,7 +92,7 @@ var realTasks = [
 var c, ctx, img; // canvas, canvas-context, image vars
 img = new Image(); // initialise image var with a blank image
 var imgScaleRatio; // scale ratio of original image to displayed image in canvas
-//var spacebarPressed = false;
+var hRatio, vRatio;
 
 //}
 // **** end taskrunner global vars
@@ -151,11 +151,8 @@ function saveData(GazeData){
 	}
 }
 
-// this is called everytime a GazaData message is received from the GazeCloud server
+// show the gaze position in the browser window
 function PlotGaze(GazeData) {
-	saveData(GazeData); // send each GazeData point to the MongoDB
-
-	var sessionTime = (parseInt(GazeData.time) - parseInt(startTime));
 
 	// update gaze data on the page (after calibration)			
 	var x = GazeData.docX;
@@ -194,12 +191,37 @@ function PlotGaze(GazeData) {
 	}
 }
 
+// this is called every time a GazaData message is received from the GazeCloud server
+function HandleGazeData(GazeData){
+	
+	GazeData.astro = {};
+	GazeData.astro.sessionTime = GazeData.time - startTime; // anonymise time
+	GazeData.astro.devicePixelRatio = window.devicePixelRatio;
+	GazeData.astro.imgWidth  = img.width;
+	GazeData.astro.imgHeight = img.height;
+	GazeData.astro.canvasWidth  = c.width;
+	GazeData.astro.canvasHeight = c.height;
+	GazeData.astro.hRatio = hRatio;
+	GazeData.astro.vRatio = vRatio;
+	GazeData.astro.MouseDocX = mouseDocX;
+	GazeData.astro.MouseDocY = mouseDocY;
+	GazeData.astro.imgScaleRatio = imgScaleRatio;
+	GazeData.astro.unscaledDocX = GazeData.docX/imgScaleRatio;
+	GazeData.astro.unscaledDocY = GazeData.docY/imgScaleRatio;
+	GazeData.astro.unscaledMouseDocX = mouseDocX/imgScaleRatio;
+	GazeData.astro.unscaledMouseDocY = mouseDocY/imgScaleRatio;
+
+	saveData(GazeData); // send each GazeData point to the MongoDB
+	PlotGaze(GazeData); // show the gaze position in the browser window
+
+}
+
 //////set callbacks/////////
 GazeCloudAPI.OnCalibrationComplete = function(){RemoveHeatMap();; console.log('gaze Calibration Complete')  }
 GazeCloudAPI.OnCamDenied = function(){ console.log('camera  access denied')  }
 GazeCloudAPI.OnError =  function(msg){ console.log('err: ' + msg)  }
 GazeCloudAPI.UseClickRecalibration = true;
-GazeCloudAPI.OnResult = PlotGaze;
+GazeCloudAPI.OnResult = HandleGazeData;
 window.onmousemove = setMouseCoords;
 
 //}
@@ -457,7 +479,7 @@ function startCalibration() {
 	startTime = Date.now();
 	activateFullscreen(document.documentElement);
 
-//	GazeCloudAPI.StartEyeTracking();
+	GazeCloudAPI.StartEyeTracking();
 	GazeCloudAPI.SetFps(GazeFPS);
 	changeToRefineCal();
 }
@@ -484,3 +506,4 @@ function init(){
 
 window.onload = init;
 window.onresize = resizeCanvas; // resize the canvas whenever the browser window is resized
+window.onmousemove = setMouseCoords; // record mouse coordinates

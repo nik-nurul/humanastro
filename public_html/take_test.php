@@ -73,11 +73,11 @@ exit();
 
 </head>
 <body>
-	<!-- embedding user ID in page -->
+	<!-- embedding user ID in page for javascript to access -->
 	<label id="userId" hidden="true"><?php echo $userIdStr ?></label>
 
     <!-- division part for the explanation -->
-		<div id="explanationDiv" class="content_paragraph" style="padding-top:10px; margin-top:0px; margin-bottom:20px; display:block;">
+	<div id="explanationDiv" class="content_paragraph" style="padding-top:10px; margin-top:0px; margin-bottom:20px; display:block;">
         <hr style="margin-top:0px;">
         <h2 id="testHeading" class="heading_font" style="margin-top: 0px;"> Eye Calibration </h2>
         <hr class="heading" style="height:2px;"/>
@@ -86,8 +86,8 @@ exit();
         <h2 id="testHeading" class="heading_font"> Eye Calibration </h2>
         <hr class="heading"/> -->
         <p id="explanationPara" class="paragraph_font">
-            There will be an eye calibration test before the visualisation tests take place. <br/><br/><br/>
-            <b>Do not resize the browser's window </b><br/>
+            There will be an eye calibration test before the visualisation tests take place.<br/><br/><br/>
+            <b>The browser's window will be put into fullscreen mode. Please do not resize it.</b><br/>
         </p><br/><br/>
     </div>
 
@@ -95,8 +95,7 @@ exit();
     <div id="canvasDiv" style="display:none;">
         <!-- canvas to draw the images -->
 
-		<!-- HTML5 canvas must have set width and height, default is 300x150-->
-        <canvas id="myCanvas" width="1280" height="720">
+        <canvas id="myCanvas">
     </div>
 
     <div id ="gaze" style ='position: absolute;display:none;width: 100px;height: 100px;border-radius: 50%;border: solid 2px  rgba(255, 255,255, .2);	box-shadow: 0 0 100px 3px rgba(125, 125,125, .5);	pointer-events: none;	z-index: 999999'></div>

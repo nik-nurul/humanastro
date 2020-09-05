@@ -4,19 +4,17 @@
 
 //{ **** GazeCloud global vars ****
 
-// Init GazeData Array
+// Gaze Calibration type: 0 is accurate calibration (much slower - default); 1 is fast calibration
+GazeCloudAPI.CalibrationType = 1;
+var maxGazaDataArraySize = 30; // save arrays of this size in browser memory before sending to MongoDB
+var GazeFPS = 30; // Webcam FPS rate for GazeCloud
+
+var doPlotGaze = false; // if true, plot the gaze on screen
 var GazeDataArray = [];
-
-// new AJAX object
 var xhttp = new XMLHttpRequest();
-
 var userIdStr;  // get user ID string from PHP
-
-var startTime;
-
+var startTime;  // used to anonymise the timestams on saved data
 var mouseDocX, mouseDocY, mouseScreenX, mouseScreenY;
-
-var doPlotGaze = true; // if true, plot the gaze on screen
 
 //}
 // **** end GazeCloud global vars ****
@@ -35,7 +33,7 @@ var task_dir = "tasks";
 var calibrationTasks = [
 	{
 		"image": "RefineCalibration.png",
-		"time": 60,
+		"time": 300,
 		"allow_skip": true
 	}
 ];
@@ -141,9 +139,9 @@ function sendToDB(data) {
 // if the array is >= 10 elements, copy that array and append it to the MongoDB
 // then empty the GazeDataArray
 function saveData(GazeData){
-	console.log('.'); // debug
+//	console.log('.'); // debug
 	GazeDataArray.push(GazeData);
-	if (GazeDataArray.length >= 10){
+	if (GazeDataArray.length >= maxGazaDataArraySize){
 		sendToDB(GazeDataArray.slice()); // send a copy of the current array to the DB
 		
 		// if JS supported concurrency, we could lose data points here!
@@ -197,8 +195,8 @@ function PlotGaze(GazeData) {
 }
 
 //////set callbacks/////////
-GazeCloudAPI.OnCalibrationComplete =function(){RemoveHeatMap();; console.log('gaze Calibration Complete')  }
-GazeCloudAPI.OnCamDenied =  function(){ console.log('camera  access denied')  }
+GazeCloudAPI.OnCalibrationComplete = function(){RemoveHeatMap();; console.log('gaze Calibration Complete')  }
+GazeCloudAPI.OnCamDenied = function(){ console.log('camera  access denied')  }
 GazeCloudAPI.OnError =  function(msg){ console.log('err: ' + msg)  }
 GazeCloudAPI.UseClickRecalibration = true;
 GazeCloudAPI.OnResult = PlotGaze;
@@ -210,19 +208,49 @@ window.onmousemove = setMouseCoords;
 
 //{ **** taskrunner functions ***
 
+//https://www.digitalocean.com/community/tutorials/js-fullscreen-api
+function activateFullscreen(element) {
+  if(element.requestFullscreen) {
+    element.requestFullscreen();        // W3C spec
+  }
+  else if (element.mozRequestFullScreen) {
+    element.mozRequestFullScreen();     // Firefox
+  }
+  else if (element.webkitRequestFullscreen) {
+    element.webkitRequestFullscreen();  // Safari
+  }
+  else if(element.msRequestFullscreen) {
+    element.msRequestFullscreen();      // IE/Edge
+  }
+}
+
+function deactivateFullscreen() {
+  if(document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.mozCancelFullScreen) {
+    document.mozCancelFullScreen();
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  }
+}
+
 // Will close the test window and direct user to thankyou.php
 function completeTest(){
+	deactivateFullscreen(); // doesn't work?
 	location.replace("https://humanastro.csproject.org/thankyou.php"); // jump to next page
 }
 
 // to control which section should be shown and which should be hidden
 function changeSection(){
-	// Show and hide explanation section
+	// Show and hide explanation and buttons section
 	 var explanationSect = document.getElementById("explanationDiv");
+	 var buttonsDiv = document.getElementById("buttonsDiv");
 	 if(explanationSect.style.display == "block"){
 			 explanationSect.style.display = "none";
+			 buttonsDiv.style.display = "none";
 	 } else if (explanationSect.style.display == "none"){
 		 	explanationSect.style.display = "block";
+		 	buttonsDiv.style.display = "block";
 	 }
 
   // Show and hide the images within the canvas section 
@@ -427,10 +455,10 @@ function changeToRefineCal(){
 function startCalibration() {
 	doPlotGaze = false; // turn off gaze plotting on screen
 	startTime = Date.now();
-//	GazeCloudAPI.CalibrationType = 0; // accurate calibration (much slower - default)
-	GazeCloudAPI.CalibrationType = 1; // fast calibration
-	GazeCloudAPI.StartEyeTracking();
-	GazeCloudAPI.SetFps(30);
+	activateFullscreen(document.documentElement);
+
+//	GazeCloudAPI.StartEyeTracking();
+	GazeCloudAPI.SetFps(GazeFPS);
 	changeToRefineCal();
 }
 
@@ -442,7 +470,6 @@ function init(){
 	ctx = c.getContext("2d");
 
 	userIdStr = document.getElementById("userId").innerHTML;
-	console.log('userIdStr:',userIdStr); // debug
 
 	var startCalibrationBtn = document.getElementById("startCalibration");
 	startCalibrationBtn.onclick = startCalibration;

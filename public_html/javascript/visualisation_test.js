@@ -42,12 +42,12 @@ var tutorialTasks = [
 	{
 		"image": "Tutorial-starfield1_1920x1080.png",
 		"time": 5,
-		"allow_skip": true
+		"allow_skip": false
 	},
 	{
 		"image": "Tutorial-starfield2_1280x0649.png",
 		"time": 5,
-		"allow_skip": true
+		"allow_skip": false
 	},
 	{
 		"image": "Tutorial-starfield3_504x284.png",
@@ -124,7 +124,7 @@ function sendToDB(data) {
 			console.log(""+this.responseText); // just log the output to JS console
 		}
 	};
-	
+
 	// post request to the PHP page
 	xhttp.open("POST", "saveToDB.php", true);
 
@@ -143,21 +143,21 @@ function saveData(GazeData){
 	GazeDataArray.push(GazeData);
 	if (GazeDataArray.length >= maxGazaDataArraySize){
 		sendToDB(GazeDataArray.slice()); // send a copy of the current array to the DB
-		
+
 		// if JS supported concurrency, we could lose data points here!
 		// because it isn't, these commands should be 'atomic'
-		
-		GazeDataArray = []; // empty the array 
+
+		GazeDataArray = []; // empty the array
 	}
 }
 
 // show the gaze position in the browser window
 function PlotGaze(GazeData) {
 
-	// update gaze data on the page (after calibration)			
+	// update gaze data on the page (after calibration)
 	var x = GazeData.docX;
 	var y = GazeData.docY;
-	
+
 	var gaze = document.getElementById("gaze");
 	x -= gaze .clientWidth/2;
 	y -= gaze .clientHeight/2;
@@ -166,7 +166,7 @@ function PlotGaze(GazeData) {
 		gaze.style.left = x + "px";
 		gaze.style.top = y + "px";
 	}
-	
+
 	if(GazeData.state != 0 || !doPlotGaze ){
 		if( gaze.style.display  == 'block')
 			gaze.style.display   = 'none';
@@ -175,7 +175,7 @@ function PlotGaze(GazeData) {
 			gaze.style.display   = 'block';
 		}
 	}
-	
+
 	switch (GazeData.state){
 		case -1:
 			gaze.state="Face tracking lost";
@@ -193,7 +193,7 @@ function PlotGaze(GazeData) {
 
 // this is called every time a GazaData message is received from the GazeCloud server
 function HandleGazeData(GazeData){
-	
+
 	GazeData.astro = {};
 	GazeData.astro.sessionTime = GazeData.time - startTime; // anonymise time
 	GazeData.astro.devicePixelRatio = window.devicePixelRatio;
@@ -256,6 +256,14 @@ function deactivateFullscreen() {
   }
 }
 
+// Function for pop up window to show coordinates for debugging purposes
+// (Sept 6 2020) Will be commented first - will come back here
+// function winPopUp() {
+//   var myWindow = window.open("", "GazeData-timer", "width=300,height=500");
+//   myWindow.document.write("<p>This is a pop up window to show GazeDatae, timer, etc.</p>"); //will be written on the popup window
+//
+// }
+
 // Will close the test window and direct user to thankyou.php
 function completeTest(){
 	deactivateFullscreen(); // doesn't work?
@@ -275,7 +283,7 @@ function changeSection(){
 		 	buttonsDiv.style.display = "block";
 	 }
 
-  // Show and hide the images within the canvas section 
+  // Show and hide the images within the canvas section
 	 var canvasSect = document.getElementById("canvasDiv")
 	 if(canvasSect.style.display == 'none'){
 		canvasSect.style.display = 'block';
@@ -310,7 +318,7 @@ function resizeCanvas(){
 // changes the task image
 function getNextImage(task) {
 	img = new Image();
-	img.src = task_dir+"/"+task.image; 
+	img.src = task_dir+"/"+task.image;
 	console.log("img.src:",img.src);
 	img.onload = function(){ // after the image is loaded, draw it in the canvas
 		resizeCanvas(); // resize the image to fit the current browser window size
@@ -334,18 +342,18 @@ function showEachTask(tasks, i, afterTasksFunction) {
 	var showNextTask = function(tasks, i, afterTasksFunction){
 		window.removeEventListener("keydown", handleSpacebar);
 		if (i < tasks.length) {
-			showEachTask(tasks, i, afterTasksFunction);          
+			showEachTask(tasks, i, afterTasksFunction);
 		} else {
 			endTasks();
 			afterTasksFunction(); // execute the callback function
-		}		
+		}
 	}
 
 	// change the image if the spacebar is pressed
 	handleSpacebar = function(event){
 		if (event.defaultPrevented) {
 			return; // Do nothing if the event was already processed
-		}		
+		}
 		if (event.key === " ") {
 			window.removeEventListener("keydown", handleSpacebar); // remove the event listener for this task
 	 		clearTimeout(timer); // end the timeout for this task
@@ -357,7 +365,8 @@ function showEachTask(tasks, i, afterTasksFunction) {
 
 	var task = tasks[i++]; // assign task element and increment counter
 	getNextImage(task);		// display the image for this task
-	window.addEventListener("keydown", handleSpacebar, false); // false = execute handleSpacebar in bubbling phase
+	if (task.allow_skip) // only add the event listener for the spacebar if the task allows it
+		window.addEventListener("keydown", handleSpacebar, false); // false = execute handleSpacebar in bubbling phase
 	timer = setTimeout(showNextTask, task.time*1000, tasks, i, afterTasksFunction);
 }
 
@@ -376,7 +385,7 @@ function showTasks(tasks, afterTasksFunction){
 // for real test
 function startRealTest(){
 	doPlotGaze = false; // turn of gaze plotting on screen
-	// hide the "Take Real Test" button 
+	// hide the "Take Real Test" button
 	var realTestBttn = document.getElementById("startReal");
 	realTestBttn.style.display = "none";
 
@@ -401,7 +410,7 @@ function changeToRealTest(){
 	realTestBttn.style.display = "block";
 	//Change the status of real test variable(to med until start real test bttn is clicked) to stop timer from continue looping when spacebar is pressed
 	realTestBttn.onclick = startRealTest; //call function to slide through images and change content
-	
+
 	changeSection();
 }
 
@@ -409,7 +418,7 @@ function changeToRealTest(){
 function startTutorial(){
 	changeSection();
 	// shows the tutorial tasks then runs changeToRealTest
-	showTasks(tutorialTasks, changeToRealTest); 
+	showTasks(tutorialTasks, changeToRealTest);
 }
 
 /* Used only when 'Refine Calibration' button is clicked */
@@ -445,7 +454,10 @@ function changeToTutorial(){
 function startRefineCal() {
 	doPlotGaze = true; // turn on gaze plotting on screen
 	changeSection();
-	showTasks(calibrationTasks, changeToTutorial); 
+	showTasks(calibrationTasks, changeToTutorial);
+
+	//open pop up windows to show coordinates for debug
+	//winPopUp();
 }
 
 /* Used only when 'calibration test' button is clicked */
@@ -495,13 +507,13 @@ function init(){
 
 	var startCalibrationBtn = document.getElementById("startCalibration");
 	startCalibrationBtn.onclick = startCalibration;
-	
+
 	var startRefineCalBtn = document.getElementById("startRefineCal");
 	startRefineCalBtn.onclick = startRefineCal;
-	
+
 	var startTutorialBtn = document.getElementById("startTutorial");
 	startTutorialBtn.onclick = startTutorial;
-	
+
 }
 
 window.onload = init;

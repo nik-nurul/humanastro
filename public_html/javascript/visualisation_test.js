@@ -16,6 +16,8 @@ var startTime;
 
 var mouseDocX, mouseDocY, mouseScreenX, mouseScreenY;
 
+var doPlotGaze = true; // if true, plot the gaze on screen
+
 //}
 // **** end GazeCloud global vars ****
 
@@ -165,15 +167,18 @@ function PlotGaze(GazeData) {
 	x -= gaze .clientWidth/2;
 	y -= gaze .clientHeight/2;
 
-	gaze.style.left = x + "px";
-	gaze.style.top = y + "px";
-		
-	if(GazeData.state != 0){
+	if (doPlotGaze){
+		gaze.style.left = x + "px";
+		gaze.style.top = y + "px";
+	}
+	
+	if(GazeData.state != 0 || !doPlotGaze ){
 		if( gaze.style.display  == 'block')
-			gaze  .style.display = 'none';
+			gaze.style.display   = 'none';
 	} else {
-		if( gaze.style.display  == 'none')
-			gaze  .style.display = 'block';
+		if( gaze.style.display  == 'none'){
+			gaze.style.display   = 'block';
+		}
 	}
 	
 	switch (GazeData.state){
@@ -315,12 +320,12 @@ function showTasks(tasks, afterTasksFunction){
 	showEachTask(tasks, i, afterTasksFunction);
 }
 
+
 /// BUTTON HANDLERS
-
-
 
 // for real test
 function startRealTest(){
+	doPlotGaze = false; // turn of gaze plotting on screen
 	// hide the "Take Real Test" button 
 	var realTestBttn = document.getElementById("startReal");
 	realTestBttn.style.display = "none";
@@ -331,6 +336,8 @@ function startRealTest(){
 
 // changes the page content to ask the user to take the real test
 function changeToRealTest(){
+	doPlotGaze = false; // turn off gaze plotting on screen
+
 	// Change the text for the heading
 	var testHead = document.getElementById("testHeading");
 	testHead.innerHTML = "Real Test";
@@ -357,6 +364,7 @@ function startTutorial(){
 
 /* Used only when 'Refine Calibration' button is clicked */
 function changeToTutorial(){
+	doPlotGaze = false; // turn off gaze plotting on screen
 	changeSection();
 	/* Change the text for the heading */
 	var changeHead = document.getElementById("testHeading");
@@ -365,10 +373,14 @@ function changeToTutorial(){
 	/* Change the text for explanation paragraph*/
 	var explainPara = document.getElementById("explanationPara");
 	explainPara.innerHTML = "Congratulations on finishing the eye calibration! There will be a tutorial test before the real test take place <br/>"+
-	"Below is the instructions that need to be followed to complete the test successfully:" +
-	"<div id='explanationBullet'><p><ul class='bullet_style paragraph_font'><li>There will be a series of images that will be presented</li>"+
-	"<li>Please stare at the images and find similar patterns</li><li>Each image will have its own timer</li><li>The timer wil start as soon as you click 'Take Test'</li>" +
-	"<li>There will be 3 images for the tutorial test</li><li>There will be 6 images for the real test</li></ul></p></div>";
+		"Below is the instructions that need to be followed to complete the test successfully:" +
+		"<div id='explanationBullet'><p><ul class='bullet_style paragraph_font'>"+
+		"<li>There will be a series of images that will be presented</li>"+
+		"<li>Please stare at the images and find similar patterns</li>"+
+		"<li>Each image will have its own timer</li>"+
+		"<li>The timer wil start as soon as you click 'Take Test'</li>" +
+		"<li>There will be 3 images for the tutorial test</li>"+
+		"<li>There will be 6 images for the real test</li></ul></p></div>";
 
 	/*	Hide 'Refine Calibration' button*/
 	var caliBttn = document.getElementById("startRefineCal");
@@ -381,6 +393,7 @@ function changeToTutorial(){
 
 // for calibration refinement
 function startRefineCal() {
+	doPlotGaze = true; // turn on gaze plotting on screen
 	changeSection();
 	showTasks(calibrationTasks, changeToTutorial); 
 }
@@ -394,9 +407,12 @@ function changeToRefineCal(){
 	/* Change the text for explanation paragraph*/
 	var explainPara = document.getElementById("explanationPara");
 	explainPara.innerHTML = "Basic calibration is complete. Click Refine Calibration to continue<br/>"+
-	"<div id='explanationBullet'><p><ul class='bullet_style paragraph_font'><li>Your 'gaze' will be shown on the screen as a cirle</li>"+
-	"<li>Stare at any of the dots</li><li>Click on the dot to update the position of the gaze circle</li><li>Repeat this process across the screen</li>" +
-	"<li>When you are satisfied the gaze indicator is accurate, press the space bar to continue</li></ul></p></div>";
+		"<div id='explanationBullet'><p><ul class='bullet_style paragraph_font'>"+
+		"<li>Your 'gaze' will be shown on the screen as a cirle</li>"+
+		"<li>Place the mouse cursor on any of the dots and stare at that location on screen</li>"+
+		"<li>Click that location with the mouse multiple times to update the position of the gaze circle</li>"+
+		"<li>Repeat this process at different points across the screen</li>" +
+		"<li>When you are satisfied the gaze indicator is accurate, press the space bar to continue</li></ul></p></div>";
 
 	/*	Hide 'Start Eye Calibration' button*/
 	var caliBttn = document.getElementById("startCalibration");
@@ -409,12 +425,12 @@ function changeToRefineCal(){
 
 // to begin the eye tracking calibration process
 function startCalibration() {
-	startTime = Date.now()
+	doPlotGaze = false; // turn off gaze plotting on screen
+	startTime = Date.now();
 //	GazeCloudAPI.CalibrationType = 0; // accurate calibration (much slower - default)
 	GazeCloudAPI.CalibrationType = 1; // fast calibration
 	GazeCloudAPI.StartEyeTracking();
 	GazeCloudAPI.SetFps(30);
-//	changeToTutorial();
 	changeToRefineCal();
 }
 

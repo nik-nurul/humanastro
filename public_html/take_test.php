@@ -105,6 +105,8 @@ exit();
 	<div id='buttonsDiv' class="content_paragraph" style="margin-top:20px; margin-bottom:20px; float:right;">
 		<!-- Button to start eye calibration-->
 		<button id="startCalibration" type="button" class="bttn">Start Eye Calibration</button>
+		<!-- Button to start calibration refinement. Initially hidden -->
+		<button id="startRefineCal" type="button" class="bttn" style="display:none;">Refine Calibration</button>
 		<!-- Button to start tutorial. Initially hidden -->
 		<button id="startTutorial" type="button" class="bttn" style="display:none;">Take Tutorial Test</button>
 		<!-- Button to start real test. Initially hidden-->

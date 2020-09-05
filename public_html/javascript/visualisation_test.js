@@ -12,7 +12,7 @@ var xhttp = new XMLHttpRequest();
 
 var userIdStr;  // get user ID string from PHP
 
-var startTime = Date.now();
+var startTime;
 
 var mouseDocX, mouseDocY, mouseScreenX, mouseScreenY;
 
@@ -29,60 +29,11 @@ var task_dir = "tasks";
 //var tasks = []; // the current set of tasks - tutorialTasks or realTasks
 
 // task metadata will eventually be held in the MongoDB
+
 var calibrationTasks = [
 	{
-		"image": "Calibration-0000-000.png",
-		"time": 1.001,
-		"allow_skip": true
-	},
-	{
-		"image": "Calibration-0480-270.png",
-		"time": 1.002,
-		"allow_skip": true
-	},
-	{
-		"image": "Calibration-0480-540.png",
-		"time": 1.003,
-		"allow_skip": true
-	},
-	{
-		"image": "Calibration-0480-810.png",
-		"time": 1.004,
-		"allow_skip": true
-	},
-	{
-		"image": "Calibration-0960-270.png",
-		"time": 1.005,
-		"allow_skip": true
-	},
-	{
-		"image": "Calibration-0960-540.png",
-		"time": 1.006,
-		"allow_skip": true
-	},
-	{
-		"image": "Calibration-0960-810.png",
-		"time": 1.007,
-		"allow_skip": true
-	},
-	{
-		"image": "Calibration-1440-270.png",
-		"time": 1.008,
-		"allow_skip": true
-	},
-	{
-		"image": "Calibration-1440-540.png",
-		"time": 1.009,
-		"allow_skip": true
-	},
-	{
-		"image": "Calibration-1440-810.png",
-		"time": 1.010,
-		"allow_skip": true
-	},
-	{
-		"image": "Calibration-1920-1080.png",
-		"time": 2,
+		"image": "RefineCalibration.png",
+		"time": 60,
 		"allow_skip": true
 	}
 ];
@@ -141,7 +92,7 @@ var realTasks = [
 var c, ctx, img; // canvas, canvas-context, image vars
 img = new Image(); // initialise image var with a blank image
 var imgScaleRatio; // scale ratio of original image to displayed image in canvas
-var spacebarPressed = false;
+//var spacebarPressed = false;
 
 //}
 // **** end taskrunner global vars
@@ -248,35 +199,6 @@ GazeCloudAPI.UseClickRecalibration = true;
 GazeCloudAPI.OnResult = PlotGaze;
 window.onmousemove = setMouseCoords;
 
-function startCalibration() {
-  GazeCloudAPI.StartEyeTracking();
-  GazeCloudAPI.SetFps(15);
-  changeToTutorial();
-}
-
-/* Used only when 'calibration test' button is clicked */
-function changeToTutorial(){
-	/* Change the text for the heading */
-	var changeHead = document.getElementById("testHeading");
-	changeHead.innerHTML = "Tutorial Test";
-
-	/* Change the text for explanation paragraph*/
-	var explainPara = document.getElementById("explanationPara");
-	explainPara.innerHTML = "Congratulations on finishing the eye calibration! There will be a tutorial test before the real test take place <br/>"+
-	"Below is the instructions that need to be followed to complete the test successfully:" +
-	"<div id='explanationBullet'><p><ul class='bullet_style paragraph_font'><li>There will be a series of images that will be presented</li>"+
-	"<li>Please stare at the images and find similar patterns</li><li>Each image will have its own timer</li><li>The timer wil start as soon as you click 'Take Test'</li>" +
-	"<li>There will be 3 images for the tutorial test</li><li>There will be 6 images for the real test</li></ul></p></div>";
-
-	/*	Hide 'Start Eye Calibration' button*/
-	var caliBttn = document.getElementById("startCalibration");
-	caliBttn.style.display = "none";
-
-	/* Show "Take Tutorial Test" button */
-	var tuteBttn = document.getElementById("startTutorial");
-	tuteBttn.style.display = "block";
-}
-
 //}
 // **** end GazeCloud functions
 
@@ -309,25 +231,6 @@ function changeSection(){
 	 //	Hide 'Take Tutorial Test' button
 	 var tutorBttn = document.getElementById("startTutorial");
 	 tutorBttn.style.display = "none";
-}
-
-// changes the page content to ask the user to take the real test
-function changeToRealTest(){
-	// Change the text for the heading
-	var testHead = document.getElementById("testHeading");
-	testHead.innerHTML = "Real Test";
-
-	// Change the text for explanation paragraph
-	var explainPara = document.getElementById("explanationPara");
-	explainPara.innerHTML = "Congratulations on finishing the tutorial test! Now click the 'Take Real Test' button to proceed.";
-
-	// Show Take Real Test button
-	var realTestBttn = document.getElementById("startReal");
-	realTestBttn.style.display = "block";
-	//Change the status of real test variable(to med until start real test bttn is clicked) to stop timer from continue looping when spacebar is pressed
-	realTestBttn.onclick = startRealTest; //call function to slide through images and change content
-	
-	changeSection();
 }
 
 // resize and re-add the image if the browser window is resized
@@ -412,12 +315,9 @@ function showTasks(tasks, afterTasksFunction){
 	showEachTask(tasks, i, afterTasksFunction);
 }
 
-// for tutorial test
-function startTutorial(){
-	changeSection();
-	// shows the tutorial tasks then runs changeToRealTest
-	showTasks(tutorialTasks, changeToRealTest); 
-}
+/// BUTTON HANDLERS
+
+
 
 // for real test
 function startRealTest(){
@@ -429,6 +329,94 @@ function startRealTest(){
 	showTasks(realTasks, completeTest); // shows the real tasks then runs completeTest
 }
 
+// changes the page content to ask the user to take the real test
+function changeToRealTest(){
+	// Change the text for the heading
+	var testHead = document.getElementById("testHeading");
+	testHead.innerHTML = "Real Test";
+
+	// Change the text for explanation paragraph
+	var explainPara = document.getElementById("explanationPara");
+	explainPara.innerHTML = "Congratulations on finishing the tutorial test! Now click the 'Take Real Test' button to proceed.";
+
+	// Show Take Real Test button
+	var realTestBttn = document.getElementById("startReal");
+	realTestBttn.style.display = "block";
+	//Change the status of real test variable(to med until start real test bttn is clicked) to stop timer from continue looping when spacebar is pressed
+	realTestBttn.onclick = startRealTest; //call function to slide through images and change content
+	
+	changeSection();
+}
+
+// for tutorial test
+function startTutorial(){
+	changeSection();
+	// shows the tutorial tasks then runs changeToRealTest
+	showTasks(tutorialTasks, changeToRealTest); 
+}
+
+/* Used only when 'Refine Calibration' button is clicked */
+function changeToTutorial(){
+	changeSection();
+	/* Change the text for the heading */
+	var changeHead = document.getElementById("testHeading");
+	changeHead.innerHTML = "Tutorial Test";
+
+	/* Change the text for explanation paragraph*/
+	var explainPara = document.getElementById("explanationPara");
+	explainPara.innerHTML = "Congratulations on finishing the eye calibration! There will be a tutorial test before the real test take place <br/>"+
+	"Below is the instructions that need to be followed to complete the test successfully:" +
+	"<div id='explanationBullet'><p><ul class='bullet_style paragraph_font'><li>There will be a series of images that will be presented</li>"+
+	"<li>Please stare at the images and find similar patterns</li><li>Each image will have its own timer</li><li>The timer wil start as soon as you click 'Take Test'</li>" +
+	"<li>There will be 3 images for the tutorial test</li><li>There will be 6 images for the real test</li></ul></p></div>";
+
+	/*	Hide 'Refine Calibration' button*/
+	var caliBttn = document.getElementById("startRefineCal");
+	caliBttn.style.display = "none";
+
+	/* Show "Take Tutorial Test" button */
+	var tuteBttn = document.getElementById("startTutorial");
+	tuteBttn.style.display = "block";
+}
+
+// for calibration refinement
+function startRefineCal() {
+	changeSection();
+	showTasks(calibrationTasks, changeToTutorial); 
+}
+
+/* Used only when 'calibration test' button is clicked */
+function changeToRefineCal(){
+	/* Change the text for the heading */
+	var changeHead = document.getElementById("testHeading");
+	changeHead.innerHTML = "Refine Calibration";
+
+	/* Change the text for explanation paragraph*/
+	var explainPara = document.getElementById("explanationPara");
+	explainPara.innerHTML = "Basic calibration is complete. Click Refine Calibration to continue<br/>"+
+	"<div id='explanationBullet'><p><ul class='bullet_style paragraph_font'><li>Your 'gaze' will be shown on the screen as a cirle</li>"+
+	"<li>Stare at any of the dots</li><li>Click on the dot to update the position of the gaze circle</li><li>Repeat this process across the screen</li>" +
+	"<li>When you are satisfied the gaze indicator is accurate, press the space bar to continue</li></ul></p></div>";
+
+	/*	Hide 'Start Eye Calibration' button*/
+	var caliBttn = document.getElementById("startCalibration");
+	caliBttn.style.display = "none";
+
+	/* Show "Refine Calibration" button */
+	var tuteBttn = document.getElementById("startRefineCal");
+	tuteBttn.style.display = "block";
+}
+
+// to begin the eye tracking calibration process
+function startCalibration() {
+	startTime = Date.now()
+//	GazeCloudAPI.CalibrationType = 0; // accurate calibration (much slower - default)
+	GazeCloudAPI.CalibrationType = 1; // fast calibration
+	GazeCloudAPI.StartEyeTracking();
+	GazeCloudAPI.SetFps(30);
+//	changeToTutorial();
+	changeToRefineCal();
+}
 
 //}
 //**** end taskrunner functions
@@ -442,6 +430,9 @@ function init(){
 
 	var startCalibrationBtn = document.getElementById("startCalibration");
 	startCalibrationBtn.onclick = startCalibration;
+	
+	var startRefineCalBtn = document.getElementById("startRefineCal");
+	startRefineCalBtn.onclick = startRefineCal;
 	
 	var startTutorialBtn = document.getElementById("startTutorial");
 	startTutorialBtn.onclick = startTutorial;

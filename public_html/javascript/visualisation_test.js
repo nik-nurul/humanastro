@@ -305,12 +305,10 @@ function resizeCanvas(){
 	// will fill the browser window width or side, leaving black (body background) in the unused space
 	var hRatio = c.width / img.width    ;
 	var vRatio = c.height / img.height  ;
-	// get the width of the scrollbars
-	var scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 	imgScaleRatio  = Math.min ( hRatio, vRatio );
 
-	ctx.drawImage(img,	0, 0, img.width - scrollbarWidth,	img.height - scrollbarWidth,     // source rectangle
-						0, 0, (img.width*imgScaleRatio) - scrollbarWidth, (img.height*imgScaleRatio)- scrollbarWidth); // destination rectangle
+	ctx.drawImage(img,	0, 0, img.width,	img.height,     // source rectangle
+						0, 0, img.width*imgScaleRatio, img.height*imgScaleRatio); // destination rectangle
 
 	console.log('new Canvas width:', c.width); // debug
 	console.log('new Canvas height:', c.height); // debug

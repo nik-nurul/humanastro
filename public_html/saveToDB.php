@@ -64,7 +64,7 @@ if (isJson($jsonStr)){ // is it JSON?
 			
 			$result = $manager->executeBulkWrite($dbName.'.'.$collName, $bulk); // do the upsert
 			
-			echo "Modified: ".$result->getModifiedCount()." documents\n";			
+//			echo "Modified: ".$result->getModifiedCount()." documents\n";			
 
 		} else {
 			echo 'no GazeDataArray in JSON!\n';

@@ -166,8 +166,8 @@ function PlotGaze(GazeData) {
 	document.getElementById("Calibration").innerHTML = "Calibration:  " + gaze.state;
 	document.getElementById("GazeDataDocX").innerHTML = "Gaze docX: " + Math.floor(parseFloat(GazeData.docX));
 	document.getElementById("GazeDataDocY").innerHTML = "Gaze docY: " + Math.floor(parseFloat(GazeData.docY));
-	document.getElementById("GazeDataScaledDocX").innerHTML = "Gaze scaled docX: " + Math.floor(parseFloat(GazeData.docX/imgScaleRatio));
-	document.getElementById("GazeDataScaledDocY").innerHTML = "Gaze scaled docY: " + Math.floor(parseFloat(GazeData.docY/imgScaleRatio));
+	document.getElementById("GazeDataScaledDocX").innerHTML = "Gaze unscaled docX: " + Math.floor(parseFloat(GazeData.docX/imgScaleRatio));
+	document.getElementById("GazeDataScaledDocY").innerHTML = "Gaze unscaled docY: " + Math.floor(parseFloat(GazeData.docY/imgScaleRatio));
 //	document.getElementById("GazeDataX").innerHTML = "Gaze Screen X: " + Math.floor(parseFloat(GazeData.GazeX));
 //	document.getElementById("GazeDataY").innerHTML = "Gaze Screen Y: " + Math.floor(parseFloat(GazeData.GazeY));
 //	document.getElementById("HeadPhoseData").innerHTML = " HeadX: " + GazeData.HeadX + " HeadY: " + GazeData.HeadY + " HeadZ: " + GazeData.HeadZ;
@@ -205,8 +205,8 @@ function resizeCanvas(){
 
 	// preserve the aspect ratio of the image
 	// will fill the browser window width or side, leaving black (body background) in the unused space
-	var hRatio = c.width / img.width    ;
-	var vRatio = c.height / img.height  ;
+	hRatio = c.width / img.width    ;
+	vRatio = c.height / img.height  ;
 	imgScaleRatio  = Math.min ( hRatio, vRatio );
 
 	ctx.drawImage(img,	0, 0, img.width,	img.height,     // source rectangle

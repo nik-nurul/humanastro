@@ -25,69 +25,16 @@ var mouseDocX, mouseDocY, mouseScreenX, mouseScreenY;
 // these image names could be gotten from the MongoDB
 // or the images themselves could be stored there, in base64 text format
 
+var task_data; // the whole task_data object from the MongoDB user record
+
 var task_dir = "tasks";
 //var tasks = []; // the current set of tasks - tutorialTasks or realTasks
 
 // task metadata will eventually be held in the MongoDB
 
-var calibrationTasks = [
-	{
-		"image": "RefineCalibration.png",
-		"time": 300,
-		"allow_skip": true
-	}
-];
-
-var tutorialTasks = [
-	{
-		"image": "Tutorial-starfield1_1920x1080.png",
-		"time": 5,
-		"allow_skip": false
-	},
-	{
-		"image": "Tutorial-starfield2_1280x0649.png",
-		"time": 5,
-		"allow_skip": false
-	},
-	{
-		"image": "Tutorial-starfield3_504x284.png",
-		"time": 5,
-		"allow_skip": true
-	}
-];
-
-var realTasks = [
-	{
-		"image": "RealTest-space1_1280x720.png",
-		"time": 5,
-		"allow_skip": true
-	},
-	{
-		"image": "RealTest-space2_1920x1080.png",
-		"time": 5,
-		"allow_skip": true
-	},
-	{
-		"image": "RealTest-space3_1920x1080.png",
-		"time": 5,
-		"allow_skip": true
-	},
-	{
-		"image": "RealTest-space4_1920x1080.png",
-		"time": 5,
-		"allow_skip": true
-	},
-	{
-		"image": "RealTest-space5_4096x2160.png",
-		"time": 5,
-		"allow_skip": true
-	},
-	{
-		"image": "RealTest-space6_1920x1108.png",
-		"time": 5,
-		"allow_skip": true
-	}
-];
+var calibrationTasks;
+var tutorialTasks;
+var realTasks;
 
 var c, ctx, img; // canvas, canvas-context, image vars
 img = new Image(); // initialise image var with a blank image
@@ -124,7 +71,7 @@ function sendToDB(data) {
 			console.log(""+this.responseText); // just log the output to JS console
 		}
 	};
-
+	
 	// post request to the PHP page
 	xhttp.open("POST", "saveToDB.php", true);
 
@@ -143,21 +90,21 @@ function saveData(GazeData){
 	GazeDataArray.push(GazeData);
 	if (GazeDataArray.length >= maxGazaDataArraySize){
 		sendToDB(GazeDataArray.slice()); // send a copy of the current array to the DB
-
+		
 		// if JS supported concurrency, we could lose data points here!
 		// because it isn't, these commands should be 'atomic'
-
-		GazeDataArray = []; // empty the array
+		
+		GazeDataArray = []; // empty the array 
 	}
 }
 
 // show the gaze position in the browser window
 function PlotGaze(GazeData) {
 
-	// update gaze data on the page (after calibration)
+	// update gaze data on the page (after calibration)			
 	var x = GazeData.docX;
 	var y = GazeData.docY;
-
+	
 	var gaze = document.getElementById("gaze");
 	x -= gaze .clientWidth/2;
 	y -= gaze .clientHeight/2;
@@ -166,7 +113,7 @@ function PlotGaze(GazeData) {
 		gaze.style.left = x + "px";
 		gaze.style.top = y + "px";
 	}
-
+	
 	if(GazeData.state != 0 || !doPlotGaze ){
 		if( gaze.style.display  == 'block')
 			gaze.style.display   = 'none';
@@ -175,7 +122,7 @@ function PlotGaze(GazeData) {
 			gaze.style.display   = 'block';
 		}
 	}
-
+	
 	switch (GazeData.state){
 		case -1:
 			gaze.state="Face tracking lost";
@@ -193,7 +140,7 @@ function PlotGaze(GazeData) {
 
 // this is called every time a GazaData message is received from the GazeCloud server
 function HandleGazeData(GazeData){
-
+	
 	GazeData.astro = {};
 	GazeData.astro.sessionTime = GazeData.time - startTime; // anonymise time
 	GazeData.astro.devicePixelRatio = window.devicePixelRatio;
@@ -244,6 +191,7 @@ function activateFullscreen(element) {
   else if(element.msRequestFullscreen) {
     element.msRequestFullscreen();      // IE/Edge
   }
+  document.body.style.overflow = "hidden"; // prevent scrollbars from appearing
 }
 
 function deactivateFullscreen() {
@@ -254,15 +202,8 @@ function deactivateFullscreen() {
   } else if (document.webkitExitFullscreen) {
     document.webkitExitFullscreen();
   }
+  document.body.style.overflow = "auto"; // restore normal scrollbar behaviour
 }
-
-// Function for pop up window to show coordinates for debugging purposes
-// (Sept 6 2020) Will be commented first - will come back here
-// function winPopUp() {
-//   var myWindow = window.open("", "GazeData-timer", "width=300,height=500");
-//   myWindow.document.write("<p>This is a pop up window to show GazeDatae, timer, etc.</p>"); //will be written on the popup window
-//
-// }
 
 // Will close the test window and direct user to thankyou.php
 function completeTest(){
@@ -283,7 +224,7 @@ function changeSection(){
 		 	buttonsDiv.style.display = "block";
 	 }
 
-  // Show and hide the images within the canvas section
+  // Show and hide the images within the canvas section 
 	 var canvasSect = document.getElementById("canvasDiv")
 	 if(canvasSect.style.display == 'none'){
 		canvasSect.style.display = 'block';
@@ -310,9 +251,9 @@ function resizeCanvas(){
 	ctx.drawImage(img,	0, 0, img.width,	img.height,     // source rectangle
 						0, 0, img.width*imgScaleRatio, img.height*imgScaleRatio); // destination rectangle
 
-	console.log('new Canvas width:', c.width); // debug
-	console.log('new Canvas height:', c.height); // debug
-	console.log('Canvas scale ratio %:', Math.floor(parseFloat(imgScaleRatio*100))); // debug
+//	console.log('new Canvas width:', c.width); // debug
+//	console.log('new Canvas height:', c.height); // debug
+//	console.log('Canvas scale ratio %:', Math.floor(parseFloat(imgScaleRatio*100))); // debug
 }
 
 // changes the task image
@@ -342,18 +283,18 @@ function showEachTask(tasks, i, afterTasksFunction) {
 	var showNextTask = function(tasks, i, afterTasksFunction){
 		window.removeEventListener("keydown", handleSpacebar);
 		if (i < tasks.length) {
-			showEachTask(tasks, i, afterTasksFunction);
+			showEachTask(tasks, i, afterTasksFunction);          
 		} else {
 			endTasks();
 			afterTasksFunction(); // execute the callback function
-		}
+		}		
 	}
 
 	// change the image if the spacebar is pressed
 	handleSpacebar = function(event){
 		if (event.defaultPrevented) {
 			return; // Do nothing if the event was already processed
-		}
+		}		
 		if (event.key === " ") {
 			window.removeEventListener("keydown", handleSpacebar); // remove the event listener for this task
 	 		clearTimeout(timer); // end the timeout for this task
@@ -367,7 +308,7 @@ function showEachTask(tasks, i, afterTasksFunction) {
 	getNextImage(task);		// display the image for this task
 	if (task.allow_skip) // only add the event listener for the spacebar if the task allows it
 		window.addEventListener("keydown", handleSpacebar, false); // false = execute handleSpacebar in bubbling phase
-	timer = setTimeout(showNextTask, task.time*1000, tasks, i, afterTasksFunction);
+	timer = setTimeout(showNextTask, task.time_limit*1000, tasks, i, afterTasksFunction);
 }
 
 // tasks is the array of task data objects
@@ -375,17 +316,43 @@ function showEachTask(tasks, i, afterTasksFunction) {
 function showTasks(tasks, afterTasksFunction){
 	// iterate through tasks array
 	// this will eventually iterate through user / task_data in MongoDB
+	console.log('showTasks() - tasks:',tasks); // debug
+
 	var i = 0;
 	showEachTask(tasks, i, afterTasksFunction);
 }
 
+// get the tasks from MongoDB via PHP using AJAX
+function getTasks(){
+	// begin ajax request
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			task_data = JSON.parse(this.responseText); // save the task data
+//			console.log('task_data:',task_data); // debug
+			// split the task_data into separate arrays
+			calibrationTasks	= task_data.filter(task => (task.phase === '1-refCal'));
+			tutorialTasks		= task_data.filter(task => (task.phase === '2-tutorial'));
+			realTasks			= task_data.filter(task => (task.phase === '3-task'));
+//			console.log('realTasks:',realTasks); // debug
+			
+		}
+	};
+	
+	// post request to the PHP page, include userIdStr as parameter
+	xhttp.open("GET", "getTasks.php?userId="+userIdStr, true);
+
+//	// the data type in the POST data to JSON
+//	xhttp.setRequestHeader("Content-type", "application/json");
+
+	xhttp.send();
+}
 
 /// BUTTON HANDLERS
 
 // for real test
 function startRealTest(){
 	doPlotGaze = false; // turn of gaze plotting on screen
-	// hide the "Take Real Test" button
+	// hide the "Take Real Test" button 
 	var realTestBttn = document.getElementById("startReal");
 	realTestBttn.style.display = "none";
 
@@ -410,7 +377,7 @@ function changeToRealTest(){
 	realTestBttn.style.display = "block";
 	//Change the status of real test variable(to med until start real test bttn is clicked) to stop timer from continue looping when spacebar is pressed
 	realTestBttn.onclick = startRealTest; //call function to slide through images and change content
-
+	
 	changeSection();
 }
 
@@ -418,7 +385,7 @@ function changeToRealTest(){
 function startTutorial(){
 	changeSection();
 	// shows the tutorial tasks then runs changeToRealTest
-	showTasks(tutorialTasks, changeToRealTest);
+	showTasks(tutorialTasks, changeToRealTest); 
 }
 
 /* Used only when 'Refine Calibration' button is clicked */
@@ -454,10 +421,7 @@ function changeToTutorial(){
 function startRefineCal() {
 	doPlotGaze = true; // turn on gaze plotting on screen
 	changeSection();
-	showTasks(calibrationTasks, changeToTutorial);
-
-	//open pop up windows to show coordinates for debug
-	//winPopUp();
+	showTasks(calibrationTasks, changeToTutorial); 
 }
 
 /* Used only when 'calibration test' button is clicked */
@@ -504,16 +468,17 @@ function init(){
 	ctx = c.getContext("2d");
 
 	userIdStr = document.getElementById("userId").innerHTML;
+	getTasks(); // get the task_data from the user record in MongoDB via PHP
 
 	var startCalibrationBtn = document.getElementById("startCalibration");
 	startCalibrationBtn.onclick = startCalibration;
-
+	
 	var startRefineCalBtn = document.getElementById("startRefineCal");
 	startRefineCalBtn.onclick = startRefineCal;
-
+	
 	var startTutorialBtn = document.getElementById("startTutorial");
 	startTutorialBtn.onclick = startTutorial;
-
+	
 }
 
 window.onload = init;

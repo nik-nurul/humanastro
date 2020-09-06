@@ -5,7 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 $dbName = 'humanastro';		// database name
-$collName = 'users';	// collection name
+$collName = 'users';		// user collection name
 
 require_once 'includes/functions.php';
 // don't do anything if consent is not true

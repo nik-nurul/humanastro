@@ -16,6 +16,7 @@ $userId = $_id = $manager = $bulk = '';
 	$dbName = 'humanastro';		// database name
 	$Dcoll = 'demographic_Qs';	// question collection name
 	$Ecoll = 'experience_Qs';	// experience collection name
+	$Tcoll = 'task_data';		// task_data collection name
 	$Ucoll = 'users';			// user collection name
 
 /* TO DO
@@ -91,6 +92,7 @@ try {
 		// create user ID object with which to ID the user record
 		$_id = new MongoDB\BSON\ObjectID($userId);
 		$filter = [ "_id" => $_id ]; // return only this user
+		
 /*		
 		// write the current page the user is on so the user can
 		// resume an interrupted session
@@ -101,8 +103,9 @@ try {
 */
 		set_current_page($bulk, $_id, basename(__FILE__)); // write the name of the current page to the user record
 		
-	// read all documents in $Dcoll and $Ecoll
-		$query = new MongoDB\Driver\Query([]); // [] means get all documents
+	// read all documents in $Dcoll, $Ecoll
+		$q_options = ['sort' => ['question_num' => 1]]; // sort the results based on question_num
+		$query = new MongoDB\Driver\Query([],$q_options); // [] means get all documents
 
 		// write each demographic question document into the user document
 		$rows = $manager->executeQuery($dbName.'.'.$Dcoll, $query);    	
@@ -119,6 +122,17 @@ try {
 			$bulk->update(
 				$filter,
 				[ '$push' => [ "experience_data" => $row ]]
+			);
+		}
+		
+		// write data for each task document into the user document
+		$t_options = ['sort' => ['phase' => 1, 'task_num' => 1]]; // sort the results based on phase then task number
+		$query = new MongoDB\Driver\Query([],$t_options); // [] means get all documents
+		 $rows = $manager->executeQuery($dbName.'.'.$Tcoll, $query);    	
+		foreach ($rows as $row) {
+			$bulk->update(
+				$filter,
+				[ '$push' => [ "task_data" => $row ]]
 			);
 		}
 		

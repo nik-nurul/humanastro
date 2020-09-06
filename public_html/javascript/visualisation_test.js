@@ -25,69 +25,16 @@ var mouseDocX, mouseDocY, mouseScreenX, mouseScreenY;
 // these image names could be gotten from the MongoDB
 // or the images themselves could be stored there, in base64 text format
 
+var task_data; // the whole task_data object from the MongoDB user record
+
 var task_dir = "tasks";
 //var tasks = []; // the current set of tasks - tutorialTasks or realTasks
 
 // task metadata will eventually be held in the MongoDB
 
-var calibrationTasks = [
-	{
-		"image": "RefineCalibration.png",
-		"time": 300,
-		"allow_skip": true
-	}
-];
-
-var tutorialTasks = [
-	{
-		"image": "Tutorial-starfield1_1920x1080.png",
-		"time": 5,
-		"allow_skip": true
-	},
-	{
-		"image": "Tutorial-starfield2_1280x0649.png",
-		"time": 5,
-		"allow_skip": true
-	},
-	{
-		"image": "Tutorial-starfield3_504x284.png",
-		"time": 5,
-		"allow_skip": true
-	}
-];
-
-var realTasks = [
-	{
-		"image": "RealTest-space1_1280x720.png",
-		"time": 5,
-		"allow_skip": true
-	},
-	{
-		"image": "RealTest-space2_1920x1080.png",
-		"time": 5,
-		"allow_skip": true
-	},
-	{
-		"image": "RealTest-space3_1920x1080.png",
-		"time": 5,
-		"allow_skip": true
-	},
-	{
-		"image": "RealTest-space4_1920x1080.png",
-		"time": 5,
-		"allow_skip": true
-	},
-	{
-		"image": "RealTest-space5_4096x2160.png",
-		"time": 5,
-		"allow_skip": true
-	},
-	{
-		"image": "RealTest-space6_1920x1108.png",
-		"time": 5,
-		"allow_skip": true
-	}
-];
+var calibrationTasks;
+var tutorialTasks;
+var realTasks;
 
 var c, ctx, img; // canvas, canvas-context, image vars
 img = new Image(); // initialise image var with a blank image
@@ -244,6 +191,7 @@ function activateFullscreen(element) {
   else if(element.msRequestFullscreen) {
     element.msRequestFullscreen();      // IE/Edge
   }
+  document.body.style.overflow = "hidden"; // prevent scrollbars from appearing
 }
 
 function deactivateFullscreen() {
@@ -254,6 +202,7 @@ function deactivateFullscreen() {
   } else if (document.webkitExitFullscreen) {
     document.webkitExitFullscreen();
   }
+  document.body.style.overflow = "auto"; // restore normal scrollbar behaviour
 }
 
 // Will close the test window and direct user to thankyou.php
@@ -302,15 +251,15 @@ function resizeCanvas(){
 	ctx.drawImage(img,	0, 0, img.width,	img.height,     // source rectangle
 						0, 0, img.width*imgScaleRatio, img.height*imgScaleRatio); // destination rectangle
 
-	console.log('new Canvas width:', c.width); // debug
-	console.log('new Canvas height:', c.height); // debug
-	console.log('Canvas scale ratio %:', Math.floor(parseFloat(imgScaleRatio*100))); // debug
+//	console.log('new Canvas width:', c.width); // debug
+//	console.log('new Canvas height:', c.height); // debug
+//	console.log('Canvas scale ratio %:', Math.floor(parseFloat(imgScaleRatio*100))); // debug
 }
 
 // changes the task image
 function getNextImage(task) {
 	img = new Image();
-	img.src = task_dir+"/"+task.image; 
+	img.src = task_dir+"/"+task.image;
 	console.log("img.src:",img.src);
 	img.onload = function(){ // after the image is loaded, draw it in the canvas
 		resizeCanvas(); // resize the image to fit the current browser window size
@@ -357,8 +306,9 @@ function showEachTask(tasks, i, afterTasksFunction) {
 
 	var task = tasks[i++]; // assign task element and increment counter
 	getNextImage(task);		// display the image for this task
-	window.addEventListener("keydown", handleSpacebar, false); // false = execute handleSpacebar in bubbling phase
-	timer = setTimeout(showNextTask, task.time*1000, tasks, i, afterTasksFunction);
+	if (task.allow_skip) // only add the event listener for the spacebar if the task allows it
+		window.addEventListener("keydown", handleSpacebar, false); // false = execute handleSpacebar in bubbling phase
+	timer = setTimeout(showNextTask, task.time_limit*1000, tasks, i, afterTasksFunction);
 }
 
 // tasks is the array of task data objects
@@ -366,10 +316,36 @@ function showEachTask(tasks, i, afterTasksFunction) {
 function showTasks(tasks, afterTasksFunction){
 	// iterate through tasks array
 	// this will eventually iterate through user / task_data in MongoDB
+	console.log('showTasks() - tasks:',tasks); // debug
+
 	var i = 0;
 	showEachTask(tasks, i, afterTasksFunction);
 }
 
+// get the tasks from MongoDB via PHP using AJAX
+function getTasks(){
+	// begin ajax request
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			task_data = JSON.parse(this.responseText); // save the task data
+//			console.log('task_data:',task_data); // debug
+			// split the task_data into separate arrays
+			calibrationTasks	= task_data.filter(task => (task.phase === '1-refCal'));
+			tutorialTasks		= task_data.filter(task => (task.phase === '2-tutorial'));
+			realTasks			= task_data.filter(task => (task.phase === '3-task'));
+//			console.log('realTasks:',realTasks); // debug
+			
+		}
+	};
+	
+	// post request to the PHP page, include userIdStr as parameter
+	xhttp.open("GET", "getTasks.php?userId="+userIdStr, true);
+
+//	// the data type in the POST data to JSON
+//	xhttp.setRequestHeader("Content-type", "application/json");
+
+	xhttp.send();
+}
 
 /// BUTTON HANDLERS
 
@@ -492,6 +468,7 @@ function init(){
 	ctx = c.getContext("2d");
 
 	userIdStr = document.getElementById("userId").innerHTML;
+	getTasks(); // get the task_data from the user record in MongoDB via PHP
 
 	var startCalibrationBtn = document.getElementById("startCalibration");
 	startCalibrationBtn.onclick = startCalibration;

@@ -10,6 +10,12 @@
 		return $data;
 	}
 	
+	// return true if the string is valid JSON
+	function isJson($string) {
+	 json_decode($string);
+	 return (json_last_error() == JSON_ERROR_NONE);
+	}
+	
 	// write the current page the user is on so the user can
 	// resume an interrupted session
 	function set_current_page($bulk, $_id, $file){

@@ -39,7 +39,9 @@ var realTasks;
 var c, ctx, img; // canvas, canvas-context, image vars
 img = new Image(); // initialise image var with a blank image
 var imgScaleRatio; // scale ratio of original image to displayed image in canvas
-var hRatio, vRatio;
+var hRatio, vRatio; // scale ratio of horizontal and vertical dimensions of image vs canvas
+var task_num = -1;
+var subtask_num = -1; // the current task and subtask numbers
 
 //}
 // **** end taskrunner global vars
@@ -62,9 +64,12 @@ function sendToDB(data) {
 	var jsonData = JSON.stringify(
 		{
 			"userIdStr": userIdStr,
+			"task_num": task_num,
+			"subtask_num": subtask_num,
 			"GazeDataArray": data
 		}
 	);
+//	console.log('task_num',task_num);
 
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
@@ -158,7 +163,8 @@ function HandleGazeData(GazeData){
 	GazeData.astro.unscaledMouseDocX = mouseDocX/imgScaleRatio;
 	GazeData.astro.unscaledMouseDocY = mouseDocY/imgScaleRatio;
 
-	saveData(GazeData); // send each GazeData point to the MongoDB
+	if (task_num > 0 && subtask_num > 0) // only save GazaData of a task and subtask number are defined
+		saveData(GazeData); // send each GazeData point to the MongoDB
 	PlotGaze(GazeData); // show the gaze position in the browser window
 
 }
@@ -276,7 +282,7 @@ function endTasks() {
 // i is the index number in the array of task data objects
 // afterTasksFunction is the function to execute after the last task is shown
 function showEachTask(tasks, i, afterTasksFunction) {
-	var timer; // a separate timer per task element
+	var timer; // a separate timer per subtask element
 	var handleSpacebar; // hoist function definition so showNextTask can see it
 
 	// callback to setTimeout and to spacebar pressed event
@@ -304,11 +310,13 @@ function showEachTask(tasks, i, afterTasksFunction) {
 		event.preventDefault();
 	}
 
-	var task = tasks[i++]; // assign task element and increment counter
+	var task = tasks[i++];	// assign task element and increment counter
+	task_num = task.task_num;
+	subtask_num = 1;		// eventually will iterate through subtasks here (need to implement separate timers per subtask)
 	getNextImage(task);		// display the image for this task
-	if (task.allow_skip) // only add the event listener for the spacebar if the task allows it
+	if (task.subtasks[subtask_num-1].allow_skip) // only add the event listener for the spacebar if the task allows it
 		window.addEventListener("keydown", handleSpacebar, false); // false = execute handleSpacebar in bubbling phase
-	timer = setTimeout(showNextTask, task.time_limit*1000, tasks, i, afterTasksFunction);
+	timer = setTimeout(showNextTask, task.subtasks[subtask_num-1].time_limit*1000, tasks, i, afterTasksFunction);
 }
 
 // tasks is the array of task data objects

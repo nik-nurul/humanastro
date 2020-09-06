@@ -126,7 +126,7 @@ try {
 		}
 		
 		// write data for each task document into the user document
-		$t_options = ['sort' => ['phase' => 1, 'task_num' => 1]]; // sort the results based on phase then task number
+		$t_options = ['sort' => ['task_num' => 1]]; // sort the results based task number
 		$query = new MongoDB\Driver\Query([],$t_options); // [] means get all documents
 		 $rows = $manager->executeQuery($dbName.'.'.$Tcoll, $query);    	
 		foreach ($rows as $row) {

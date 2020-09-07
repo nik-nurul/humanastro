@@ -40,6 +40,7 @@ var c, ctx, img; // canvas, canvas-context, image vars
 img = new Image(); // initialise image var with a blank image
 var imgScaleRatio; // scale ratio of original image to displayed image in canvas
 var hRatio, vRatio; // scale ratio of horizontal and vertical dimensions of image vs canvas
+var task; // the current task_data element
 var task_num = -1;
 var subtask_num = -1; // the current task and subtask numbers
 
@@ -143,6 +144,10 @@ function PlotGaze(GazeData) {
 	}
 }
 
+function dist2points(x1,y1,x2,y2){
+	return Math.hypot(x2-x1, y2-y1);
+}
+
 // this is called every time a GazaData message is received from the GazeCloud server
 function HandleGazeData(GazeData){
 	
@@ -150,6 +155,7 @@ function HandleGazeData(GazeData){
 	GazeData.astro.sessionTime = GazeData.time - startTime; // anonymise time
 	GazeData.astro.devicePixelRatio = window.devicePixelRatio;
 	GazeData.astro.imgWidth  = img.width;
+	console.log(img.width);
 	GazeData.astro.imgHeight = img.height;
 	GazeData.astro.canvasWidth  = c.width;
 	GazeData.astro.canvasHeight = c.height;
@@ -163,8 +169,22 @@ function HandleGazeData(GazeData){
 	GazeData.astro.unscaledMouseDocX = mouseDocX/imgScaleRatio;
 	GazeData.astro.unscaledMouseDocY = mouseDocY/imgScaleRatio;
 
-	if (task_num > 0 && subtask_num > 0) // only save GazaData of a task and subtask number are defined
+	if (task_num > 0 && subtask_num > 0){ // only save GazaData of a task and subtask number are defined
+		if (// save the distance from Gaze to Target if the subtask has a target
+			   task.subtasks[subtask_num-1].hasOwnProperty('targetX') // change subtask ref
+			&& task.subtasks[subtask_num-1].hasOwnProperty('targetY')
+		){
+			GazeData.astro.unscaledGazeTargetDist = dist2points(
+				GazeData.astro.unscaledDocX,
+				GazeData.astro.unscaledDocY,
+				task.subtasks[subtask_num-1].targetX,
+				task.subtasks[subtask_num-1].targetY
+			);
+			if (GazeData.astro.unscaledGazeTargetDist <  task.subtasks[subtask_num-1].targetRadius)
+				console.log('GazeData.astro.unscaledGazeTargetDist:',GazeData.astro.unscaledGazeTargetDist); // debug
+		}
 		saveData(GazeData); // send each GazeData point to the MongoDB
+	}
 	PlotGaze(GazeData); // show the gaze position in the browser window
 
 }
@@ -257,16 +277,13 @@ function resizeCanvas(){
 	ctx.drawImage(img,	0, 0, img.width,	img.height,     // source rectangle
 						0, 0, img.width*imgScaleRatio, img.height*imgScaleRatio); // destination rectangle
 
-//	console.log('new Canvas width:', c.width); // debug
-//	console.log('new Canvas height:', c.height); // debug
-//	console.log('Canvas scale ratio %:', Math.floor(parseFloat(imgScaleRatio*100))); // debug
 }
 
 // changes the task image
 function getNextImage(task) {
 	img = new Image();
 	img.src = task_dir+"/"+task.image;
-	console.log("img.src:",img.src);
+//	console.log("img.src:",img.src); // debug
 	img.onload = function(){ // after the image is loaded, draw it in the canvas
 		resizeCanvas(); // resize the image to fit the current browser window size
 	}
@@ -310,7 +327,7 @@ function showEachTask(tasks, i, afterTasksFunction) {
 		event.preventDefault();
 	}
 
-	var task = tasks[i++];	// assign task element and increment counter
+	task = tasks[i++];	// assign task element and increment counter
 	task_num = task.task_num;
 	subtask_num = 1;		// eventually will iterate through subtasks here (need to implement separate timers per subtask)
 	getNextImage(task);		// display the image for this task
@@ -324,7 +341,7 @@ function showEachTask(tasks, i, afterTasksFunction) {
 function showTasks(tasks, afterTasksFunction){
 	// iterate through tasks array
 	// this will eventually iterate through user / task_data in MongoDB
-	console.log('showTasks() - tasks:',tasks); // debug
+//	console.log('showTasks() - tasks:',tasks); // debug
 
 	var i = 0;
 	showEachTask(tasks, i, afterTasksFunction);

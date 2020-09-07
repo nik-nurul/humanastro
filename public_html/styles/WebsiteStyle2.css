@@ -1,0 +1,318 @@
+/*
+filename: WebsiteStyle2.css
+author: SWE40001 Group 3
+created: 24TH APRIL 2020
+last modified: 13TH MAY 2020
+purpose: CSS Stylesheet for Astronomy Website
+*/
+
+@import url('https://fonts.googleapis.com/css?family=Jockey One');
+@import url('https://fonts.googleapis.com/css?family=Russo One');
+@import url('https://fonts.googleapis.com/css?family=Alata');
+
+/* Style for fonts */
+
+.web_title_font {
+	font-family: 'Jockey One';
+}
+
+.heading_font {
+  font-family: 'Russo One';
+  letter-spacing: 3.5px;
+  color: rgba(250, 250, 250, 0.8);
+}
+
+.paragraph_font {
+  font-family: 'Alata';
+  letter-spacing: 0.5px;
+}
+
+/* specify preferred breakpoint in lines using span tag */
+span.line {
+  display: inline-block;
+}
+
+/* Background style for the first webpage (index.php) */
+body {
+  background-color: rgb(22, 6, 19);
+}
+
+body.bg{
+  background-image: url("pictures/background4.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 600px;
+}
+
+
+/*Background style for contact.php*/
+.Contactbg{
+  background-image: url("pictures/background4.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 830px;
+}
+
+/* white background */
+.contentbg {
+  background-color: rgba(250, 250, 250, 0.65);
+  width:63%;
+  color: black;
+  padding: 20px 90px 20px 90px;
+}
+
+/* Style for text under heading name (index.php)*/
+#contact_paragraph{
+  margin-top: 100px;
+  margin-right: auto;
+  margin-bottom: 50px;
+  margin-right: 50px;
+  padding-left: 50px;
+  width: 44%;
+  color: rgb(186, 186, 186);
+  font-size: 16px;
+  text-align: top justified;
+}
+
+/* Style for navigation bar */
+div.navibar {
+	font-family: Arial, sans-serif;
+	margin: 0%;
+	position: fixed;
+	width: 100%;
+	top: 0;
+	z-index: 1;
+	margin-bottom: 10%;
+}
+
+/* for the hyperlink element within the navigation bar section */
+div.navibar a {
+  float: right;
+  color: white;
+  font-size: 0.7em;
+  font-weight: bold;
+  text-align: center;
+  padding: 12px 35px;
+  margin-right: 2em;
+  text-decoration: none;
+}
+
+
+
+/* Style for website title (index.php) */
+#web_title{
+    font-size: 4.7em;
+    margin-top: 3em;
+    padding-top: 0.7em;
+    margin-left: 2.3em;
+    margin-bottom: 250px;
+    color: rgba(250, 250, 250, 0.90);
+    letter-spacing: 5px;
+    text-shadow: 5.5px 3.5px 3.5px rgb(0,0,0);
+}
+
+
+
+/* Style for text under heading name (index.php)*/
+.content_paragraph{
+  margin-top: 250px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 250px;
+  width: 44%;
+  color: rgb(186, 186, 186);
+  font-size: 16px;
+  text-align: center justified;
+}
+
+
+/* style for the button alignment */
+#bttn_question{
+  text-align: right;
+}
+
+
+/* style for horizontal line below heading */
+hr.heading {
+  border: 2px solid rgba(250, 250, 250, 0.8);
+}
+
+/* style for calbration division section and red dot inside (calibration.html)*/
+div.calibration {
+  background-color: rgb(211,211,211);
+  border: 7px solid grey;
+  padding-bottom: 10px;
+  margin-bottom: 80px;
+  padding-left: 10px;
+}
+
+#RedDot {
+	font-size: 20px;
+	text-align: center;
+}
+
+/*style for timer section*/
+div.timer {
+	text-align:center;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	font-weight:bold;
+	font-size: 40px;
+	border-style: solid;
+	margin-left: 180px;
+	margin-right: 180px;
+	border-radius: 25px;
+}
+
+#timercomm {
+	text-align: center;
+}
+
+/* this is division for the official visualisation test section */
+div.test {
+	background-color: rgb(211,211,211);
+	border: 7px solid grey;
+	padding-left: 40px;
+	padding-bottom: 30px;
+	margin: 20px;
+}
+
+#spaceimg {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+}
+
+#questionno {
+	text-decoration: underline;
+}
+
+
+/* style for button */
+.bttn {
+  background-color: rgb(47, 33, 48);
+  color: rgba(250, 250, 250, 0.8);
+  border: 3px solid rgba(250, 250, 250, 0.8);
+  padding: 15px;
+  font-size: 15px;
+  margin: auto;
+  margin-right: 10px;
+  display: inline-block;
+  text-align: right;
+  text-decoration: none;
+  float: right;
+}
+
+.bttn:hover {
+  background-color: white;
+  color: rgb(47, 33, 48);
+}
+
+/* style for feedback button */
+/* code was inspired by (source: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_sticky_social_bar) */
+.feedbacklink {
+  position: fixed;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  margin-left: 20px;
+  background-color: rgb(47, 33, 48);
+  color: rgba(250, 250, 250, 0.8);
+  border: 3px solid rgba(250, 250, 250, 10);
+  padding: 5px;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  transform-origin: 0 0;
+  transform: rotate(90deg);}
+
+.bttnfeedback {
+  background-color: rgb(47, 33, 48);
+  color: white;
+}
+
+.bttnfeedback:hover {
+  background-color: white;
+  color: rgb(47, 33, 48);
+}
+
+/*Style for submit button*/
+.bttnsubmit {
+	background-color: rgb(46, 139, 87);
+	border-radius: 25px;
+	color: rgba(250, 250, 250, 0.8);
+    border: 3px solid rgba(250, 250, 250, 0.8);
+	padding: 15px;
+    font-size: 15px;
+	margin: auto;
+	text-align: right;
+	float: right;
+}
+
+.bttnsubmit:hover {
+  background-color: white;
+  color: rgb(46, 139, 87);
+  border: 3px solid rgb(46, 139, 87);
+}
+
+.container {
+  height: 200px;
+  position: relative;
+}
+
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+/* Style for unlisted button list (uses in tutorialtest.html) */
+.bullet_style {
+  list-style-type: circle;
+}
+
+/*this is to hide the image section for the visualisation test before the 'take test' button is clicked*/
+.hide_tutorial {
+	display: none;
+}
+
+/* To hide the buttons and contents */
+.hide_content {
+	display:none;
+}
+
+/* Style to show the ticking time */
+p.display_time {
+	background-color: rgba(128,128,128,0.55);
+	padding: 1%;
+	border: 5px double;
+	font-size: 0.6em;
+}
+
+/* Style for footer */
+footer {
+  background-color: rgb(130, 130, 130);
+  padding: 5px;
+  text-align: center;
+  margin-bottom: 0%;
+  margin-top: 20%;
+  clear: both;
+}
+
+/* make debug messages visible */
+.debug {
+  background-color: white;
+  color: black;
+}
+
+/* canvas takes up whole browser window */
+#myCanvas,#canvasDiv{
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    border: 0px solid #d3d3d3;
+}

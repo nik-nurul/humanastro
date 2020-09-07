@@ -42,7 +42,7 @@ require_once 'includes/feeback-link.php';
 		<!-- section for buttons -->
 		<div>
 			<!-- Buttons to return to home-->
-			<a href="index.php"><input class="bttn" id="homeBttn" type= "submit" value="Exit to Home"/></a>
+			<a href="./"><input class="bttn" id="homeBttn" type= "submit" value="Exit to Home"/></a>
 			<br/>
 		</div>
 	

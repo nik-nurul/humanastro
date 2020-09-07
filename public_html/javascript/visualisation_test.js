@@ -233,8 +233,8 @@ function deactivateFullscreen() {
 
 // Will close the test window and direct user to thankyou.php
 function completeTest(){
-	deactivateFullscreen(); // doesn't work?
-	location.replace("https://humanastro.csproject.org/thankyou.php"); // jump to next page
+	deactivateFullscreen();
+	location.replace("thankyou.php"); // jump to next page
 }
 
 // to control which section should be shown and which should be hidden

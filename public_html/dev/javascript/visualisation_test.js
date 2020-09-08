@@ -36,7 +36,7 @@ var c, ctx, img; // canvas, canvas-context, image vars
 img = new Image(); // initialise image var with a blank image
 var imgScaleRatio; // scale ratio of original image to displayed image in canvas
 var hRatio, vRatio; // scale ratio of horizontal and vertical dimensions of image vs canvas
-var task, subtask; // the current task_data elements
+var current_task, current_subtask; // the current task_data elements
 
 // the current task and subtask numbers - zero based
 // these iterate on the array index numbers, not the actual task_num and subtask_num properties
@@ -183,7 +183,8 @@ function PlotGaze(GazeData) {
 function HandleGazeData(GazeData){
 	
 	GazeData.astro = {};
-	GazeData.astro.sessionTime = GazeData.time - startTime; // anonymise time
+	GazeData.astro.sessionTime = GazeData.time - startTime;
+	GazeData.time = null; // anonymise time
 	GazeData.astro.devicePixelRatio = window.devicePixelRatio;
 	GazeData.astro.imgWidth  = img.width;
 	GazeData.astro.imgHeight = img.height;
@@ -201,16 +202,16 @@ function HandleGazeData(GazeData){
 
 	if (task_num > -1 && subtask_num > -1){ // only save GazaData of a task and subtask number are defined
 		if (// save the distance from Gaze to Target if the subtask has a target
-			   task.subtasks[subtask_num].hasOwnProperty('targetX')
-			&& task.subtasks[subtask_num].hasOwnProperty('targetY')
+			   current_subtask.hasOwnProperty('targetX')
+			&& current_subtask.hasOwnProperty('targetY')
 		){
 			GazeData.astro.unscaledGazeTargetDist = dist2points(
 				GazeData.astro.unscaledDocX,
 				GazeData.astro.unscaledDocY,
-				task.subtasks[subtask_num].targetX,
-				task.subtasks[subtask_num].targetY
+				current_subtask.targetX,
+				current_subtask.targetY
 			);
-			if (GazeData.astro.unscaledGazeTargetDist <  task.subtasks[subtask_num].targetRadius)
+			if (GazeData.astro.unscaledGazeTargetDist <  current_subtask.targetRadius)
 				// this is where the users' gaze is on the target
 				console.log('GazeData.astro.unscaledGazeTargetDist:',GazeData.astro.unscaledGazeTargetDist); // debug
 		}
@@ -302,9 +303,9 @@ function resizeCanvas(){
 }
 
 // changes the task image
-function getImage(task) {
+function getImage() {
 	img = new Image();
-	img.src = task_dir+"/"+task.image;
+	img.src = task_dir+"/"+current_task.image;
 	img.onload = function(){ // after the image is loaded, draw it in the canvas
 		resizeCanvas(); // resize the image to fit the current browser window size
 	}
@@ -312,22 +313,22 @@ function getImage(task) {
 
 // changes the heading and instructions html and shows those divs
 function showNextSubtaskInstructions(){
-	getImage(task);		// get the image for this task
+	getImage();		// get the image for this task
 
 	var testHeading = document.getElementById("testHeading");
 	var explanationPara = document.getElementById("explanationPara");
 
-	testHeading.innerHTML = subtask.heading;
-	explanationPara.innerHTML = subtask.instructions;
+	testHeading.innerHTML = current_subtask.heading;
+	explanationPara.innerHTML = current_subtask.instructions;
 
 	// show the subtask image if it exists, otherwise hide img tag
-	var subtask_image = document.getElementById("subtask_image");
-	if (subtask.hasOwnProperty('subtask_image')){
-		subtask_image.src = task_dir+'/'+subtask.subtask_image;
-		subtask_image.style.display = "block";
+	var subtaskImageTag = document.getElementById("subtask_image");
+	if (current_subtask.hasOwnProperty('subtask_image')){
+		subtaskImageTag.src = task_dir+'/'+current_subtask.subtask_image;
+		subtaskImageTag.style.display = "block";
 	} else {
-		subtask_image.src = "";
-		subtask_image.style.display = "none";
+		subtaskImageTag.src = "";
+		subtaskImageTag.style.display = "none";
 	}
 
 	showInstructions();
@@ -340,7 +341,7 @@ var tryGetNextTask, tryGetNextSubtask;
 tryGetNextTask = function() {
 	task_num++;
 	if (task_num < task_data.length) {
-		task = task_data[task_num];
+		current_task = task_data[task_num]; // assign new current_task
 		subtask_num = -1;
 		tryGetNextSubtask();
 	} else
@@ -350,8 +351,8 @@ tryGetNextTask = function() {
 // gets next subtask if it exists, otherwise tryGetNextTask
 tryGetNextSubtask = function() {
 	subtask_num++;
-	if (subtask_num < task.subtasks.length){
-		subtask = task.subtasks[subtask_num];
+	if (subtask_num < current_task.subtasks.length){
+		current_subtask = current_task.subtasks[subtask_num];  // assign new current_subtask
 		showNextSubtaskInstructions(); // subtask execution stops here - next subtask runs when start button is clicked again
 	// redo testHeading and explanationPara Here, show explainDiv, show Button, overflow: auto
 	} else
@@ -382,18 +383,18 @@ function startNextSubtask() {
 		if (event.key === " ") {
 			window.removeEventListener("keydown", handleSpacebar); // remove the event listener for this task
 	 		clearTimeout(timer); // end the timeout for this task
-			endSubtask(task); // 
+			endSubtask(); // 
 		}
 		// Cancel the default action to avoid it being handled twice
 		event.preventDefault();
 	}
 	
-	doPlotGaze = subtask.doPlotGaze; // set doPlotGaze mode for this subtask
+	doPlotGaze = current_subtask.doPlotGaze; // set doPlotGaze mode for this subtask
 	hideInstructions(); // transition to image showing mode
 	
-	if (subtask.allow_skip) // only add the event listener for the spacebar if the task allows it
+	if (current_subtask.allow_skip) // only add the event listener for the spacebar if the task allows it
 		window.addEventListener("keydown", handleSpacebar, false); // false = execute handleSpacebar in bubbling phase
-	timer = setTimeout(endSubtask, subtask.time_limit*1000);
+	timer = setTimeout(endSubtask, current_subtask.time_limit*1000);
 }
 
 function changeToTasks(){
@@ -425,6 +426,7 @@ function startCalibration() {
 //**** end taskrunner functions
 
 function init(){
+	// get the user Id embedded in the HTML by PHP.
 	userIdStr = document.getElementById("userId").innerHTML;
 	getTasks(); // get the task_data from the user record in MongoDB via PHP
 	

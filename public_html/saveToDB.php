@@ -49,19 +49,10 @@ if (isJson($jsonStr)){ // is it JSON?
 		// set up the MongoDB connection
 		$manager = new MongoDB\Driver\Manager("mongodb://localhost:27017"); // connect to the Mongo DB
 		$bulk = new MongoDB\Driver\BulkWrite(['ordered' => true]);
-		
-		// only operate on this user ID
-//			$filter = [ "_id" => $_id ];
 
-		// mongo command:
-		// { "_id": ObjectId("adea2d97600941c7d3580e2e"), "task_data.task_num":1, "task_data.subtasks": {$elemMatch:{ "subtask_num": 1 }}}
-		// find specific question in this user document
-		$filter = [
-			"_id" => $_id, // this is the document or object (user, in this case) ID
-							// task_data contains tasks and results
-			"task_data.task_num" => $task_num,
-			"task_data.subtasks" => [ '$elemMatch' => [ "subtask_num" => $subtask_num ] ] 
-		];
+		// wanted to do an $elemMatch here, but we need to match the outer (task_data) and inner (subtasks) arrays
+		// and $elemMatch can only match one array at a time 
+		$filter = [ "_id" => $_id ]; // only operate on this user
 		
 		// upsert means insert the data if the document doesn't exist,
 		// or update the document with new data if the document already exists
@@ -71,7 +62,7 @@ if (isJson($jsonStr)){ // is it JSON?
 		$bulk->update(
 			$filter, // only operate on this particular user
 			[ '$push' => [ // append this data to an array already in the DB document
-				"task_data.$.subtasks.".($subtask_num-1).".GazeData" => [ 
+				"task_data.".$task_num.".subtasks.".$subtask_num.".GazeData" => [ 
 					'$each' => $GazeDataArray // act on each element of the GazeDataArray separately
 					]	// i.e. push each element to the DB separately,
 				]		// don't push the $GazeDataArray as a single element to the DB
@@ -90,4 +81,3 @@ if (isJson($jsonStr)){ // is it JSON?
 	echo 'input is not JSON!\n';
 }
 ?>
-

@@ -81,14 +81,11 @@ exit();
         <hr style="margin-top:0px;">
         <h2 id="testHeading" class="heading_font" style="margin-top: 0px;"> Eye Calibration </h2>
         <hr class="heading" style="height:2px;"/>
-<!--    <div id="explanationDiv" class="content_paragraph" style="display:block;">
-        <hr class="heading"/>
-        <h2 id="testHeading" class="heading_font"> Eye Calibration </h2>
-        <hr class="heading"/> -->
         <p id="explanationPara" class="paragraph_font">
             There will be an eye calibration test before the visualisation tests take place.<br/><br/><br/>
             <b>The browser's window will be put into fullscreen mode. Please do not resize it.</b><br/>
-        </p><br/><br/>
+        </p>
+		<img id="subtask_image" src="" style="display:none;"/>
     </div>
 
     <!-- division for images-->
@@ -104,12 +101,8 @@ exit();
 	<div id='buttonsDiv' class="content_paragraph" style="margin-top:20px; margin-bottom:20px; float:right;">
 		<!-- Button to start eye calibration-->
 		<button id="startCalibration" type="button" class="bttn">Start Eye Calibration</button>
-		<!-- Button to start calibration refinement. Initially hidden -->
-		<button id="startRefineCal" type="button" class="bttn" style="display:none;">Refine Calibration</button>
-		<!-- Button to start tutorial. Initially hidden -->
-		<button id="startTutorial" type="button" class="bttn" style="display:none;">Take Tutorial Test</button>
-		<!-- Button to start real test. Initially hidden-->
-		<button id="startReal" type="button" class="bttn" style="display:none;">Take Real Test</button>
+		<!-- Button to start each task. Initially hidden -->
+		<button id="startTask" type="button" class="bttn" style="display:none;">Start Task</button>
 		<br/>
 	</div>
 

@@ -32,17 +32,16 @@ var task_dir = "tasks";
 
 // task metadata will eventually be held in the MongoDB
 
-var calibrationTasks;
-var tutorialTasks;
-var realTasks;
-
 var c, ctx, img; // canvas, canvas-context, image vars
 img = new Image(); // initialise image var with a blank image
 var imgScaleRatio; // scale ratio of original image to displayed image in canvas
 var hRatio, vRatio; // scale ratio of horizontal and vertical dimensions of image vs canvas
-var task; // the current task_data element
+var task, subtask; // the current task_data elements
+
+// the current task and subtask numbers - zero based
+// these iterate on the array index numbers, not the actual task_num and subtask_num properties
 var task_num = -1;
-var subtask_num = -1; // the current task and subtask numbers
+var subtask_num = -1; 
 
 //}
 // **** end taskrunner global vars
@@ -233,36 +232,56 @@ window.onmousemove = setMouseCoords;
 
 
 //{ **** taskrunner functions ***
+
+// get the tasks from MongoDB via PHP using AJAX
+function getTasks(){
+	// begin ajax request
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			task_data = JSON.parse(this.responseText); // save the task data
+		}
+	};
+	
+	// post request to the PHP page, include userIdStr as parameter
+	xhttp.open("GET", "getTasks.php?userId="+userIdStr, true);
+
+	xhttp.send();
+}
+
 // Will close the test window and direct user to thankyou.php
 function completeTest(){
 	deactivateFullscreen();
 	location.replace("thankyou.php"); // jump to next page
 }
 
-// to control which section should be shown and which should be hidden
-function changeSection(){
-	// Show and hide explanation and buttons section
-	 var explanationSect = document.getElementById("explanationDiv");
-	 var buttonsDiv = document.getElementById("buttonsDiv");
-	 if(explanationSect.style.display == "block"){
-			 explanationSect.style.display = "none";
-			 buttonsDiv.style.display = "none";
-	 } else if (explanationSect.style.display == "none"){
-		 	explanationSect.style.display = "block";
-		 	buttonsDiv.style.display = "block";
-	 }
+// to show the instructions and hide the canvas
+function showInstructions(){
+	var explanationDiv = document.getElementById("explanationDiv");
+	var buttonsDiv = document.getElementById("buttonsDiv");
+	var startTaskBtn = document.getElementById("startTask");
+	explanationDiv.style.display = "block";
+	buttonsDiv.style.display = "block";
+	startTaskBtn.style.display = "block";
+	
+	document.body.style.overflow = "auto"; // restore normal scrollbar behaviour
 
-  // Show and hide the images within the canvas section 
-	 var canvasSect = document.getElementById("canvasDiv")
-	 if(canvasSect.style.display == 'none'){
-		canvasSect.style.display = 'block';
-	 } else if(canvasSect.style.display == "block"){
-		canvasSect.style.display = "none";
-	 }
+	var canvasDiv = document.getElementById("canvasDiv");
+	canvasDiv.style.display = "none";
+}
 
-	 //	Hide 'Take Tutorial Test' button
-	 var tutorBttn = document.getElementById("startTutorial");
-	 tutorBttn.style.display = "none";
+// to hide the instructions and show the canvas
+function hideInstructions(){
+	var explanationDiv = document.getElementById("explanationDiv");
+	var buttonsDiv = document.getElementById("buttonsDiv");
+	var startTaskBtn = document.getElementById("startTask");
+	explanationDiv.style.display = "none";
+	buttonsDiv.style.display = "none";
+	startTaskBtn.style.display = "none";
+	
+	document.body.style.overflow = "hidden"; // prevent scrollbars from appearing
+
+	var canvasDiv = document.getElementById("canvasDiv");
+	canvasDiv.style.display = "block";
 }
 
 // resize and re-add the image if the browser window is resized
@@ -278,11 +297,10 @@ function resizeCanvas(){
 
 	ctx.drawImage(img,	0, 0, img.width,	img.height,     // source rectangle
 						0, 0, img.width*imgScaleRatio, img.height*imgScaleRatio); // destination rectangle
-
 }
 
 // changes the task image
-function getNextImage(task) {
+function getImage(task) {
 	img = new Image();
 	img.src = task_dir+"/"+task.image;
 	img.onload = function(){ // after the image is loaded, draw it in the canvas
@@ -290,28 +308,52 @@ function getNextImage(task) {
 	}
 };
 
-// clears the image in the canvas
-function endTasks() {
-	img = new Image();
-	resizeCanvas();
+// hoisting function names so they can call each other
+var tryGetNexTask, tryGetNextSubtask; 
+
+// gets next task if it exists, otherwise exits
+tryGetNexTask = function() {
+	task_num++;
+	if (task_num < task_data.length) {
+		task = task_data[task_num];
+		subtask_num = -1;
+		tryGetNextSubtask();
+	} else
+		completeTest();
 }
 
-// tasks is the array of task data objects
-// i is the index number in the array of task data objects
-// afterTasksFunction is the function to execute after the last task is shown
-function showEachTask(tasks, i, afterTasksFunction) {
+// changes the heading and instructions html and shows those divs
+showNextSubtaskInstructions(){
+	var testHeading = document.getElementById("testHeading");
+	var explainPara = document.getElementById("explainPara");
+	testHeading.innerHTML = subtask.heading;
+	explainPara.innerHTML = subtask.instructions;
+	showInstructions();
+}
+
+// gets next subtask if it exists, otherwise tryGetNextTask
+tryGetNextSubtask = function() {
+	subtask_num++;
+	if (subtask_num < task_data.subtasks.length){
+		subtask = task[subtask_num];
+		showNextSubtaskInstructions(); // subtask execution stops here - next subtask runs when start button is clicked again
+	// redo testHeading and explanationPara Here, show explainDiv, show Button, overflow: auto
+	} else
+		tryGetNextTask();
+}
+
+// remove the instructions, show the image and start the timer
+function startNextSubtask() {
 	var timer; // a separate timer per subtask element
-	var handleSpacebar; // hoist function definition so showNextTask can see it
+	var handleSpacebar; // hoist function definition so endSubtask can see it
 
 	// callback to setTimeout and to spacebar pressed event
-	var showNextTask = function(tasks, i, afterTasksFunction){
+	var endSubtask = function(){
 		window.removeEventListener("keydown", handleSpacebar);
-		if (i < tasks.length) {
-			showEachTask(tasks, i, afterTasksFunction);          
-		} else {
-			endTasks();
-			afterTasksFunction(); // execute the callback function
-		}		
+		if (doPlotGaze) doPlotGaze = false; // stop plotting the gaze on sceen
+		img = new Image();
+		resizeCanvas();
+		tryGetNextSubtask();
 	}
 
 	// change the image if the spacebar is pressed
@@ -322,52 +364,96 @@ function showEachTask(tasks, i, afterTasksFunction) {
 		if (event.key === " ") {
 			window.removeEventListener("keydown", handleSpacebar); // remove the event listener for this task
 	 		clearTimeout(timer); // end the timeout for this task
-			showNextTask(tasks, i, afterTasksFunction); // jump to the next task
+			endSubtask(task); // 
 		}
 		// Cancel the default action to avoid it being handled twice
 		event.preventDefault();
 	}
-
-	task = tasks[i++];	// assign task element and increment counter
-	task_num = task.task_num;
-	subtask_num = 1;		// eventually will iterate through subtasks here (need to implement separate timers per subtask)
-	getNextImage(task);		// display the image for this task
-	if (task.subtasks[subtask_num-1].allow_skip) // only add the event listener for the spacebar if the task allows it
+	
+	doPlotGaze = subtask.doPlotGaze; // set doPlotGaze mode for this subtask
+	hideInstructions(); // transition to image showing mode
+	getImage(task);		// display the image for this task
+	
+	if (subtask.allow_skip) // only add the event listener for the spacebar if the task allows it
 		window.addEventListener("keydown", handleSpacebar, false); // false = execute handleSpacebar in bubbling phase
-	timer = setTimeout(showNextTask, task.subtasks[subtask_num-1].time_limit*1000, tasks, i, afterTasksFunction);
+	timer = setTimeout(endSubtask, subtask.time_limit*1000);
 }
 
+/*
 // tasks is the array of task data objects
 // afterTasksFunction is the function to execute after the last task is shown
 function showTasks(tasks, afterTasksFunction){
 	// iterate through tasks array
 	// this will eventually iterate through user / task_data in MongoDB
 	var i = 0;
-	showEachTask(tasks, i, afterTasksFunction);
+	showEachSubtask(tasks, i, afterTasksFunction);
 }
+*/
 
-// get the tasks from MongoDB via PHP using AJAX
-function getTasks(){
-	// begin ajax request
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			task_data = JSON.parse(this.responseText); // save the task data
-			// split the task_data into separate arrays
-			calibrationTasks	= task_data.filter(task => (task.phase === '1-refCal'));
-			tutorialTasks		= task_data.filter(task => (task.phase === '2-tutorial'));
-			realTasks			= task_data.filter(task => (task.phase === '3-task'));
-			
-		}
-	};
-	
-	// post request to the PHP page, include userIdStr as parameter
-	xhttp.open("GET", "getTasks.php?userId="+userIdStr, true);
-
-	xhttp.send();
-}
 
 /// BUTTON HANDLERS
 
+function changeToTasks(){
+	//	Hide 'Start Eye Calibration' button
+	var startCalibrationBtn = document.getElementById("startCalibration");
+	startCalibrationBtn.style.display = "none";
+
+	// Show "Start Task" button
+	var startTaskBtn = document.getElementById("startTask");
+	startTaskBtn.style.display = "block";
+
+	getTasks(); // get the task_data from the database
+	task_num = -1;
+	subtask_num = -1;
+	tryGetNextSubtask();
+
+	// Change the text for the heading
+	var changeHead = document.getElementById("testHeading");
+	changeHead.innerHTML = "Refine Calibration";
+
+	// Change the text for explanation paragraph
+	var explainPara = document.getElementById("explanationPara");
+	explainPara.innerHTML = "Basic calibration is complete. Click Refine Calibration to continue<br/>"+
+
+}
+
+
+// to begin the eye tracking calibration process
+function startCalibration() {
+	doPlotGaze = false; // turn off gaze plotting on screen
+	startTime = Date.now();
+
+	GazeCloudAPI.StartEyeTracking();
+	GazeCloudAPI.SetFps(GazeFPS);
+	changeToTasks();
+	activateFullscreen(document.documentElement); // do this after eye tracking starts - check this on safari
+}
+
+//}
+//**** end taskrunner functions
+
+function init(){
+	c = document.getElementById("myCanvas");
+	ctx = c.getContext("2d");
+
+	userIdStr = document.getElementById("userId").innerHTML;
+	getTasks(); // get the task_data from the user record in MongoDB via PHP
+
+	var startCalibrationBtn = document.getElementById("startCalibration");
+	startCalibrationBtn.onclick = startCalibration;
+	
+	var startTaskBtn = document.getElementById("startTask");
+	startTaskBtn.onclick = startNextSubtask;
+}
+
+window.onload = init;
+window.onresize = resizeCanvas; // resize the canvas whenever the browser window is resized
+window.onmousemove = setMouseCoords; // record mouse coordinates
+
+
+
+
+/*///{ OLD BUTTON HHANDLERS 
 // for real test
 function startRealTest(){
 	doPlotGaze = false; // turn of gaze plotting on screen
@@ -407,17 +493,17 @@ function startTutorial(){
 	showTasks(tutorialTasks, changeToRealTest); 
 }
 
-/* Used only when 'Refine Calibration' button is clicked */
+// Used only when 'Refine Calibration' button is clicked 
 function changeToTutorial(){
 	doPlotGaze = false; // turn off gaze plotting on screen
 	changeSection();
-	/* Change the text for the heading */
+	// Change the text for the heading 
 	var changeHead = document.getElementById("testHeading");
 	changeHead.innerHTML = "Tutorial Test";
 
-	/* Change the text for explanation paragraph*/
+	// Change the text for explanation paragraph
 	var explainPara = document.getElementById("explanationPara");
-	explainPara.innerHTML = "Congratulations on finishing the eye calibration! There will be a tutorial test before the real test take place <br/>"+
+	explainPara.innerHTML = "Calibration complete! There will be a tutorial test before the real test take place <br/>"+
 		"Below is the instructions that need to be followed to complete the test successfully:" +
 		"<div id='explanationBullet'><p><ul class='bullet_style paragraph_font'>"+
 		"<li>There will be a series of images that will be presented</li>"+
@@ -427,11 +513,11 @@ function changeToTutorial(){
 		"<li>There will be 3 images for the tutorial test</li>"+
 		"<li>There will be 6 images for the real test</li></ul></p></div>";
 
-	/*	Hide 'Refine Calibration' button*/
+	//	Hide 'Refine Calibration' button
 	var caliBttn = document.getElementById("startRefineCal");
 	caliBttn.style.display = "none";
 
-	/* Show "Take Tutorial Test" button */
+	// Show "Take Tutorial Test" button
 	var tuteBttn = document.getElementById("startTutorial");
 	tuteBttn.style.display = "block";
 }
@@ -443,13 +529,13 @@ function startRefineCal() {
 	showTasks(calibrationTasks, changeToTutorial); 
 }
 
-/* Used only when 'calibration test' button is clicked */
+// Used only when 'calibration test' button is clicked 
 function changeToRefineCal(){
-	/* Change the text for the heading */
+	// Change the text for the heading
 	var changeHead = document.getElementById("testHeading");
 	changeHead.innerHTML = "Refine Calibration";
 
-	/* Change the text for explanation paragraph*/
+	// Change the text for explanation paragraph
 	var explainPara = document.getElementById("explanationPara");
 	explainPara.innerHTML = "Basic calibration is complete. Click Refine Calibration to continue<br/>"+
 		"<div id='explanationBullet'><p><ul class='bullet_style paragraph_font'>"+
@@ -459,47 +545,13 @@ function changeToRefineCal(){
 		"<li>Repeat this process at different points across the screen</li>" +
 		"<li>When you are satisfied the gaze indicator is accurate, press the space bar to continue</li></ul></p></div>";
 
-	/*	Hide 'Start Eye Calibration' button*/
+	//	Hide 'Start Eye Calibration' button
 	var caliBttn = document.getElementById("startCalibration");
 	caliBttn.style.display = "none";
 
-	/* Show "Refine Calibration" button */
+	// Show "Refine Calibration" button
 	var tuteBttn = document.getElementById("startRefineCal");
 	tuteBttn.style.display = "block";
 }
-
-// to begin the eye tracking calibration process
-function startCalibration() {
-	doPlotGaze = false; // turn off gaze plotting on screen
-	startTime = Date.now();
-
-	GazeCloudAPI.StartEyeTracking();
-	GazeCloudAPI.SetFps(GazeFPS);
-	changeToRefineCal();
-	activateFullscreen(document.documentElement); // do this after eye tracking starts - check this on safari
-}
-
-//}
-//**** end taskrunner functions
-
-function init(){
-	c = document.getElementById("myCanvas");
-	ctx = c.getContext("2d");
-
-	userIdStr = document.getElementById("userId").innerHTML;
-	getTasks(); // get the task_data from the user record in MongoDB via PHP
-
-	var startCalibrationBtn = document.getElementById("startCalibration");
-	startCalibrationBtn.onclick = startCalibration;
-	
-	var startRefineCalBtn = document.getElementById("startRefineCal");
-	startRefineCalBtn.onclick = startRefineCal;
-	
-	var startTutorialBtn = document.getElementById("startTutorial");
-	startTutorialBtn.onclick = startTutorial;
-	
-}
-
-window.onload = init;
-window.onresize = resizeCanvas; // resize the canvas whenever the browser window is resized
-window.onmousemove = setMouseCoords; // record mouse coordinates
+*/ //}
+/// END OLD BUTTON HANDLERS

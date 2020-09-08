@@ -306,13 +306,22 @@ function getImage(task) {
 	img.onload = function(){ // after the image is loaded, draw it in the canvas
 		resizeCanvas(); // resize the image to fit the current browser window size
 	}
-};
+}
+
+// changes the heading and instructions html and shows those divs
+function showNextSubtaskInstructions(){
+	var testHeading = document.getElementById("testHeading");
+	var explanationPara = document.getElementById("explanationPara");
+	testHeading.innerHTML = subtask.heading;
+	explanationPara.innerHTML = subtask.instructions;
+	showInstructions();
+}
 
 // hoisting function names so they can call each other
-var tryGetNexTask, tryGetNextSubtask; 
+var tryGetNextTask, tryGetNextSubtask; 
 
 // gets next task if it exists, otherwise exits
-tryGetNexTask = function() {
+tryGetNextTask = function() {
 	task_num++;
 	if (task_num < task_data.length) {
 		task = task_data[task_num];
@@ -322,20 +331,11 @@ tryGetNexTask = function() {
 		completeTest();
 }
 
-// changes the heading and instructions html and shows those divs
-showNextSubtaskInstructions(){
-	var testHeading = document.getElementById("testHeading");
-	var explainPara = document.getElementById("explainPara");
-	testHeading.innerHTML = subtask.heading;
-	explainPara.innerHTML = subtask.instructions;
-	showInstructions();
-}
-
 // gets next subtask if it exists, otherwise tryGetNextTask
 tryGetNextSubtask = function() {
 	subtask_num++;
-	if (subtask_num < task_data.subtasks.length){
-		subtask = task[subtask_num];
+	if (subtask_num < task.subtasks.length){
+		subtask = task.subtasks[subtask_num];
 		showNextSubtaskInstructions(); // subtask execution stops here - next subtask runs when start button is clicked again
 	// redo testHeading and explanationPara Here, show explainDiv, show Button, overflow: auto
 	} else
@@ -405,28 +405,19 @@ function changeToTasks(){
 	getTasks(); // get the task_data from the database
 	task_num = -1;
 	subtask_num = -1;
-	tryGetNextSubtask();
-
-	// Change the text for the heading
-	var changeHead = document.getElementById("testHeading");
-	changeHead.innerHTML = "Refine Calibration";
-
-	// Change the text for explanation paragraph
-	var explainPara = document.getElementById("explanationPara");
-	explainPara.innerHTML = "Basic calibration is complete. Click Refine Calibration to continue<br/>"+
-
+	tryGetNextTask();
 }
 
 
 // to begin the eye tracking calibration process
 function startCalibration() {
+	activateFullscreen(document.documentElement); // do this after eye tracking starts - check this on safari
 	doPlotGaze = false; // turn off gaze plotting on screen
 	startTime = Date.now();
 
 	GazeCloudAPI.StartEyeTracking();
 	GazeCloudAPI.SetFps(GazeFPS);
 	changeToTasks();
-	activateFullscreen(document.documentElement); // do this after eye tracking starts - check this on safari
 }
 
 //}

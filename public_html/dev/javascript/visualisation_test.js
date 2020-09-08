@@ -150,11 +150,13 @@ function PlotGaze(GazeData) {
 	x -= gaze .clientWidth/2;
 	y -= gaze .clientHeight/2;
 
+	// only update gaze position if doPlotGaze == true
 	if (doPlotGaze){
 		gaze.style.left = x + "px";
 		gaze.style.top = y + "px";
 	}
 	
+	// only display gaze position if gaze is valid and doPlotGaze == true
 	if(GazeData.state != 0 || !doPlotGaze ){
 		if( gaze.style.display  == 'block')
 			gaze.style.display   = 'none';
@@ -200,7 +202,14 @@ function HandleGazeData(GazeData){
 	GazeData.astro.unscaledMouseDocX = mouseDocX/imgScaleRatio;
 	GazeData.astro.unscaledMouseDocY = mouseDocY/imgScaleRatio;
 
-	if (task_num > -1 && subtask_num > -1){ // only save GazaData of a task and subtask number are defined
+	// we want to know if the Canvas is currently visible
+	var canvasDiv = document.getElementById("canvasDiv");
+
+	if (  // only save GazaData if a task and subtask number are defined and the Canvas is visible
+		   task_num > -1 
+		&& subtask_num > -1
+		&& canvasDiv.style.display == "block"
+		){
 		if (// save the distance from Gaze to Target if the subtask has a target
 			   current_subtask.hasOwnProperty('targetX')
 			&& current_subtask.hasOwnProperty('targetY')
@@ -265,7 +274,8 @@ function showInstructions(){
 	buttonsDiv.style.display = "block";
 	startTaskBtn.style.display = "block";
 	
-	document.body.style.overflow = "auto"; // restore normal scrollbar behaviour
+	// restore normal scrollbar behaviour
+	document.body.style.overflow = "auto"; 
 
 	var canvasDiv = document.getElementById("canvasDiv");
 	canvasDiv.style.display = "none";
@@ -281,7 +291,8 @@ function hideInstructions(){
 	buttonsDiv.style.display = "none";
 	startTaskBtn.style.display = "none";
 	
-	document.body.style.overflow = "hidden"; // prevent scrollbars from appearing
+	// prevent scrollbars from appearing
+	document.body.style.overflow = "hidden"; 
 
 	var canvasDiv = document.getElementById("canvasDiv");
 	canvasDiv.style.display = "block";
@@ -313,7 +324,8 @@ function getImage() {
 
 // changes the heading and instructions html and shows those divs
 function showNextSubtaskInstructions(){
-	getImage();		// get the image for this task
+	// get the master image for this task - will be hidden intially
+	getImage();
 
 	var testHeading = document.getElementById("testHeading");
 	var explanationPara = document.getElementById("explanationPara");
@@ -321,7 +333,8 @@ function showNextSubtaskInstructions(){
 	testHeading.innerHTML = current_subtask.heading;
 	explanationPara.innerHTML = current_subtask.instructions;
 
-	// show the subtask image if it exists, otherwise hide img tag
+	// show the subtask thumbnail image if it exists
+	// otherwise hide img tag
 	var subtaskImageTag = document.getElementById("subtask_image");
 	if (current_subtask.hasOwnProperty('subtask_image')){
 		subtaskImageTag.src = task_dir+'/'+current_subtask.subtask_image;
@@ -331,7 +344,8 @@ function showNextSubtaskInstructions(){
 		subtaskImageTag.style.display = "none";
 	}
 
-	showInstructions();
+	// show the exmplainDiv, buttons and hide the canvas
+	showInstructions(); 
 }
 
 // hoisting function names so they can call each other

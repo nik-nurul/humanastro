@@ -84,7 +84,8 @@ exit();
         <p id="explanationPara" class="paragraph_font">
             There will be an eye calibration test before the visualisation tests take place.<br/><br/><br/>
             <b>The browser's window will be put into fullscreen mode. Please do not resize it.</b><br/>
-        </p><br/><br/>
+        </p>
+		<img id="subtask_image" src="" style="display:none;"/>
     </div>
 
     <!-- division for images-->

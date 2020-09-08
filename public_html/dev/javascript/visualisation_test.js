@@ -199,18 +199,19 @@ function HandleGazeData(GazeData){
 	GazeData.astro.unscaledMouseDocX = mouseDocX/imgScaleRatio;
 	GazeData.astro.unscaledMouseDocY = mouseDocY/imgScaleRatio;
 
-	if (task_num > 0 && subtask_num > 0){ // only save GazaData of a task and subtask number are defined
+	if (task_num > -1 && subtask_num > -1){ // only save GazaData of a task and subtask number are defined
 		if (// save the distance from Gaze to Target if the subtask has a target
-			   task.subtasks[subtask_num-1].hasOwnProperty('targetX') // change subtask ref
-			&& task.subtasks[subtask_num-1].hasOwnProperty('targetY')
+			   task.subtasks[subtask_num].hasOwnProperty('targetX')
+			&& task.subtasks[subtask_num].hasOwnProperty('targetY')
 		){
 			GazeData.astro.unscaledGazeTargetDist = dist2points(
 				GazeData.astro.unscaledDocX,
 				GazeData.astro.unscaledDocY,
-				task.subtasks[subtask_num-1].targetX,
-				task.subtasks[subtask_num-1].targetY
+				task.subtasks[subtask_num].targetX,
+				task.subtasks[subtask_num].targetY
 			);
-			if (GazeData.astro.unscaledGazeTargetDist <  task.subtasks[subtask_num-1].targetRadius)
+			if (GazeData.astro.unscaledGazeTargetDist <  task.subtasks[subtask_num].targetRadius)
+				// this is where the users' gaze is on the target
 				console.log('GazeData.astro.unscaledGazeTargetDist:',GazeData.astro.unscaledGazeTargetDist); // debug
 		}
 		saveData(GazeData); // send each GazeData point to the MongoDB
@@ -219,13 +220,6 @@ function HandleGazeData(GazeData){
 
 }
 
-//////set callbacks/////////
-GazeCloudAPI.OnCalibrationComplete = function(){RemoveHeatMap();; console.log('gaze Calibration Complete')  }
-GazeCloudAPI.OnCamDenied = function(){ console.log('camera  access denied')  }
-GazeCloudAPI.OnError =  function(msg){ console.log('err: ' + msg)  }
-GazeCloudAPI.UseClickRecalibration = true;
-GazeCloudAPI.OnResult = HandleGazeData;
-window.onmousemove = setMouseCoords;
 
 //}
 // **** end GazeCloud functions
@@ -238,7 +232,14 @@ function getTasks(){
 	// begin ajax request
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			task_data = JSON.parse(this.responseText); // save the task data
+			
+			try {
+				task_data = JSON.parse(this.responseText); // save the task data
+			} catch (e) {
+				console.log('error with getTasks():',e);
+				console.log(this.responseText);
+			}
+			
 		}
 	};
 	
@@ -274,6 +275,7 @@ function hideInstructions(){
 	var explanationDiv = document.getElementById("explanationDiv");
 	var buttonsDiv = document.getElementById("buttonsDiv");
 	var startTaskBtn = document.getElementById("startTask");
+	
 	explanationDiv.style.display = "none";
 	buttonsDiv.style.display = "none";
 	startTaskBtn.style.display = "none";
@@ -310,10 +312,24 @@ function getImage(task) {
 
 // changes the heading and instructions html and shows those divs
 function showNextSubtaskInstructions(){
+	getImage(task);		// get the image for this task
+
 	var testHeading = document.getElementById("testHeading");
 	var explanationPara = document.getElementById("explanationPara");
+
 	testHeading.innerHTML = subtask.heading;
 	explanationPara.innerHTML = subtask.instructions;
+
+	// show the subtask image if it exists, otherwise hide img tag
+	var subtask_image = document.getElementById("subtask_image");
+	if (subtask.hasOwnProperty('subtask_image')){
+		subtask_image.src = task_dir+'/'+subtask.subtask_image;
+		subtask_image.style.display = "block";
+	} else {
+		subtask_image.src = "";
+		subtask_image.style.display = "none";
+	}
+
 	showInstructions();
 }
 
@@ -341,6 +357,8 @@ tryGetNextSubtask = function() {
 	} else
 		tryGetNextTask();
 }
+
+/// BUTTON HANDLERS
 
 // remove the instructions, show the image and start the timer
 function startNextSubtask() {
@@ -372,26 +390,11 @@ function startNextSubtask() {
 	
 	doPlotGaze = subtask.doPlotGaze; // set doPlotGaze mode for this subtask
 	hideInstructions(); // transition to image showing mode
-	getImage(task);		// display the image for this task
 	
 	if (subtask.allow_skip) // only add the event listener for the spacebar if the task allows it
 		window.addEventListener("keydown", handleSpacebar, false); // false = execute handleSpacebar in bubbling phase
 	timer = setTimeout(endSubtask, subtask.time_limit*1000);
 }
-
-/*
-// tasks is the array of task data objects
-// afterTasksFunction is the function to execute after the last task is shown
-function showTasks(tasks, afterTasksFunction){
-	// iterate through tasks array
-	// this will eventually iterate through user / task_data in MongoDB
-	var i = 0;
-	showEachSubtask(tasks, i, afterTasksFunction);
-}
-*/
-
-
-/// BUTTON HANDLERS
 
 function changeToTasks(){
 	//	Hide 'Start Eye Calibration' button
@@ -402,12 +405,10 @@ function changeToTasks(){
 	var startTaskBtn = document.getElementById("startTask");
 	startTaskBtn.style.display = "block";
 
-	getTasks(); // get the task_data from the database
 	task_num = -1;
 	subtask_num = -1;
 	tryGetNextTask();
 }
-
 
 // to begin the eye tracking calibration process
 function startCalibration() {
@@ -417,132 +418,35 @@ function startCalibration() {
 
 	GazeCloudAPI.StartEyeTracking();
 	GazeCloudAPI.SetFps(GazeFPS);
-	changeToTasks();
+//	changeToTasks(); // this is now called by GazeCloudAPI.OnCalibrationComplete 
 }
 
 //}
 //**** end taskrunner functions
 
 function init(){
-	c = document.getElementById("myCanvas");
-	ctx = c.getContext("2d");
-
 	userIdStr = document.getElementById("userId").innerHTML;
 	getTasks(); // get the task_data from the user record in MongoDB via PHP
+	
+	c = document.getElementById("myCanvas");
+	ctx = c.getContext("2d");
 
 	var startCalibrationBtn = document.getElementById("startCalibration");
 	startCalibrationBtn.onclick = startCalibration;
 	
 	var startTaskBtn = document.getElementById("startTask");
 	startTaskBtn.onclick = startNextSubtask;
+	
+	//////set callbacks/////////
+	GazeCloudAPI.OnCalibrationComplete = function(){ console.log('gaze Calibration Complete'); changeToTasks();};
+	GazeCloudAPI.OnCamDenied = function(){ console.log('camera  access denied')  }
+	GazeCloudAPI.OnError =  function(msg){ console.log('err: ' + msg)  }
+	GazeCloudAPI.UseClickRecalibration = true;
+	GazeCloudAPI.OnResult = HandleGazeData;
+	
 }
 
-window.onload = init;
 window.onresize = resizeCanvas; // resize the canvas whenever the browser window is resized
 window.onmousemove = setMouseCoords; // record mouse coordinates
 
-
-
-
-/*///{ OLD BUTTON HHANDLERS 
-// for real test
-function startRealTest(){
-	doPlotGaze = false; // turn of gaze plotting on screen
-	// hide the "Take Real Test" button 
-	var realTestBttn = document.getElementById("startReal");
-	realTestBttn.style.display = "none";
-
-	changeSection();
-	showTasks(realTasks, completeTest); // shows the real tasks then runs completeTest
-}
-
-// changes the page content to ask the user to take the real test
-function changeToRealTest(){
-	doPlotGaze = false; // turn off gaze plotting on screen
-
-	// Change the text for the heading
-	var testHead = document.getElementById("testHeading");
-	testHead.innerHTML = "Real Test";
-
-	// Change the text for explanation paragraph
-	var explainPara = document.getElementById("explanationPara");
-	explainPara.innerHTML = "Congratulations on finishing the tutorial test! Now click the 'Take Real Test' button to proceed.";
-
-	// Show Take Real Test button
-	var realTestBttn = document.getElementById("startReal");
-	realTestBttn.style.display = "block";
-	//Change the status of real test variable(to med until start real test bttn is clicked) to stop timer from continue looping when spacebar is pressed
-	realTestBttn.onclick = startRealTest; //call function to slide through images and change content
-	
-	changeSection();
-}
-
-// for tutorial test
-function startTutorial(){
-	changeSection();
-	// shows the tutorial tasks then runs changeToRealTest
-	showTasks(tutorialTasks, changeToRealTest); 
-}
-
-// Used only when 'Refine Calibration' button is clicked 
-function changeToTutorial(){
-	doPlotGaze = false; // turn off gaze plotting on screen
-	changeSection();
-	// Change the text for the heading 
-	var changeHead = document.getElementById("testHeading");
-	changeHead.innerHTML = "Tutorial Test";
-
-	// Change the text for explanation paragraph
-	var explainPara = document.getElementById("explanationPara");
-	explainPara.innerHTML = "Calibration complete! There will be a tutorial test before the real test take place <br/>"+
-		"Below is the instructions that need to be followed to complete the test successfully:" +
-		"<div id='explanationBullet'><p><ul class='bullet_style paragraph_font'>"+
-		"<li>There will be a series of images that will be presented</li>"+
-		"<li>Please stare at the images and find similar patterns</li>"+
-		"<li>Each image will have its own timer</li>"+
-		"<li>The timer wil start as soon as you click 'Take Test'</li>" +
-		"<li>There will be 3 images for the tutorial test</li>"+
-		"<li>There will be 6 images for the real test</li></ul></p></div>";
-
-	//	Hide 'Refine Calibration' button
-	var caliBttn = document.getElementById("startRefineCal");
-	caliBttn.style.display = "none";
-
-	// Show "Take Tutorial Test" button
-	var tuteBttn = document.getElementById("startTutorial");
-	tuteBttn.style.display = "block";
-}
-
-// for calibration refinement
-function startRefineCal() {
-	doPlotGaze = true; // turn on gaze plotting on screen
-	changeSection();
-	showTasks(calibrationTasks, changeToTutorial); 
-}
-
-// Used only when 'calibration test' button is clicked 
-function changeToRefineCal(){
-	// Change the text for the heading
-	var changeHead = document.getElementById("testHeading");
-	changeHead.innerHTML = "Refine Calibration";
-
-	// Change the text for explanation paragraph
-	var explainPara = document.getElementById("explanationPara");
-	explainPara.innerHTML = "Basic calibration is complete. Click Refine Calibration to continue<br/>"+
-		"<div id='explanationBullet'><p><ul class='bullet_style paragraph_font'>"+
-		"<li>Your 'gaze' will be shown on the screen as a cirle</li>"+
-		"<li>Place the mouse cursor on any of the dots and stare at that location on screen</li>"+
-		"<li>Click that location with the mouse multiple times to update the position of the gaze circle</li>"+
-		"<li>Repeat this process at different points across the screen</li>" +
-		"<li>When you are satisfied the gaze indicator is accurate, press the space bar to continue</li></ul></p></div>";
-
-	//	Hide 'Start Eye Calibration' button
-	var caliBttn = document.getElementById("startCalibration");
-	caliBttn.style.display = "none";
-
-	// Show "Refine Calibration" button
-	var tuteBttn = document.getElementById("startRefineCal");
-	tuteBttn.style.display = "block";
-}
-*/ //}
-/// END OLD BUTTON HANDLERS
+window.onload = init;

@@ -27,8 +27,38 @@ try {
 	}
 	
 	// output data
-	header('Content-Type: application/json');
-	echo json_encode($userColl);
+//	header('Content-Type: application/json');
+//	echo json_encode($userColl);
+	
+	$json_data = json_encode($userColl,JSON_PRETTY_PRINT);
+
+
+	header('Content-type: text/json');
+	header('Content-Disposition: attachment; filename="allUsers.json"');
+	header("Pragma: no-cache"); 
+	header("Expires: 0");
+	echo $json_data;
+
+/*
+header('Content-Type: application/octet-stream');
+header('Content-disposition: attachment; filename="file.zip"');
+
+// use popen to execute a unix command pipeline
+// and grab the stdout as a php stream
+// (you can use proc_open instead if you need to 
+// control the input of the pipeline too)
+//
+$fp = popen('zip -r - file1 file2 file3', 'r');
+
+// pick a bufsize that makes you happy (8192 has been suggested).
+$bufsize = 8192;
+$buff = '';
+while( !feof($fp) ) {
+   $buff = fread($fp, $bufsize);
+   echo $buff;
+}
+pclose($fp);
+*/
 	
 // exception handling for the database connection	
 } catch (MongoDB\Driver\Exception\Exception $e) {

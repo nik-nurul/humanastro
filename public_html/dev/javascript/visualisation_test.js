@@ -10,6 +10,7 @@ var maxGazaDataArraySize = 30; // save arrays of this size in browser memory bef
 var GazeFPS = 30; // Webcam FPS rate for GazeCloud
 
 var doPlotGaze = false; // if true, plot the gaze on screen
+var eyeTrackingStarted = false; // will be set to true after first GazeData received
 var GazeDataArray = [];
 var xhttp = new XMLHttpRequest();
 var userIdStr;  // get user ID string from PHP
@@ -28,7 +29,6 @@ var mouseDocX, mouseDocY, mouseScreenX, mouseScreenY;
 var task_data; // the whole task_data object from the MongoDB user record
 
 var task_dir = "tasks";
-//var tasks = []; // the current set of tasks - tutorialTasks or realTasks
 
 // task metadata will eventually be held in the MongoDB
 
@@ -47,8 +47,35 @@ var subtask_num = -1; // the current task and subtask numbers
 //}
 // **** end taskrunner global vars
 
+//{ **** Utility functions ****
 
-//{ **** GazeCloud functions ****
+//https://www.digitalocean.com/community/tutorials/js-fullscreen-api
+function activateFullscreen(element) {
+  if(element.requestFullscreen) {
+    element.requestFullscreen();        // W3C spec
+  }
+  else if (element.mozRequestFullScreen) {
+    element.mozRequestFullScreen();     // Firefox
+  }
+  else if (element.webkitRequestFullscreen) {
+    element.webkitRequestFullscreen();  // Safari
+  }
+  else if(element.msRequestFullscreen) {
+    element.msRequestFullscreen();      // IE/Edge
+  }
+  document.body.style.overflow = "hidden"; // prevent scrollbars from appearing
+}
+
+function deactivateFullscreen() {
+  if(document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.mozCancelFullScreen) {
+    document.mozCancelFullScreen();
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  }
+  document.body.style.overflow = "auto"; // restore normal scrollbar behaviour
+}
 
 function setMouseCoords(event){
 	mouseDocX = event.clientX;
@@ -56,6 +83,16 @@ function setMouseCoords(event){
 	mouseScreenX = event.screenX;
 	mouseScreenY = event.screenY;
 }
+
+
+// return the distance between two points
+function dist2points(x1,y1,x2,y2){
+	return Math.hypot(x2-x1, y2-y1);
+}
+//}
+// **** end Utility functions
+
+//{ **** GazeCloud functions ****
 
 // takes the GazeData object, adds userData and converts to JSON
 // then sends the JSON by AJAX HTTP POST method to saveToDB.php
@@ -92,7 +129,6 @@ function sendToDB(data) {
 // if the array is >= 10 elements, copy that array and append it to the MongoDB
 // then empty the GazeDataArray
 function saveData(GazeData){
-//	console.log('.'); // debug
 	GazeDataArray.push(GazeData);
 	if (GazeDataArray.length >= maxGazaDataArraySize){
 		sendToDB(GazeDataArray.slice()); // send a copy of the current array to the DB
@@ -144,10 +180,6 @@ function PlotGaze(GazeData) {
 	}
 }
 
-function dist2points(x1,y1,x2,y2){
-	return Math.hypot(x2-x1, y2-y1);
-}
-
 // this is called every time a GazaData message is received from the GazeCloud server
 function HandleGazeData(GazeData){
 	
@@ -155,7 +187,6 @@ function HandleGazeData(GazeData){
 	GazeData.astro.sessionTime = GazeData.time - startTime; // anonymise time
 	GazeData.astro.devicePixelRatio = window.devicePixelRatio;
 	GazeData.astro.imgWidth  = img.width;
-	console.log(img.width);
 	GazeData.astro.imgHeight = img.height;
 	GazeData.astro.canvasWidth  = c.width;
 	GazeData.astro.canvasHeight = c.height;
@@ -202,35 +233,6 @@ window.onmousemove = setMouseCoords;
 
 
 //{ **** taskrunner functions ***
-
-//https://www.digitalocean.com/community/tutorials/js-fullscreen-api
-function activateFullscreen(element) {
-  if(element.requestFullscreen) {
-    element.requestFullscreen();        // W3C spec
-  }
-  else if (element.mozRequestFullScreen) {
-    element.mozRequestFullScreen();     // Firefox
-  }
-  else if (element.webkitRequestFullscreen) {
-    element.webkitRequestFullscreen();  // Safari
-  }
-  else if(element.msRequestFullscreen) {
-    element.msRequestFullscreen();      // IE/Edge
-  }
-  document.body.style.overflow = "hidden"; // prevent scrollbars from appearing
-}
-
-function deactivateFullscreen() {
-  if(document.exitFullscreen) {
-    document.exitFullscreen();
-  } else if (document.mozCancelFullScreen) {
-    document.mozCancelFullScreen();
-  } else if (document.webkitExitFullscreen) {
-    document.webkitExitFullscreen();
-  }
-  document.body.style.overflow = "auto"; // restore normal scrollbar behaviour
-}
-
 // Will close the test window and direct user to thankyou.php
 function completeTest(){
 	deactivateFullscreen();
@@ -283,7 +285,6 @@ function resizeCanvas(){
 function getNextImage(task) {
 	img = new Image();
 	img.src = task_dir+"/"+task.image;
-//	console.log("img.src:",img.src); // debug
 	img.onload = function(){ // after the image is loaded, draw it in the canvas
 		resizeCanvas(); // resize the image to fit the current browser window size
 	}
@@ -341,8 +342,6 @@ function showEachTask(tasks, i, afterTasksFunction) {
 function showTasks(tasks, afterTasksFunction){
 	// iterate through tasks array
 	// this will eventually iterate through user / task_data in MongoDB
-//	console.log('showTasks() - tasks:',tasks); // debug
-
 	var i = 0;
 	showEachTask(tasks, i, afterTasksFunction);
 }
@@ -353,21 +352,16 @@ function getTasks(){
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			task_data = JSON.parse(this.responseText); // save the task data
-//			console.log('task_data:',task_data); // debug
 			// split the task_data into separate arrays
 			calibrationTasks	= task_data.filter(task => (task.phase === '1-refCal'));
 			tutorialTasks		= task_data.filter(task => (task.phase === '2-tutorial'));
 			realTasks			= task_data.filter(task => (task.phase === '3-task'));
-//			console.log('realTasks:',realTasks); // debug
 			
 		}
 	};
 	
 	// post request to the PHP page, include userIdStr as parameter
 	xhttp.open("GET", "getTasks.php?userId="+userIdStr, true);
-
-//	// the data type in the POST data to JSON
-//	xhttp.setRequestHeader("Content-type", "application/json");
 
 	xhttp.send();
 }
@@ -478,11 +472,11 @@ function changeToRefineCal(){
 function startCalibration() {
 	doPlotGaze = false; // turn off gaze plotting on screen
 	startTime = Date.now();
-	activateFullscreen(document.documentElement);
 
 	GazeCloudAPI.StartEyeTracking();
 	GazeCloudAPI.SetFps(GazeFPS);
 	changeToRefineCal();
+	activateFullscreen(document.documentElement); // do this after eye tracking starts - check this on safari
 }
 
 //}

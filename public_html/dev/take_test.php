@@ -81,10 +81,6 @@ exit();
         <hr style="margin-top:0px;">
         <h2 id="testHeading" class="heading_font" style="margin-top: 0px;"> Eye Calibration </h2>
         <hr class="heading" style="height:2px;"/>
-<!--    <div id="explanationDiv" class="content_paragraph" style="display:block;">
-        <hr class="heading"/>
-        <h2 id="testHeading" class="heading_font"> Eye Calibration </h2>
-        <hr class="heading"/> -->
         <p id="explanationPara" class="paragraph_font">
             There will be an eye calibration test before the visualisation tests take place.<br/><br/><br/>
             <b>The browser's window will be put into fullscreen mode. Please do not resize it.</b><br/>

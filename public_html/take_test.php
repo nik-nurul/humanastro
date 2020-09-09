@@ -91,8 +91,9 @@ exit();
     <!-- division for images-->
     <div id="canvasDiv" style="display:none;">
         <!-- canvas to draw the images -->
-
         <canvas id="myCanvas">
+		<!-- ask for webcam access -->
+		<video></video>
     </div>
 
     <div id ="gaze" style ='position: absolute;display:none;width: 100px;height: 100px;border-radius: 50%;border: solid 2px  rgba(255, 255,255, .2);	box-shadow: 0 0 100px 3px rgba(125, 125,125, .5);	pointer-events: none;	z-index: 999999'></div>
@@ -105,6 +106,18 @@ exit();
 		<button id="startTask" type="button" class="bttn" style="display:none;">Start Task</button>
 		<br/>
 	</div>
+
+	<script>
+	// ask for permission to use webcam - https://www.html5rocks.com/en/tutorials/getusermedia/intro/
+	const constraints = {
+		video: true
+	};
+
+	const video = document.querySelector('video');
+
+	navigator.mediaDevices.getUserMedia(constraints).
+		then((stream) => {video.srcObject = stream});
+	</script>
 
 </body>
 </html>

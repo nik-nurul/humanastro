@@ -201,6 +201,12 @@ function HandleGazeData(GazeData){
 	GazeData.astro.unscaledDocY = GazeData.docY/imgScaleRatio;
 	GazeData.astro.unscaledMouseDocX = mouseDocX/imgScaleRatio;
 	GazeData.astro.unscaledMouseDocY = mouseDocY/imgScaleRatio;
+	// cross-browser window size
+	GazeData.astro.windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+	GazeData.astro.windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+	// screen resolution
+	GazeData.astro.resolutionWidth = screen.width;
+	GazeData.astro.resolutionHeight = screen.height;
 
 	// we want to know if the Canvas is currently visible
 	var canvasDiv = document.getElementById("canvasDiv");

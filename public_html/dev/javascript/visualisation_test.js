@@ -152,11 +152,6 @@ function roundTo(n, digits) {
 // then empty the GazeDataArray
 function saveData(GazeData){
 	
-	GazeData.Xview = roundTo((GazeData.Xview), 3);
-	GazeData.Yview = roundTo((GazeData.Yview), 3);
-	
-	console.log(GazeData.Xview);
-	
 	GazeDataArray.push(GazeData); 
 	if (GazeDataArray.length >= maxGazaDataArraySize){
 		sendToDB(GazeDataArray.slice()); // send a copy of the current array to the DB

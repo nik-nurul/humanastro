@@ -78,7 +78,7 @@ try {
 		set_current_page($bulk, $_id, basename(__FILE__)); // write the name of the current page to the user record
 		
 		//delete answerdate
-		delete $bulk[answerdate];
+		//delete $bulk[answerdate];
 		// write the current_page data to the user record
 		$result = $manager->executeBulkWrite($dbName.'.'.$Ucoll, $bulk);
 

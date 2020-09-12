@@ -152,12 +152,10 @@ function roundTo(n, digits) {
 // then empty the GazeDataArray
 function saveData(GazeData){
 	
-	roundTo((GazeData[16]), 3);
-	roundTo((GazeData[17]), 3);
-	
 	// debug
-	console.log(GazeData[16]);
-	console.log(GazeData[16]);
+	console.log(GazeData.find(function(element) {
+		return element.hasOwnProperty("Xview");
+	}).Xview);
 	
 	
 	GazeDataArray.push(GazeData); 

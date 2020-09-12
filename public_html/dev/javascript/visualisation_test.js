@@ -187,7 +187,7 @@ function roundTo(n, digits) {
 	}
 
 	var multiplicator = Math.pow(10, digits);
-	n = parseFloat((n * multiplicator).toFixed(11));
+	n = parseFloat((n * multiplicator).toFixed(3));
 	var test =(Math.round(n) / multiplicator);
 	return +(test.toFixed(digits));
 }
@@ -208,10 +208,10 @@ function HandleGazeData(GazeData){
 	GazeData.astro.MouseDocX = mouseDocX;
 	GazeData.astro.MouseDocY = mouseDocY;
 	GazeData.astro.imgScaleRatio = imgScaleRatio;
-	GazeData.astro.unscaledDocX = roundTo(GazeData.docX / imgScaleRatio), 3);
-	GazeData.astro.unscaledDocY = roundTo(GazeData.docY / imgScaleRatio), 3);
-	GazeData.astro.unscaledMouseDocX = roundTo(mouseDocX / imgScaleRatio), 3);
-	GazeData.astro.unscaledMouseDocY = roundTo(mouseDocY / imgScaleRatio), 3);
+	GazeData.astro.unscaledDocX = roundTo((GazeData.docX / imgScaleRatio), 3);
+	GazeData.astro.unscaledDocY = roundTo((GazeData.docY / imgScaleRatio), 3);
+	GazeData.astro.unscaledMouseDocX = roundTo((mouseDocX / imgScaleRatio), 3);
+	GazeData.astro.unscaledMouseDocY = roundTo((mouseDocY / imgScaleRatio), 3);
 	// cross-browser window size
 	GazeData.astro.windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 	GazeData.astro.windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;

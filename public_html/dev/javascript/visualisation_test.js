@@ -181,9 +181,20 @@ function PlotGaze(GazeData) {
 	}
 }
 
+function roundTo(n, digits) {
+	if (digits === undefined) {
+	digits = 0;
+	}
+
+	var multiplicator = Math.pow(10, digits);
+	n = parseFloat((n * multiplicator).toFixed(11));
+	var test =(Math.round(n) / multiplicator);
+	return +(test.toFixed(digits));
+}
+   
 // this is called every time a GazaData message is received from the GazeCloud server
 function HandleGazeData(GazeData){
-	
+
 	GazeData.astro = {};
 	GazeData.astro.sessionTime = GazeData.time - startTime;
 	GazeData.time = null; // anonymise time
@@ -197,10 +208,10 @@ function HandleGazeData(GazeData){
 	GazeData.astro.MouseDocX = mouseDocX;
 	GazeData.astro.MouseDocY = mouseDocY;
 	GazeData.astro.imgScaleRatio = imgScaleRatio;
-	GazeData.astro.unscaledDocX = (GazeData.docX/imgScaleRatio).toFixed(3);
-	GazeData.astro.unscaledDocY = (GazeData.docY/imgScaleRatio).toFixed(3);
-	GazeData.astro.unscaledMouseDocX = (mouseDocX/imgScaleRatio).toFixed(3);
-	GazeData.astro.unscaledMouseDocY = (mouseDocY/imgScaleRatio).toFixed(3);
+	GazeData.astro.unscaledDocX = roundTo(GazeData.docX / imgScaleRatio), 3);
+	GazeData.astro.unscaledDocY = roundTo(GazeData.docY / imgScaleRatio), 3);
+	GazeData.astro.unscaledMouseDocX = roundTo(mouseDocX / imgScaleRatio), 3);
+	GazeData.astro.unscaledMouseDocY = roundTo(mouseDocY / imgScaleRatio), 3);
 	// cross-browser window size
 	GazeData.astro.windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 	GazeData.astro.windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;

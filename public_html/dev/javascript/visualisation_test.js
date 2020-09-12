@@ -124,12 +124,41 @@ function sendToDB(data) {
 	xhttp.send(jsonData);
 }
 
+function roundTo(n, digits) {
+	var negative = false;
+	
+	if (digits === undefined) {
+		digits = 0;
+	}
+	if (n < 0){
+		negative = true;
+		n = n * -1;
+	}
+
+	var multiplicator = Math.pow(10, digits);
+	n = parseFloat((n * multiplicator).toFixed(3));
+	var test =(Math.round(n) / multiplicator);
+	return +(test.toFixed(digits));
+	
+	if(negative){
+		n = (n * -1).toFixed(digits);
+	}
+	
+	return n;
+}
+
 // pushes each GazeData point to an array
 // if the array is >= 10 elements, copy that array and append it to the MongoDB
 // then empty the GazeDataArray
 function saveData(GazeData){
 	
-	console.log(GazeData); // debug
+	roundTo((GazeData[16]), 3);
+	roundTo((GazeData[17]), 3);
+	
+	// debug
+	console.log(GazeData[16);
+	console.log(GazeData[16);
+	
 	
 	GazeDataArray.push(GazeData); 
 	if (GazeDataArray.length >= maxGazaDataArraySize){
@@ -184,28 +213,7 @@ function PlotGaze(GazeData) {
 	}
 }
 
-function roundTo(n, digits) {
-	var negative = false;
-	
-	if (digits === undefined) {
-		digits = 0;
-	}
-	if (n < 0){
-		negative = true;
-		n = n * -1;
-	}
 
-	var multiplicator = Math.pow(10, digits);
-	n = parseFloat((n * multiplicator).toFixed(3));
-	var test =(Math.round(n) / multiplicator);
-	return +(test.toFixed(digits));
-	
-	if(negative){
-		n = (n * -1).toFixed(digits);
-	}
-	
-	return n;
-}
    
 // this is called every time a GazaData message is received from the GazeCloud server
 function HandleGazeData(GazeData){

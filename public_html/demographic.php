@@ -78,11 +78,7 @@ try {
 		set_current_page($bulk, $_id, basename(__FILE__)); // write the name of the current page to the user record
 
 		//delete answerdate
-<<<<<<< HEAD
 		unset($bulk["answerdate"]);
-=======
-		//delete $bulk[answerdate];
->>>>>>> parent of 8542d80... Remove answerdate
 		// write the current_page data to the user record
 		$result = $manager->executeBulkWrite($dbName.'.'.$Ucoll, $bulk);
 

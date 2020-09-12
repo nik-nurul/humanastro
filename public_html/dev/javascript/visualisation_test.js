@@ -128,7 +128,10 @@ function sendToDB(data) {
 // if the array is >= 10 elements, copy that array and append it to the MongoDB
 // then empty the GazeDataArray
 function saveData(GazeData){
-	GazeDataArray.push(GazeData);
+	
+	console.log(GazeData); // debug
+	
+	GazeDataArray.push(GazeData); 
 	if (GazeDataArray.length >= maxGazaDataArraySize){
 		sendToDB(GazeDataArray.slice()); // send a copy of the current array to the DB
 		

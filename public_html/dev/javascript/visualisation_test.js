@@ -153,10 +153,7 @@ function roundTo(n, digits) {
 function saveData(GazeData){
 	
 	// debug
-	console.log(GazeData.find(function(element) {
-		return element.hasOwnProperty("Xview");
-	}).Xview);
-	
+	console.log(GazeData.Xview);
 	
 	GazeDataArray.push(GazeData); 
 	if (GazeDataArray.length >= maxGazaDataArraySize){

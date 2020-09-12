@@ -156,8 +156,8 @@ function saveData(GazeData){
 	roundTo((GazeData[17]), 3);
 	
 	// debug
-	console.log(GazeData[16);
-	console.log(GazeData[16);
+	console.log(GazeData[16]);
+	console.log(GazeData[16]);
 	
 	
 	GazeDataArray.push(GazeData); 

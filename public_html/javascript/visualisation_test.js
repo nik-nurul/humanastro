@@ -152,13 +152,6 @@ function roundTo(n, digits) {
 // then empty the GazeDataArray
 function saveData(GazeData){
 	
-	roundTo((GazeData[16]), 3);
-	roundTo((GazeData[17]), 3);
-	
-	// debug
-	console.log(GazeData[16]);
-	console.log(GazeData[16]);
-	
 	GazeDataArray.push(GazeData);
 	if (GazeDataArray.length >= maxGazaDataArraySize){
 		sendToDB(GazeDataArray.slice()); // send a copy of the current array to the DB

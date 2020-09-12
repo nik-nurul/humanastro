@@ -155,6 +155,8 @@ function saveData(GazeData){
 	roundTo((GazeData.Xview), 3);
 	roundTo((GazeData.Yview), 3);
 	
+	console.log(GazeData.Xview);
+	
 	GazeDataArray.push(GazeData); 
 	if (GazeDataArray.length >= maxGazaDataArraySize){
 		sendToDB(GazeDataArray.slice()); // send a copy of the current array to the DB

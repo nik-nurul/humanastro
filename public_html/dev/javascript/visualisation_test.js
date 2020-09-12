@@ -197,10 +197,10 @@ function HandleGazeData(GazeData){
 	GazeData.astro.MouseDocX = mouseDocX;
 	GazeData.astro.MouseDocY = mouseDocY;
 	GazeData.astro.imgScaleRatio = imgScaleRatio;
-	GazeData.astro.unscaledDocX = GazeData.docX/imgScaleRatio;
-	GazeData.astro.unscaledDocY = GazeData.docY/imgScaleRatio;
-	GazeData.astro.unscaledMouseDocX = mouseDocX/imgScaleRatio;
-	GazeData.astro.unscaledMouseDocY = mouseDocY/imgScaleRatio;
+	GazeData.astro.unscaledDocX = (GazeData.docX/imgScaleRatio).toFixed(3);
+	GazeData.astro.unscaledDocY = (GazeData.docY/imgScaleRatio).toFixed(3);
+	GazeData.astro.unscaledMouseDocX = (mouseDocX/imgScaleRatio).toFixed(3);
+	GazeData.astro.unscaledMouseDocY = (mouseDocY/imgScaleRatio).toFixed(3);
 	// cross-browser window size
 	GazeData.astro.windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 	GazeData.astro.windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;

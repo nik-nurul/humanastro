@@ -92,7 +92,7 @@ require_once 'includes/feeback-link.php';
 					(in_array($_POST["Age"], array("18-25", "26-35", "36-45", ">45", "agenot") ) )
 				)
 			) {
-				$date = date("Y-m-d H:i:s\Z"); // date/time string to store with answer
+				//$date = date("Y-m-d H:i:s\Z"); // date/time string to store with answer -- (last updated: 13 Sept 2020) - For now, it is commented a we dont want to show the date/time to ensure anonymity)
 				// iterate through the demographic questions to set their answers
 				foreach ($userDoc->demographic_data as $q){
 					$q_id = $q->q_id;		// the abbreviated question identifier
@@ -120,11 +120,11 @@ require_once 'includes/feeback-link.php';
 							$u_filter,
 							[ '$set' => [ "demographic_data.$.answer" => $answer ]]
 						);
-						// record the date of the answer
-						$bulk->update(
-							$u_filter,
-							[ '$set' => [ "demographic_data.$.answerdate" => $date ]]
-						);
+						// record the date of the answer -- (last updated: 13 Sept 2020) - For now, it is commented a we dont want to show the date/time to ensure anonymity)
+						//$bulk->update(
+						//	$u_filter,
+						//	[ '$set' => [ "demographic_data.$.answerdate" => $date ]]
+						//);
 					}
 				}
 		/*		

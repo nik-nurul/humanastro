@@ -124,11 +124,35 @@ function sendToDB(data) {
 	xhttp.send(jsonData);
 }
 
+function roundTo(n, digits) {
+	var negative = false;
+	
+	if (digits === undefined) {
+		digits = 0;
+	}
+	if (n < 0){
+		negative = true;
+		n = n * -1;
+	}
+
+	var multiplicator = Math.pow(10, digits);
+	n = parseFloat((n * multiplicator).toFixed(3));
+	var test =(Math.round(n) / multiplicator);
+	return +(test.toFixed(digits));
+	
+	if(negative){
+		n = (n * -1).toFixed(digits);
+	}
+	
+	return n;
+}
+
 // pushes each GazeData point to an array
 // if the array is >= 10 elements, copy that array and append it to the MongoDB
 // then empty the GazeDataArray
 function saveData(GazeData){
-	GazeDataArray.push(GazeData);
+		
+	GazeDataArray.push(GazeData); 
 	if (GazeDataArray.length >= maxGazaDataArraySize){
 		sendToDB(GazeDataArray.slice()); // send a copy of the current array to the DB
 		
@@ -181,9 +205,11 @@ function PlotGaze(GazeData) {
 	}
 }
 
+
+   
 // this is called every time a GazaData message is received from the GazeCloud server
 function HandleGazeData(GazeData){
-	
+
 	GazeData.astro = {};
 	GazeData.astro.sessionTime = GazeData.time - startTime;
 	GazeData.time = null; // anonymise time
@@ -196,11 +222,11 @@ function HandleGazeData(GazeData){
 	GazeData.astro.vRatio = vRatio;
 	GazeData.astro.MouseDocX = mouseDocX;
 	GazeData.astro.MouseDocY = mouseDocY;
-	GazeData.astro.imgScaleRatio = imgScaleRatio;
-	GazeData.astro.unscaledDocX = GazeData.docX/imgScaleRatio;
-	GazeData.astro.unscaledDocY = GazeData.docY/imgScaleRatio;
-	GazeData.astro.unscaledMouseDocX = mouseDocX/imgScaleRatio;
-	GazeData.astro.unscaledMouseDocY = mouseDocY/imgScaleRatio;
+	GazeData.astro.imgScaleRatio = roundTo((imgScaleRatio), 3);
+	GazeData.astro.unscaledDocX = roundTo((GazeData.docX / imgScaleRatio), 3);
+	GazeData.astro.unscaledDocY = roundTo((GazeData.docY / imgScaleRatio), 3);
+	GazeData.astro.unscaledMouseDocX = roundTo((mouseDocX / imgScaleRatio), 3);
+	GazeData.astro.unscaledMouseDocY = roundTo((mouseDocY / imgScaleRatio), 3);
 	// cross-browser window size
 	GazeData.astro.windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 	GazeData.astro.windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;

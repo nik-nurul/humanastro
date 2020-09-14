@@ -48,6 +48,32 @@ var subtask_num = -1;
 
 //{ **** Utility functions ****
 
+// rounds a floating-point number to digits number of places
+function roundTo(n, digits) {
+	var negative = false;
+	
+	if (digits === undefined) {
+		digits = 0;
+	}
+	if (n < 0){
+		negative = true;
+		n = n * -1;
+	}
+
+	var multiplicator = Math.pow(10, digits);
+	n = parseFloat((n * multiplicator).toFixed(3));
+	var test =(Math.round(n) / multiplicator);
+	return +(test.toFixed(digits));
+	
+	if(negative){
+		n = (n * -1).toFixed(digits);
+	}
+	
+	return n;
+}
+
+
+
 //https://www.digitalocean.com/community/tutorials/js-fullscreen-api
 function activateFullscreen(element) {
   if(element.requestFullscreen) {
@@ -122,29 +148,6 @@ function sendToDB(data) {
 
 	// convert javascript object to a JSON string and submit with the POST request
 	xhttp.send(jsonData);
-}
-
-function roundTo(n, digits) {
-	var negative = false;
-	
-	if (digits === undefined) {
-		digits = 0;
-	}
-	if (n < 0){
-		negative = true;
-		n = n * -1;
-	}
-
-	var multiplicator = Math.pow(10, digits);
-	n = parseFloat((n * multiplicator).toFixed(3));
-	var test =(Math.round(n) / multiplicator);
-	return +(test.toFixed(digits));
-	
-	if(negative){
-		n = (n * -1).toFixed(digits);
-	}
-	
-	return n;
 }
 
 // pushes each GazeData point to an array

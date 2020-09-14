@@ -44,7 +44,7 @@ try {
 	// only write answers to database if consent was given
 	if ( isset( $_SESSION["consent"] ) and $_SESSION["consent"] ) {
 		
-		$date = date("Y-m-d H:i:s\Z"); // date/time string to store with answer
+		//$date = date("Y-m-d H:i:s\Z"); // date/time string to store with answer -- (last updated: 13 Sept 2020) - For now, it is commented a we dont want to show the date/time to ensure anonymity)
 		// iterate through the experience questions to set their answers
 		foreach ($userDoc->experience_data as $q){
 			$q_id = $q->q_id;		// the abbreviated question identifier
@@ -61,11 +61,11 @@ try {
 					$u_filter,
 					[ '$set' => [ "experience_data.$.answer" => $answer ]]
 				);
-				// record the date of the answer
-				$bulk->update(
-					$u_filter,
-					[ '$set' => [ "experience_data.$.answerdate" => null ]] //supposed to be $date here but null is placed instead. To ensure anonymity
-				);
+				// record the date of the answer -- (last updated: 13 Sept 2020) - For now, it is commented a we dont want to show the date/time to ensure anonymity)
+				//$bulk->update(
+				//	$u_filter,
+				//	[ '$set' => [ "experience_data.$.answerdate" => null ]] //supposed to be $date here but null is placed instead. To ensure anonymity
+				//);
 			}
 		}
 

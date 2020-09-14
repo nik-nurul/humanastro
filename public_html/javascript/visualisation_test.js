@@ -211,6 +211,8 @@ function HandleGazeData(GazeData){
 	GazeData.astro = {};
 	GazeData.astro.sessionTime = GazeData.time - startTime;
 	GazeData.time = null; // anonymise time
+	GazeData.Xview =roundTo((GazeData.Xview),3); //Set the Xview to have 3 d.p
+ 	GazeData.Yview =roundTo((GazeData.Yview),3); //Set the Yview to have 3 d.p
 	GazeData.astro.devicePixelRatio = window.devicePixelRatio;
 	GazeData.astro.imgWidth  = img.width;
 	GazeData.astro.imgHeight = img.height;

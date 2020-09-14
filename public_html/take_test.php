@@ -11,7 +11,7 @@ require_once 'includes/functions.php';
 // don't do anything if consent is not true
 if ( isset( $_SESSION["consent"] ) and $_SESSION["consent"] ) {
 	$userIdStr = sanitise_input($_GET["userId"]); // defend against malicious GET requests
-	
+
 	try {
 		$manager = new MongoDB\Driver\Manager("mongodb://localhost:27017"); // connect to the Mongo DB
 		$bulk = new MongoDB\Driver\BulkWrite(['ordered' => true]);
@@ -19,19 +19,19 @@ if ( isset( $_SESSION["consent"] ) and $_SESSION["consent"] ) {
 		$filter = [ "_id" => $_id ];
 		set_current_page($bulk, $_id, basename(__FILE__)); // write the name of the current page to the user record
 		$result = $manager->executeBulkWrite($dbName.'.'.$collName, $bulk);
-		
-	// exception handling for the database connection	
+
+	// exception handling for the database connection
 	} catch (MongoDB\Driver\Exception\Exception $e) {
 
 		$filename = basename(__FILE__);
-		
-		echo "The $filename script has experienced an error.\n"; 
+
+		echo "The $filename script has experienced an error.\n";
 		echo "It failed with the following exception:\n";
-		
+
 		echo "Exception:", $e->getMessage(), "\n";
 		echo "In file:", $e->getFile(), "\n";
-		echo "On line:", $e->getLine(), "\n";       
-	}	
+		echo "On line:", $e->getLine(), "\n";
+	}
 } else {
 	// consent was false
 	echo '
@@ -43,7 +43,7 @@ if ( isset( $_SESSION["consent"] ) and $_SESSION["consent"] ) {
 ';
 // TO DO - handle no consent error better here
 exit();
-	}		
+	}
 ?>
 
 <!DOCTYPE html>
@@ -85,38 +85,39 @@ exit();
             There will be an eye calibration test before the visualisation tests take place.<br/><br/><br/>
             <b>The browser's window will be put into fullscreen mode. Please do not resize it.</b><br/>
         </p>
-		<img id="subtask_image" src="" style="display:none;"/>
-    </div>
+				<img id="subtask_image" src="" style="display:none;"/>
+   </div>
 
     <!-- division for images-->
     <div id="canvasDiv" style="display:none;">
         <!-- canvas to draw the images -->
         <canvas id="myCanvas">
-		<!-- ask for webcam access -->
-		<video></video>
+				<!-- ask for webcam access -->
+				<video></video>
     </div>
 
     <div id ="gaze" style ='position: absolute;display:none;width: 100px;height: 100px;border-radius: 50%;border: solid 2px  rgba(255, 255,255, .2);	box-shadow: 0 0 100px 3px rgba(125, 125,125, .5);	pointer-events: none;	z-index: 999999'></div>
 
 	<!-- division for buttons. -->
 	<div id='buttonsDiv' class="content_paragraph" style="margin-top:20px; margin-bottom:20px; float:right;">
-		<!-- Button to start eye calibration-->
-		<button id="startCalibration" type="button" class="bttn">Start Eye Calibration</button>
-		<!-- Button to start each task. Initially hidden -->
-		<button id="startTask" type="button" class="bttn" style="display:none;">Start Task</button>
-		<br/>
+			<!-- Button to start eye calibration-->
+			<button id="startCalibration" type="button" class="bttn">Start Eye Calibration</button>
+			<!-- Button to start each task. Initially hidden -->
+			<button id="startTask" type="button" class="bttn" style="display:none;">Start Task</button>
+			<br/>
 	</div>
 
 	<script>
-	// ask for permission to use webcam - https://www.html5rocks.com/en/tutorials/getusermedia/intro/
-	const constraints = {
-		video: true
-	};
+			// ask for permission to use webcam - https://www.html5rocks.com/en/tutorials/getusermedia/intro/
+			// Using, this, the permission will be persistent. That is, users won't have to grant/deny access every time.
+			const constraints = {
+				video: true
+			};
 
-	const video = document.querySelector('video');
+			const video = document.querySelector('video');
 
-	navigator.mediaDevices.getUserMedia(constraints).
-		then((stream) => {video.srcObject = stream});
+			navigator.mediaDevices.getUserMedia(constraints).
+				then((stream) => {video.srcObject = stream});
 	</script>
 
 </body>

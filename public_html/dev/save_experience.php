@@ -64,7 +64,7 @@ try {
 				// record the date of the answer
 				$bulk->update(
 					$u_filter,
-					[ '$set' => [ "experience_data.$.answerdate" => $date ]]
+					[ '$set' => [ "experience_data.$.answerdate" => null ]] //supposed to be $date here but null is placed instead. To ensure anonymity
 				);
 			}
 		}

@@ -17,6 +17,8 @@ var userIdStr;  // get user ID string from PHP
 var startTime;  // used to anonymise the timestams on saved data
 var mouseDocX, mouseDocY, mouseScreenX, mouseScreenY;
 
+var gazeTargetFound = false; // changed to true when user looks at target for 5 secs
+
 //}
 // **** end GazeCloud global vars ****
 
@@ -494,8 +496,30 @@ function init(){
 	GazeCloudAPI.OnError =  function(msg){ console.log('err: ' + msg)  }
 	GazeCloudAPI.UseClickRecalibration = true;
 	GazeCloudAPI.OnResult = HandleGazeData;
-	
 }
+
+// To check if the user has found the target
+ function taskCompleteCheck()
+ {
+ 	var gazeTargetTime = 5;
+
+ 	if (dist2points() <= TargetRadius && timeGazeInsideTargetArea == null)
+ 	{
+ 		timeGazeInsideTargetArea = GazeData.astro.sessionTime;
+ 	}
+
+ 	if (timeGazeInsideTargetArea != null && (GazeData.astro.sessionTime - timeGazeInsideTargetArea) >= (gazeTargetTime * 1000))
+ 	{
+ 		gazeTargetFound = true;
+ 	}
+
+ 	if (timeGazeInsideTargetArea != null && dist2points() > TargetRadius)
+ 	{
+ 		gazeTargetFound = false;
+ 		timeGazeInsideTargetArea = null;
+ 	}
+
+ }
 
 window.onresize = resizeCanvas; // resize the canvas whenever the browser window is resized
 window.onmousemove = setMouseCoords; // record mouse coordinates

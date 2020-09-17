@@ -98,8 +98,8 @@ div.navibar a {
 
 /* style when navibar is hovered */
 .navibar a:hover{
-	background-color: rgba(105, 102, 110, 0.5);
-	color: black;
+	background-color: rgba(105, 102, 110, 0.6);
+	color: white;
 }
 
 

@@ -96,6 +96,13 @@ div.navibar a {
 }
 
 
+/* style when navibar is hovered */
+.navibar a:hover{
+	background-color: rgba(105, 102, 110, 0.6);
+	color: white;
+}
+
+
 
 /* Style for website title (index.php) */
 #web_title{

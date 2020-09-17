@@ -96,6 +96,12 @@ div.navibar a {
 }
 
 
+/* style when navibar is hovered */
+.navibar a:hover{
+	background-color: #ddd;
+	color: black;
+}
+
 
 /* Style for website title (index.php) */
 #web_title{

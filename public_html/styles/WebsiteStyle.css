@@ -102,7 +102,14 @@ div.navibar a {
 	color: white;
 }
 
+/* style for navibar when scrolled */
+.navibar.nav-colored {
+		background-color: rgba(99, 98, 102, 0.6);
+}
 
+.navibar.nav-transparent {
+	background-color: none;
+}
 
 /* Style for website title (index.php) */
 #web_title{

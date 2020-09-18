@@ -103,12 +103,11 @@ div.navibar a {
 }
 
 /* style for navibar when scrolled */
-.navibar-scroll {
-		background-color: blue;
+.navibar.nav-colored {
+		background-color: rgba(99, 98, 102, 0.6);
 }
 
-/* remove background color for navigation bar */
-.navibar-no-colour {
+.navibar.nav-transparent {
 	background-color: none;
 }
 

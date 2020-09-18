@@ -247,16 +247,7 @@ function HandleGazeData(GazeData){
 		&& subtask_num > -1
 		&& canvasDiv.style.display == "block"
 		){
-		if (// save the distance from Gaze to Target if the subtask has a target
-			   current_subtask.hasOwnProperty('targetX')
-			&& current_subtask.hasOwnProperty('targetY')
-		){
-			GazeData.astro.unscaledGazeTargetDist = dist2points(
-				GazeData.astro.unscaledDocX,
-				GazeData.astro.unscaledDocY,
-				current_subtask.targetX,
-				current_subtask.targetY
-			);
+		
 			if (GazeData.astro.unscaledGazeTargetDist <  current_subtask.targetRadius)
 				// this is where the users' gaze is on the target
 				console.log('GazeData.astro.unscaledGazeTargetDist:',GazeData.astro.unscaledGazeTargetDist); // debug
@@ -264,7 +255,8 @@ function HandleGazeData(GazeData){
 		saveData(GazeData); // send each GazeData point to the MongoDB
 	}
 	PlotGaze(GazeData); // show the gaze position in the browser window
-
+	
+	function taskCompleteCheck(GazeData)
 }
 
 
@@ -503,6 +495,18 @@ function init(){
  {
  	var gazeTargetTime = 5;
 
+ 	if (// save the distance from Gaze to Target if the subtask has a target
+			   current_subtask.hasOwnProperty('targetX')
+			&& current_subtask.hasOwnProperty('targetY')
+			&& current_subtask.hasOwnProperty('targetRadius')
+		){
+			GazeData.astro.unscaledGazeTargetDist = dist2points(
+				GazeData.astro.unscaledDocX,
+				GazeData.astro.unscaledDocY,
+				current_subtask.targetX,
+				current_subtask.targetY
+			);
+
  	if (dist2points() <= TargetRadius && timeGazeInsideTargetArea == null)
  	{
  		timeGazeInsideTargetArea = GazeData.astro.sessionTime;
@@ -518,6 +522,7 @@ function init(){
  		gazeTargetFound = false;
  		timeGazeInsideTargetArea = null;
  	}
+
 
  }
 

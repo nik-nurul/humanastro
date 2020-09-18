@@ -5,13 +5,14 @@
 
 /* Change the navigation bar background color if scrolled passed the background image*/
 var navbar = document.getElementById("navibarID");
-window.onscroll = function () {
-    if (document.body.scrollTop >= 200 ) {
-        navbar.classList.add("navibar-scroll");
-        navbar.classList.remove("navibar-no-color");
-    }
-    else {
-        navbar.classList.add("navibar-no-color");
-        navbar.classList.remove("navibar-scroll");
-    }
-};
+
+window.addEventListener('scroll', function (e) {
+    var navbar = document.getElementById('navibarID');
+    if (document.documentElement.scrollTop || document.body.scrollTop >100) {
+            navbar.classList.add('nav-colored');
+            navbar.classList.remove('nav-transparent');
+        } else {
+            navbar.classList.add('nav-transparent');
+            navbar.classList.remove('nav-colored');
+        }
+});

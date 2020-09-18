@@ -223,8 +223,8 @@ function PlotGaze(GazeData) {
 			&& current_subtask.hasOwnProperty('targetRadius')
 		){
 			GazeData.astro.unscaledGazeTargetDist = dist2points(
-				GazeData.astro.unscaledDocX,
-				GazeData.astro.unscaledDocY,
+				GazeData.astro.unscaledMouseDocX,
+				GazeData.astro.unscaledMouseDocY,
 				current_subtask.targetX,
 				current_subtask.targetY
 			);

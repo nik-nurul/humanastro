@@ -241,7 +241,8 @@ function PlotGaze(GazeData) {
 	 	if (timeGazeInsideTargetArea != null 
 	 		&& (GazeData.astro.sessionTime - timeGazeInsideTargetArea) >= (gazeTargetTime * 1000))
 	 	{
-	 		gazeTargetFound = true;
+	 		// gazeTargetFound = true;
+	 		gazeTargetTime = null;
 	 		endSubtask();
 	 		console.log('Target Found'); // debug
 	 	}
@@ -250,7 +251,7 @@ function PlotGaze(GazeData) {
 	 	if (timeGazeInsideTargetArea != null 
 	 		&& GazeData.astro.unscaledGazeTargetDist > current_subtask.targetRadius)
 	 	{
-	 		gazeTargetFound = false;
+	 		// gazeTargetFound = false;
 	 		timeGazeInsideTargetArea = null;
 	 	}
 	}

@@ -242,7 +242,7 @@ function PlotGaze(GazeData) {
 	 		&& (GazeData.astro.sessionTime - timeGazeInsideTargetArea) >= (gazeTargetTime * 1000))
 	 	{
 	 		// gazeTargetFound = true;
-	 		timeGazeInsideTargetTime = null;
+	 		timeGazeInsideTargetArea = null;
 	 		endSubtask();
 	 		console.log('Target Found'); // debug
 	 	}

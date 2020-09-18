@@ -223,26 +223,31 @@ function PlotGaze(GazeData) {
 			&& current_subtask.hasOwnProperty('targetRadius')
 		)
  	{
-			GazeData.astro.unscaledGazeTargetDist = dist2points(
-				GazeData.astro.unscaledMouseDocX,
-				GazeData.astro.unscaledMouseDocY,
-				current_subtask.targetX,
-				current_subtask.targetY
-			);
+		GazeData.astro.unscaledGazeTargetDist = dist2points(
+			GazeData.astro.unscaledMouseDocX,
+			GazeData.astro.unscaledMouseDocY,
+			current_subtask.targetX,
+			current_subtask.targetY);
 
- 		if (GazeData.astro.unscaledGazeTargetDist <= TargetRadius && timeGazeInsideTargetArea == null)
-	 	{
+		// true if first time gaze is on target. stamps time
+ 		if (GazeData.astro.unscaledGazeTargetDist <= current_subtask.targetRadius 
+ 			&& timeGazeInsideTargetArea == null)	
+ 		{
 	 		timeGazeInsideTargetArea = GazeData.astro.sessionTime;
-	 	}
-
-	 	if (timeGazeInsideTargetArea != null && (GazeData.astro.sessionTime - timeGazeInsideTargetArea) >= (gazeTargetTime * 1000))
+ 		}
+	 	
+	 	// true if gaze has remained on target longer than gaze target time
+	 	if (timeGazeInsideTargetArea != null 
+	 		&& (GazeData.astro.sessionTime - timeGazeInsideTargetArea) >= (gazeTargetTime * 1000))
 	 	{
 	 		gazeTargetFound = true;
 	 		endSubtask();
 	 		console.log('Target Found'); // debug
 	 	}
 
-	 	if (timeGazeInsideTargetArea != null && GazeData.astro.unscaledGazeTargetDist > TargetRadius)
+	 	//true if gaze moves off target after gaze has been on target
+	 	if (timeGazeInsideTargetArea != null 
+	 		&& GazeData.astro.unscaledGazeTargetDist > current_subtask.targetRadius)
 	 	{
 	 		gazeTargetFound = false;
 	 		timeGazeInsideTargetArea = null;

@@ -290,7 +290,6 @@ function HandleGazeData(GazeData){
 			saveData(GazeData); // send each GazeData point to the MongoDB
 		}
 		
-	}
 	PlotGaze(GazeData); // show the gaze position in the browser window
 }
 

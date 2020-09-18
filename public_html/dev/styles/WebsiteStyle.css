@@ -2,7 +2,7 @@
 filename: WebsiteStyle.css
 author: SWE40001 Group 3
 created: 24TH APRIL 2020
-last modified: 13TH MAY 2020
+last modified: 18TH SEPT 2020
 purpose: CSS Stylesheet for Astronomy Website
 */
 
@@ -100,6 +100,16 @@ div.navibar a {
 .navibar a:hover{
 	background-color: rgba(105, 102, 110, 0.6);
 	color: white;
+}
+
+/* style for navibar when scrolled */
+.navibar-scroll {
+		background-color: blue;
+}
+
+/* remove background color for navigation bar */
+.navibar-no-colour {
+	background-color: none;
 }
 
 

@@ -221,7 +221,8 @@ function PlotGaze(GazeData) {
 			   current_subtask.hasOwnProperty('targetX')
 			&& current_subtask.hasOwnProperty('targetY')
 			&& current_subtask.hasOwnProperty('targetRadius')
-		){
+		)
+ 	{
 			GazeData.astro.unscaledGazeTargetDist = dist2points(
 				GazeData.astro.unscaledMouseDocX,
 				GazeData.astro.unscaledMouseDocY,
@@ -229,23 +230,24 @@ function PlotGaze(GazeData) {
 				current_subtask.targetY
 			);
 
- 	if (GazeData.astro.unscaledGazeTargetDist <= TargetRadius && timeGazeInsideTargetArea == null)
- 	{
- 		timeGazeInsideTargetArea = GazeData.astro.sessionTime;
- 	}
+ 		if (GazeData.astro.unscaledGazeTargetDist <= TargetRadius && timeGazeInsideTargetArea == null)
+	 	{
+	 		timeGazeInsideTargetArea = GazeData.astro.sessionTime;
+	 	}
 
- 	if (timeGazeInsideTargetArea != null && (GazeData.astro.sessionTime - timeGazeInsideTargetArea) >= (gazeTargetTime * 1000))
- 	{
- 		gazeTargetFound = true;
- 		endSubtask();
- 		console.log('Target Found'); // debug
- 	}
+	 	if (timeGazeInsideTargetArea != null && (GazeData.astro.sessionTime - timeGazeInsideTargetArea) >= (gazeTargetTime * 1000))
+	 	{
+	 		gazeTargetFound = true;
+	 		endSubtask();
+	 		console.log('Target Found'); // debug
+	 	}
 
- 	if (timeGazeInsideTargetArea != null && GazeData.astro.unscaledGazeTargetDist > TargetRadius)
- 	{
- 		gazeTargetFound = false;
- 		timeGazeInsideTargetArea = null;
- 	}
+	 	if (timeGazeInsideTargetArea != null && GazeData.astro.unscaledGazeTargetDist > TargetRadius)
+	 	{
+	 		gazeTargetFound = false;
+	 		timeGazeInsideTargetArea = null;
+	 	}
+	}
 
 
  }

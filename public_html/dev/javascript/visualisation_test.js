@@ -19,6 +19,8 @@ var mouseDocX, mouseDocY, mouseScreenX, mouseScreenY;
 
 var gazeTargetFound = false; // changed to true when user looks at target for 5 secs
 
+var endSubtask;
+
 //}
 // **** end GazeCloud global vars ****
 
@@ -213,7 +215,7 @@ function PlotGaze(GazeData) {
 // To check if the user has found the target
  function taskCompleteCheck(GazeData)
  {
- 	var gazeTargetTime = 5;
+ 	var gazeTargetTime = 1;
 
  	if (// save the distance from Gaze to Target if the subtask has a target
 			   current_subtask.hasOwnProperty('targetX')
@@ -235,6 +237,8 @@ function PlotGaze(GazeData) {
  	if (timeGazeInsideTargetArea != null && (GazeData.astro.sessionTime - timeGazeInsideTargetArea) >= (gazeTargetTime * 1000))
  	{
  		gazeTargetFound = true;
+ 		endSubtask();
+ 		console.log('Target Found'); // debug
  	}
 
  	if (timeGazeInsideTargetArea != null && GazeData.astro.unscaledGazeTargetDist > TargetRadius)
@@ -441,7 +445,7 @@ function startNextSubtask() {
 	var handleSpacebar; // hoist function definition so endSubtask can see it
 
 	// callback to setTimeout and to spacebar pressed event
-	var endSubtask = function(){
+	endSubtask = function(){
 		window.removeEventListener("keydown", handleSpacebar);
 		if (doPlotGaze) doPlotGaze = false; // stop plotting the gaze on sceen
 		img = new Image();

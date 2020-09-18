@@ -314,3 +314,67 @@ footer {
   background-color: white;
   color: black;
 }
+
+
+
+/*Medium  */
+@media screen and (max-width: 63.5em) {
+
+	/*Medium web title*/
+	#web_title {
+		font-size: 2.7em;
+		letter-spacing: 2px;
+		text-shadow: 2.5px 1.5px 1.5px rgb(0,0,0);
+		margin-bottom: 100px;
+	}
+
+	/*Medium heading font*/
+	.heading_font {
+	  font-family: 'Russo One';
+	  letter-spacing: 1.5px;
+	  color: rgba(250, 250, 250, 0.8);
+		font-size: 17px;
+	}
+
+	/*Medium background image*/
+	body.bg{
+	  background-image: url("pictures/background4.jpg");
+	  background-repeat: no-repeat;
+	  background-size: 100% 300px;
+	}
+
+	/* Medium horizontal line */
+	hr.heading {
+	  border: 1.5px solid rgba(250, 250, 250, 0.8);
+	}
+
+	/* Medium paragraph content and style */
+	#content_paragraph{
+	  margin-top: 50px;
+	  margin-bottom: 90px;
+	  color: rgb(186, 186, 186);
+	  text-align: center justified;
+		width: 64%;
+	}
+
+	/* Medium paragraph font */
+	.paragraph_font {
+		font-size: 13.6px;
+		letter-spacing: 0.3px;
+	}
+
+	/* Medium footer */
+	footer {
+	  padding: 3px;
+	  text-align: center;
+	  margin-bottom: 0%;
+	  margin-top: 20%;
+	  clear: both;
+	}
+
+	/* Medium footer font */
+	footer.paragraph_font {
+		font-size: 11px;
+	}
+}
+

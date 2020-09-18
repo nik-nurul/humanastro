@@ -210,6 +210,41 @@ function PlotGaze(GazeData) {
 	}
 }
 
+// To check if the user has found the target
+ function taskCompleteCheck(GazeData)
+ {
+ 	var gazeTargetTime = 5;
+
+ 	if (// save the distance from Gaze to Target if the subtask has a target
+			   current_subtask.hasOwnProperty('targetX')
+			&& current_subtask.hasOwnProperty('targetY')
+			&& current_subtask.hasOwnProperty('targetRadius')
+		){
+			GazeData.astro.unscaledGazeTargetDist = dist2points(
+				GazeData.astro.unscaledDocX,
+				GazeData.astro.unscaledDocY,
+				current_subtask.targetX,
+				current_subtask.targetY
+			);
+
+ 	if (GazeData.astro.unscaledGazeTargetDist <= TargetRadius && timeGazeInsideTargetArea == null)
+ 	{
+ 		timeGazeInsideTargetArea = GazeData.astro.sessionTime;
+ 	}
+
+ 	if (timeGazeInsideTargetArea != null && (GazeData.astro.sessionTime - timeGazeInsideTargetArea) >= (gazeTargetTime * 1000))
+ 	{
+ 		gazeTargetFound = true;
+ 	}
+
+ 	if (timeGazeInsideTargetArea != null && GazeData.astro.unscaledGazeTargetDist > TargetRadius)
+ 	{
+ 		gazeTargetFound = false;
+ 		timeGazeInsideTargetArea = null;
+ 	}
+
+
+ }
 
    
 // this is called every time a GazaData message is received from the GazeCloud server
@@ -246,17 +281,13 @@ function HandleGazeData(GazeData){
 		   task_num > -1 
 		&& subtask_num > -1
 		&& canvasDiv.style.display == "block"
-		){
-		
-			if (GazeData.astro.unscaledGazeTargetDist <  current_subtask.targetRadius)
-				// this is where the users' gaze is on the target
-				console.log('GazeData.astro.unscaledGazeTargetDist:',GazeData.astro.unscaledGazeTargetDist); // debug
+		){	
+			taskCompleteCheck(GazeData)
+			saveData(GazeData); // send each GazeData point to the MongoDB
 		}
-		saveData(GazeData); // send each GazeData point to the MongoDB
+		
 	}
 	PlotGaze(GazeData); // show the gaze position in the browser window
-	
-	function taskCompleteCheck(GazeData)
 }
 
 
@@ -489,42 +520,6 @@ function init(){
 	GazeCloudAPI.UseClickRecalibration = true;
 	GazeCloudAPI.OnResult = HandleGazeData;
 }
-
-// To check if the user has found the target
- function taskCompleteCheck()
- {
- 	var gazeTargetTime = 5;
-
- 	if (// save the distance from Gaze to Target if the subtask has a target
-			   current_subtask.hasOwnProperty('targetX')
-			&& current_subtask.hasOwnProperty('targetY')
-			&& current_subtask.hasOwnProperty('targetRadius')
-		){
-			GazeData.astro.unscaledGazeTargetDist = dist2points(
-				GazeData.astro.unscaledDocX,
-				GazeData.astro.unscaledDocY,
-				current_subtask.targetX,
-				current_subtask.targetY
-			);
-
- 	if (dist2points() <= TargetRadius && timeGazeInsideTargetArea == null)
- 	{
- 		timeGazeInsideTargetArea = GazeData.astro.sessionTime;
- 	}
-
- 	if (timeGazeInsideTargetArea != null && (GazeData.astro.sessionTime - timeGazeInsideTargetArea) >= (gazeTargetTime * 1000))
- 	{
- 		gazeTargetFound = true;
- 	}
-
- 	if (timeGazeInsideTargetArea != null && dist2points() > TargetRadius)
- 	{
- 		gazeTargetFound = false;
- 		timeGazeInsideTargetArea = null;
- 	}
-
-
- }
 
 window.onresize = resizeCanvas; // resize the canvas whenever the browser window is resized
 window.onmousemove = setMouseCoords; // record mouse coordinates

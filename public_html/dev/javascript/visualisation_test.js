@@ -286,7 +286,7 @@ function HandleGazeData(GazeData){
 		&& subtask_num > -1
 		&& canvasDiv.style.display == "block"
 		){	
-			taskCompleteCheck(GazeData)
+			taskCompleteCheck(GazeData);
 			saveData(GazeData); // send each GazeData point to the MongoDB
 		}
 		

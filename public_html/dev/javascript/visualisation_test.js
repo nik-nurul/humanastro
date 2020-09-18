@@ -18,6 +18,7 @@ var startTime;  // used to anonymise the timestams on saved data
 var mouseDocX, mouseDocY, mouseScreenX, mouseScreenY;
 
 var gazeTargetFound = false; // changed to true when user looks at target for 5 secs
+var timeGazeInsideTargetArea = null;
 
 var endSubtask;
 

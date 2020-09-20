@@ -12,7 +12,8 @@ error_reporting(E_ALL);
 require_once 'includes/head-base.html';
 ?>
 
-<script src="javascript/style.js"></script> 
+<script src="javascript/style.js"></script>
+
 </head>
 
 <body class="bg">

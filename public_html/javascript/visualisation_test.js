@@ -5,7 +5,7 @@
 //{ **** GazeCloud global vars ****
 
 // Gaze Calibration type: 0 is accurate calibration (much slower - default); 1 is fast calibration
-GazeCloudAPI.CalibrationType = 1;
+GazeCloudAPI.CalibrationType = 0;
 var maxGazaDataArraySize = 30; // save arrays of this size in browser memory before sending to MongoDB
 var GazeFPS = 30; // Webcam FPS rate for GazeCloud
 
@@ -40,13 +40,45 @@ var current_task, current_subtask; // the current task_data elements
 
 // the current task and subtask numbers - zero based
 // these iterate on the array index numbers, not the actual task_num and subtask_num properties
+// the design preference was to directly reference the task_num and subtask_num properties in the mongoDB
+// but querying the MongoDB for both these properties and returning the correct subtask object didn't seem to be possible
 var task_num = -1;
 var subtask_num = -1; 
+
+var timeGazeInsideTargetArea = null;
+
+var targetFoundEvent = new CustomEvent("tgtFnd"); // this allows a subtask to end when the user meets success criteria
+var endSubtask; // hoisting endSubtask so it can be removed as an eventHandler
+
 
 //}
 // **** end taskrunner global vars
 
 //{ **** Utility functions ****
+
+// rounds a floating-point number to digits number of places
+function roundTo(n, digits) {
+	var negative = false;
+	
+	if (digits === undefined) {
+		digits = 0;
+	}
+	if (n < 0){
+		negative = true;
+		n = n * -1;
+	}
+
+	var multiplicator = Math.pow(10, digits);
+	n = parseFloat((n * multiplicator).toFixed(3));
+	var test =(Math.round(n) / multiplicator);
+	return +(test.toFixed(digits));
+	
+	if(negative){
+		n = (n * -1).toFixed(digits);
+	}
+	
+	return n;
+}
 
 //https://www.digitalocean.com/community/tutorials/js-fullscreen-api
 function activateFullscreen(element) {
@@ -76,6 +108,7 @@ function deactivateFullscreen() {
   document.body.style.overflow = "auto"; // restore normal scrollbar behaviour
 }
 
+// records the mouse coordinates on a mousemove event
 function setMouseCoords(event){
 	mouseDocX = event.clientX;
 	mouseDocY = event.clientY;
@@ -83,8 +116,9 @@ function setMouseCoords(event){
 	mouseScreenY = event.screenY;
 }
 
-
 // return the distance between two points
+// x1,y1 - the coordinates of the first point
+// x2,y2 - the coordinates of the secpnd point
 function dist2points(x1,y1,x2,y2){
 	return Math.hypot(x2-x1, y2-y1);
 }
@@ -106,7 +140,6 @@ function sendToDB(data) {
 			"GazeDataArray": data
 		}
 	);
-//	console.log('task_num',task_num);
 
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
@@ -124,35 +157,12 @@ function sendToDB(data) {
 	xhttp.send(jsonData);
 }
 
-function roundTo(n, digits) {
-	var negative = false;
-	
-	if (digits === undefined) {
-		digits = 0;
-	}
-	if (n < 0){
-		negative = true;
-		n = n * -1;
-	}
-
-	var multiplicator = Math.pow(10, digits);
-	n = parseFloat((n * multiplicator).toFixed(3));
-	var test =(Math.round(n) / multiplicator);
-	return +(test.toFixed(digits));
-	
-	if(negative){
-		n = (n * -1).toFixed(digits);
-	}
-	
-	return n;
-}
-
 // pushes each GazeData point to an array
 // if the array is >= 10 elements, copy that array and append it to the MongoDB
 // then empty the GazeDataArray
 function saveData(GazeData){
-	
-	GazeDataArray.push(GazeData);
+		
+	GazeDataArray.push(GazeData); 
 	if (GazeDataArray.length >= maxGazaDataArraySize){
 		sendToDB(GazeDataArray.slice()); // send a copy of the current array to the DB
 		
@@ -205,17 +215,62 @@ function PlotGaze(GazeData) {
 	}
 }
 
+// To check if the user has found the target
+function taskCompleteCheck(GazeData)
+{
+	// TO DO - add gazeTargetTime to any subtask that has a target ? - ask Chris if we need this
+ 	var gazeTargetTime = 3;
+
+ 	if (// save the distance from Gaze to Target if the subtask has a target
+			   current_subtask.hasOwnProperty('targetX')
+			&& current_subtask.hasOwnProperty('targetY')
+			&& current_subtask.hasOwnProperty('targetRadius') // only check this if a subtask has a target defined
+	) {
+		// get the distance betweem the user gaze point to the subtask target point
+		GazeData.astro.unscaledGazeTargetDist = dist2points(
+			GazeData.astro.unscaledDocX,
+			GazeData.astro.unscaledDocY,
+			current_subtask.targetX,
+			current_subtask.targetY
+		);
+
+		// true if first time gaze is on target. stamps time
+ 		if (
+			GazeData.astro.unscaledGazeTargetDist <= current_subtask.targetRadius 
+ 			&& timeGazeInsideTargetArea == null
+		)	
+	 		timeGazeInsideTargetArea = GazeData.astro.sessionTime;
+	 	
+	 	// true if gaze has remained on target longer than gaze target time
+		// this means the user has met the success criteria for this task
+	 	if (
+			timeGazeInsideTargetArea != null 
+	 		&& (GazeData.astro.sessionTime - timeGazeInsideTargetArea) >= (gazeTargetTime * 1000)
+		) {
+	 		timeGazeInsideTargetArea = null;
+			window.dispatchEvent(targetFoundEvent); // fire the target found event. This will end the current subtask
+			window.removeEventListener("tgtFnd", endSubtask); // remove listener after target found to prevent multiple dispaching for the same subtask
+	 		console.log('Target Found'); // debug
+	 	}
+
+	 	// true if gaze moves off target after gaze has been on target
+	 	if (
+			timeGazeInsideTargetArea != null 
+	 		&& GazeData.astro.unscaledGazeTargetDist > current_subtask.targetRadius
+		)
+	 		timeGazeInsideTargetArea = null;
+	}
+}
+   
 // this is called every time a GazaData message is received from the GazeCloud server
 function HandleGazeData(GazeData){
-	
+
 	GazeData.astro = {};
 	GazeData.astro.sessionTime = GazeData.time - startTime;
 	GazeData.time = null; // anonymise time
-	GazeData.Xview =roundTo((GazeData.Xview),3); //Set the Xview to have 3 d.p
- 	GazeData.Yview =roundTo((GazeData.Yview),3); //Set the Yview to have 3 d.p
 	GazeData.astro.devicePixelRatio = window.devicePixelRatio;
-	GazeData.astro.imgWidth  = img.width;
-	GazeData.astro.imgHeight = img.height;
+	GazeData.astro.imageWidth  = img.width;
+	GazeData.astro.imageHeight = img.height;
 	GazeData.astro.canvasWidth  = c.width;
 	GazeData.astro.canvasHeight = c.height;
 	GazeData.astro.hRatio = hRatio;
@@ -231,37 +286,25 @@ function HandleGazeData(GazeData){
 	GazeData.astro.windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 	GazeData.astro.windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 	// screen resolution
-	GazeData.astro.resolutionWidth = screen.width;
-	GazeData.astro.resolutionHeight = screen.height;
+	GazeData.astro.screenWidth = screen.width;
+	GazeData.astro.screenHeight = screen.height;
 
 	// we want to know if the Canvas is currently visible
 	var canvasDiv = document.getElementById("canvasDiv");
 
-	if (  // only save GazaData if a task and subtask number are defined and the Canvas is visible
+	// only save GazeData if a task and subtask number are defined and the Canvas is visible
+	// - this is only true when a task is active
+	if (  
 		   task_num > -1 
 		&& subtask_num > -1
 		&& canvasDiv.style.display == "block"
-		){
-		if (// save the distance from Gaze to Target if the subtask has a target
-			   current_subtask.hasOwnProperty('targetX')
-			&& current_subtask.hasOwnProperty('targetY')
-		){
-			GazeData.astro.unscaledGazeTargetDist = dist2points(
-				GazeData.astro.unscaledDocX,
-				GazeData.astro.unscaledDocY,
-				current_subtask.targetX,
-				current_subtask.targetY
-			);
-			if (GazeData.astro.unscaledGazeTargetDist <  current_subtask.targetRadius)
-				// this is where the users' gaze is on the target
-				console.log('GazeData.astro.unscaledGazeTargetDist:',GazeData.astro.unscaledGazeTargetDist); // debug
-		}
+	){	
+		taskCompleteCheck(GazeData);
 		saveData(GazeData); // send each GazeData point to the MongoDB
 	}
+		
 	PlotGaze(GazeData); // show the gaze position in the browser window
-
 }
-
 
 //}
 // **** end GazeCloud functions
@@ -274,7 +317,6 @@ function getTasks(){
 	// begin ajax request
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			
 			try {
 				task_data = JSON.parse(this.responseText); // save the task data
 			} catch (e) {
@@ -411,11 +453,15 @@ tryGetNextSubtask = function() {
 function startNextSubtask() {
 	var timer; // a separate timer per subtask element
 	var handleSpacebar; // hoist function definition so endSubtask can see it
+	console.log('start task:',task_num,'subtask:',subtask_num); // debug
 
-	// callback to setTimeout and to spacebar pressed event
-	var endSubtask = function(){
+	// callback to setTimeout, to spacebar pressed event, and to target found event
+	endSubtask = function(){
+		console.log('end task:',task_num,'subtask:',subtask_num); // debug
+		clearTimeout(timer); // end the timeout for this task
+		window.removeEventListener("tgtFnd", endSubtask);
 		window.removeEventListener("keydown", handleSpacebar);
-		if (doPlotGaze) doPlotGaze = false; // stop plotting the gaze on sceen
+		if (doPlotGaze) doPlotGaze = false; // stop plotting the gaze on screen
 		img = new Image();
 		resizeCanvas();
 		tryGetNextSubtask();
@@ -427,19 +473,24 @@ function startNextSubtask() {
 			return; // Do nothing if the event was already processed
 		}		
 		if (event.key === " ") {
-			window.removeEventListener("keydown", handleSpacebar); // remove the event listener for this task
-	 		clearTimeout(timer); // end the timeout for this task
-			endSubtask(); // 
+			endSubtask();
 		}
 		// Cancel the default action to avoid it being handled twice
 		event.preventDefault();
 	}
-	
+
 	doPlotGaze = current_subtask.doPlotGaze; // set doPlotGaze mode for this subtask
 	hideInstructions(); // transition to image showing mode
-	
+		
 	if (current_subtask.allow_skip) // only add the event listener for the spacebar if the task allows it
 		window.addEventListener("keydown", handleSpacebar, false); // false = execute handleSpacebar in bubbling phase
+
+ 	if ( // register a listener for the targetFoundEvent if this subtask has a target
+			   current_subtask.hasOwnProperty('targetX')
+			&& current_subtask.hasOwnProperty('targetY')
+			&& current_subtask.hasOwnProperty('targetRadius')
+	) window.addEventListener("tgtFnd", endSubtask, false);			
+		
 	timer = setTimeout(endSubtask, current_subtask.time_limit*1000);
 }
 
@@ -465,7 +516,6 @@ function startCalibration() {
 
 	GazeCloudAPI.StartEyeTracking();
 	GazeCloudAPI.SetFps(GazeFPS);
-//	changeToTasks(); // this is now called by GazeCloudAPI.OnCalibrationComplete 
 }
 
 //}
@@ -491,7 +541,6 @@ function init(){
 	GazeCloudAPI.OnError =  function(msg){ console.log('err: ' + msg)  }
 	GazeCloudAPI.UseClickRecalibration = true;
 	GazeCloudAPI.OnResult = HandleGazeData;
-	
 }
 
 window.onresize = resizeCanvas; // resize the canvas whenever the browser window is resized

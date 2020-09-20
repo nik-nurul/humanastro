@@ -17,10 +17,6 @@ var userIdStr;  // get user ID string from PHP
 var startTime;  // used to anonymise the timestams on saved data
 var mouseDocX, mouseDocY, mouseScreenX, mouseScreenY;
 
-var gazeTargetFound = false; // changed to true when user looks at target for 5 secs
-var timeGazeInsideTargetArea = null;
-
-var endSubtask;
 
 //}
 // **** end GazeCloud global vars ****
@@ -47,6 +43,13 @@ var current_task, current_subtask; // the current task_data elements
 // these iterate on the array index numbers, not the actual task_num and subtask_num properties
 var task_num = -1;
 var subtask_num = -1; 
+
+var gazeTargetFound = false; // changed to true when user looks at target for 5 secs
+var timeGazeInsideTargetArea = null;
+
+var targetFoundEvent = new CustomEvent("tgtFnd"); // this allows a subtask to end when the user meets success criteria
+var endSubtask; // hoisting endSubtask so it can be removed as an eventHandler
+
 
 //}
 // **** end taskrunner global vars
@@ -216,14 +219,13 @@ function PlotGaze(GazeData) {
 // To check if the user has found the target
  function taskCompleteCheck(GazeData)
  {
- 	var gazeTargetTime = 1;
+ 	var gazeTargetTime = 3;
 
  	if (// save the distance from Gaze to Target if the subtask has a target
 			   current_subtask.hasOwnProperty('targetX')
 			&& current_subtask.hasOwnProperty('targetY')
 			&& current_subtask.hasOwnProperty('targetRadius')
-		)
- 	{
+		) {
 		GazeData.astro.unscaledGazeTargetDist = dist2points(
 			GazeData.astro.unscaledMouseDocX,
 			GazeData.astro.unscaledMouseDocY,
@@ -243,7 +245,9 @@ function PlotGaze(GazeData) {
 	 	{
 	 		// gazeTargetFound = true;
 	 		timeGazeInsideTargetArea = null;
-	 		endSubtask();
+//	 		endSubtask();
+			window.dispatchEvent(targetFoundEvent); // fire the target found event. This will end the current subtask
+			window.removeEventListener("tgtFnd", endSubtask); // remove listener after target found to prevent multiple dispaching for the same subtask
 	 		console.log('Target Found'); // debug
 	 	}
 
@@ -451,9 +455,13 @@ tryGetNextSubtask = function() {
 function startNextSubtask() {
 	var timer; // a separate timer per subtask element
 	var handleSpacebar; // hoist function definition so endSubtask can see it
+	console.log('start task:',task_num,'subtask:',subtask_num); // debug
 
 	// callback to setTimeout and to spacebar pressed event
 	endSubtask = function(){
+		console.log('end task:',task_num,'subtask:',subtask_num); // debug
+		clearTimeout(timer); // end the timeout for this task
+		window.removeEventListener("tgtFnd", endSubtask);
 		window.removeEventListener("keydown", handleSpacebar);
 		if (doPlotGaze) doPlotGaze = false; // stop plotting the gaze on sceen
 		img = new Image();
@@ -467,19 +475,33 @@ function startNextSubtask() {
 			return; // Do nothing if the event was already processed
 		}		
 		if (event.key === " ") {
-			window.removeEventListener("keydown", handleSpacebar); // remove the event listener for this task
-	 		clearTimeout(timer); // end the timeout for this task
-			endSubtask(); // 
+//			window.removeEventListener("keydown", handleSpacebar); // remove the event listener for this task
+//	 		clearTimeout(timer); // end the timeout for this task
+			endSubtask();
 		}
 		// Cancel the default action to avoid it being handled twice
 		event.preventDefault();
 	}
+
+	// change the image if the users' gaze finds a target
+//	handleTargetFound = function(){
+//		window.removeEventListener("tgtFnd", handleTargetFound); // remove the event listener for this task
+//		clearTimeout(timer); // end the timeout for this task
+//		endSubtask(); // 
+//	}
 	
 	doPlotGaze = current_subtask.doPlotGaze; // set doPlotGaze mode for this subtask
 	hideInstructions(); // transition to image showing mode
-	
+		
 	if (current_subtask.allow_skip) // only add the event listener for the spacebar if the task allows it
 		window.addEventListener("keydown", handleSpacebar, false); // false = execute handleSpacebar in bubbling phase
+
+ 	if ( // register a listener for the targetFoundEvent if this subtask has a target
+			   current_subtask.hasOwnProperty('targetX')
+			&& current_subtask.hasOwnProperty('targetY')
+			&& current_subtask.hasOwnProperty('targetRadius')
+	) window.addEventListener("tgtFnd", endSubtask, false);			
+		
 	timer = setTimeout(endSubtask, current_subtask.time_limit*1000);
 }
 

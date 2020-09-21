@@ -114,7 +114,7 @@ require_once 'includes/feeback-link.php';
 						// handle self-described Gender
 						//	- change answer to freetext gender description
 						
-						//remove gender question as irrelevant to the study
+						//removed gender question as irrelevant to the study
 						//if ( $q_id == "Gender" and $answer == "sd" and isset($_POST["gendesc"]) )
 						//	$answer = sanitise_input($_POST["gendesc"]); // sanitise the freetext gender answer
 						// set the answer value for this question

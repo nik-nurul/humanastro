@@ -9,7 +9,7 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 			   isset($_SERVER['PHP_AUTH_USER'])
 			&& isset($_SERVER['PHP_AUTH_PW'])
 			&& $_SERVER['PHP_AUTH_USER'] == 'astro_admin'
-			&& hash('md5',$_SERVER['PHP_AUTH_PW']) == '0a6371182962812ac5aa326c57b5666f'
+			&& hash('md5',$_SERVER['PHP_AUTH_PW']) == '9fc4780379b227f6b308d33c6b812c0a'
 		)
 	) {
 	// incorrect username or password

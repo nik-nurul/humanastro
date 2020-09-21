@@ -5,6 +5,11 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// this page requires a username and password to enter
+require_once 'includes/admin_auth.php';
+
+// successful authentication
+
 $dbName = 'humanastro';		// database name
 $collName = 'users';	// collection name
 //$collName = 'task_data';	// collection name

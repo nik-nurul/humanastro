@@ -78,6 +78,7 @@ function init(){
 	var homebutt = document.getElementById("homebutt");
 	homebutt.onclick = gohome;
 
+/* gender question has been removed
 	//if the self describe is chosen from gender section
 	var gender_sd = document.getElementById("sd");
 	gender_sd.onclick = setRequired;
@@ -91,6 +92,7 @@ function init(){
 	gender_male.onclick = removeRequired;
 	gender_nb.onclick = removeRequired;
 	gender_not.onclick = removeRequired;
+*/
 }
 
 window.onload = init;

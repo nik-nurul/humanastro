@@ -113,9 +113,12 @@ require_once 'includes/feeback-link.php';
 // -- work out how to set up the value "key" for freetext items
 						// handle self-described Gender
 						//	- change answer to freetext gender description
-						if ( $q_id == "Gender" and $answer == "sd" and isset($_POST["gendesc"]) )
-							$answer = sanitise_input($_POST["gendesc"]); // sanitise the freetext gender answer
+						
+						//removed gender question as irrelevant to the study
+						//if ( $q_id == "Gender" and $answer == "sd" and isset($_POST["gendesc"]) )
+						//	$answer = sanitise_input($_POST["gendesc"]); // sanitise the freetext gender answer
 						// set the answer value for this question
+						
 						$bulk->update(
 							$u_filter,
 							[ '$set' => [ "demographic_data.$.answer" => $answer ]]

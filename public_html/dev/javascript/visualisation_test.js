@@ -57,6 +57,14 @@ var endSubtask; // hoisting endSubtask so it can be removed as an eventHandler
 
 //{ **** Utility functions ****
 
+// unselects text - useful when showing instructions after refine calibration
+// from: https://stackoverflow.com/questions/6562727/is-there-a-function-to-deselect-all-text-using-javascript
+function clearSelection()
+{
+	if (window.getSelection) {window.getSelection().removeAllRanges();}
+	else if (document.selection) {document.selection.empty();}
+}
+
 // rounds a floating-point number to digits number of places
 function roundTo(n, digits) {
 	var negative = false;
@@ -206,10 +214,10 @@ function PlotGaze(GazeData) {
 		if (gazeDebug){
 			if (timeGazeInsideTargetArea != null) { // make gaze circle red
 				if( gaze.style.border == '2px solid rgba(255, 255, 255, 0.2)')
-					gaze.style.border == '2px solid rgba(255,  50,  50, 1  )';
+					gaze.style.border  = '2px solid rgba(255,  50,  50, 1  )';
 			} else { // restore gaze circle to grey
-				if( gaze.style.border == '2px solid rgba(255,  50,  50, 1  )')
-					gaze.style.border == '2px solid rgba(255, 255, 255, 0.2)';
+				if( gaze.style.border == '2px solid rgb(255, 50, 50)')
+					gaze.style.border  = '2px solid rgba(255, 255, 255, 0.2)';
 			}
 		}
 			
@@ -370,6 +378,8 @@ function showInstructions(){
 	
 	// restore normal scrollbar behaviour
 	document.body.style.overflow = "auto"; 
+
+	clearSelection(); // clear selected text
 
 	var canvasDiv = document.getElementById("canvasDiv");
 	canvasDiv.style.display = "none";

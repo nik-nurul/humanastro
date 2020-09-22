@@ -107,6 +107,8 @@ try {
 					<!--'.$question.'-->';
 		
 			// handle the different question types - radio or dropdown
+			// Chris has requested for all of the questions to be in dropdown format. 
+			//Thus, case:radio actually shall be removed, but as for now will just keep it here in case there is any future changes
 			switch ($q->q_type){
 				
 				case "radio":

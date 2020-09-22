@@ -191,7 +191,7 @@ require_once 'includes/feeback-link.php';
 				$result = $manager->executeBulkWrite($dbName.'.'.$Ucoll, $bulk);
 				
 				echo '
-				<p>Your cannot participate in this research if you are not an adult</p>
+				<p>You cannot participate in this research if you are not an adult</p>
 				<p>Your consent to have your details recorded has been withdrawn</p>
 				<p>Do something!</p>
 ';

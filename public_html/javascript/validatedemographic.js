@@ -8,10 +8,11 @@ function validatedemo(){
 
 	//get variables from form and check rules here
 	var under18 = document.getElementById("<18").checked;
-	var to1825 = document.getElementById("18-25").checked;
-	var to2635 = document.getElementById("26-35").checked;
-	var to3645 = document.getElementById("36-45").checked;
-	var over45 = document.getElementById(">45").checked;
+	var to1824 = document.getElementById("18-24").checked;
+	var to2534 = document.getElementById("25-34").checked;
+	var to3544 = document.getElementById("35-44").checked;
+	var to4544 = document.getElementById("45-54").checked;
+	var over55 = document.getElementById(">55").checked;
 	var nosay = document.getElementById("agenot").checked;
 
 	var female = document.getElementById("female").checked;
@@ -44,10 +45,10 @@ function validatedemo(){
 	}
 
 	/*Must select gender*/
-	if (!(female || male || nonbinary || gennot || selfdesc)) {
+	/*if (!(female || male || nonbinary || gennot || selfdesc)) {
 		errMsg += "Please select your gender. \n"
 		result = false;
-	}
+	}*/
 
 	if (errMsg != ""){
 		window.alert(errMsg);

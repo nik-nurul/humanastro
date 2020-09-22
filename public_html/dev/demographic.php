@@ -34,8 +34,6 @@ require_once 'includes/feeback-link.php';
           	<p class="paragraph_font">The questions provided on this page are intended to record minimal demographic
               information approved by ethics committee.</p>
 
-			<p class="paragraph_font">This survey page stores your responses, the date and time of your response.</p>
-
 			<p class="paragraph_font">For you to remain anonymous it is your responsibility not to input any identifying details here. Do not include your name, email address or any other personally-identifying data.</p>			  
 			
 			<br/><br/>
@@ -136,7 +134,7 @@ try {
 					
 				case "dropdown":
 					echo '
-					<p><label for="'.$q_id.'">'.$question.'</label>
+					<br/><p><label for="'.$q_id.'">'.$question.'</label>
 					<br/>				
 						<select class="selectsize" name="'.$q_id.'" id="'.$q_id.'" required="required">
 							<option value="">Please Select</option>';

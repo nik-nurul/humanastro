@@ -15,6 +15,9 @@ error_reporting(E_ALL);
 <?php
 require_once 'includes/head-base.html';
 ?>
+
+    <!-- for navigation bar -->
+    <script src="javascript/style.js"></script>
 </head>
 
 <body>

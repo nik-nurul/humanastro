@@ -2,7 +2,7 @@
 filename: WebsiteStyle.css
 author: SWE40001 Group 3
 created: 24TH APRIL 2020
-last modified: 13TH MAY 2020
+last modified: 18TH SEPT 2020
 purpose: CSS Stylesheet for Astronomy Website
 */
 
@@ -95,7 +95,6 @@ div.navibar a {
   text-decoration: none;
 }
 
-
 /* style when navibar is hovered */
 .navibar a:hover{
 	background-color: rgba(105, 102, 110, 0.6);
@@ -110,6 +109,18 @@ div.navibar a {
 .navibar.nav-transparent {
 	background-color: none;
 }
+
+
+/* style for navibar when scrolled */
+.navibar.nav-colored {
+		background-color: rgba(99, 98, 102, 0.6);
+}
+
+.navibar.nav-transparent {
+	background-color: none;
+}
+
+
 
 /* Style for website title (index.php) */
 #web_title{
@@ -269,9 +280,9 @@ div.test {
   border: 3px solid rgb(46, 139, 87);
 }
 
-.container { 
+.container {
   height: 200px;
-  position: relative; 
+  position: relative;
 }
 
 .center {
@@ -324,64 +335,67 @@ footer {
 
 
 
+/*	RESPONSIVE WEBSITE - to control the website's interface based on the screen size  */
+
+
 /*Medium  */
 @media screen and (max-width: 63.5em) {
 
-	/*Medium web title*/
-	#web_title {
-		font-size: 2.7em;
-		letter-spacing: 2px;
-		text-shadow: 2.5px 1.5px 1.5px rgb(0,0,0);
-		margin-bottom: 100px;
-	}
+		/*Medium web title*/
+		#web_title {
+			font-size: 2.7em;
+			letter-spacing: 2px;
+			text-shadow: 2.5px 1.5px 1.5px rgb(0,0,0);
+			margin-bottom: 100px;
+		}
 
-	/*Medium heading font*/
-	.heading_font {
-	  font-family: 'Russo One';
-	  letter-spacing: 1.5px;
-	  color: rgba(250, 250, 250, 0.8);
-		font-size: 17px;
-	}
+		/*Medium heading font*/
+		.heading_font {
+		  font-family: 'Russo One';
+		  letter-spacing: 1.5px;
+		  color: rgba(250, 250, 250, 0.8);
+			font-size: 17px;
+		}
 
-	/*Medium background image*/
-	body.bg{
-	  background-image: url("pictures/background4.jpg");
-	  background-repeat: no-repeat;
-	  background-size: 100% 300px;
-	}
+		/*Medium background image*/
+		body.bg{
+		  background-image: url("pictures/background4.jpg");
+		  background-repeat: no-repeat;
+		  background-size: 100% 300px;
+		}
 
-	/* Medium horizontal line */
-	hr.heading {
-	  border: 1.5px solid rgba(250, 250, 250, 0.8);
-	}
+		/* Medium horizontal line */
+		hr.heading {
+		  border: 1.5px solid rgba(250, 250, 250, 0.8);
+		}
 
-	/* Medium paragraph content and style */
-	#content_paragraph{
-	  margin-top: 50px;
-	  margin-bottom: 90px;
-	  color: rgb(186, 186, 186);
-	  text-align: center justified;
-		width: 64%;
-	}
+		/* Medium paragraph content and style */
+		#content_paragraph{
+		  margin-top: 50px;
+		  margin-bottom: 90px;
+		  color: rgb(186, 186, 186);
+		  text-align: center justified;
+			width: 64%;
+		}
 
-	/* Medium paragraph font */
-	.paragraph_font {
-		font-size: 13.6px;
-		letter-spacing: 0.3px;
-	}
+		/* Medium paragraph font */
+		.paragraph_font {
+			font-size: 13.6px;
+			letter-spacing: 0.3px;
+		}
 
-	/* Medium footer */
-	footer {
-	  padding: 3px;
-	  text-align: center;
-	  margin-bottom: 0%;
-	  margin-top: 20%;
-	  clear: both;
-	}
+		/* Medium footer */
+		footer {
+		  padding: 3px;
+		  text-align: center;
+		  margin-bottom: 0%;
+		  margin-top: 20%;
+		  clear: both;
+		}
 
-	/* Medium footer font */
-	footer.paragraph_font {
-		font-size: 11px;
-	}
+		/* Medium footer font */
+		footer.paragraph_font {
+			font-size: 11px;
+		}
+
 }
-

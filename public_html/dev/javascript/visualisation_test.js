@@ -9,8 +9,9 @@ GazeCloudAPI.CalibrationType = 0;
 var maxGazaDataArraySize = 30; // save arrays of this size in browser memory before sending to MongoDB
 var GazeFPS = 30; // Webcam FPS rate for GazeCloud
 
-var doPlotGaze = false; // if true, plot the gaze on screen
-var eyeTrackingStarted = false; // will be set to true after first GazeData received
+var gazeDebug = true; // if true, will always doPlotGaze, and will change gaze color when on target
+
+var doPlotGaze = gazeDebug; // if true, plot the gaze on screen
 var GazeDataArray = [];
 var xhttp = new XMLHttpRequest();
 var userIdStr;  // get user ID string from PHP
@@ -55,6 +56,14 @@ var endSubtask; // hoisting endSubtask so it can be removed as an eventHandler
 // **** end taskrunner global vars
 
 //{ **** Utility functions ****
+
+// unselects text - useful when showing instructions after refine calibration
+// from: https://stackoverflow.com/questions/6562727/is-there-a-function-to-deselect-all-text-using-javascript
+function clearSelection()
+{
+	if (window.getSelection) {window.getSelection().removeAllRanges();}
+	else if (document.selection) {document.selection.empty();}
+}
 
 // rounds a floating-point number to digits number of places
 function roundTo(n, digits) {
@@ -143,7 +152,8 @@ function sendToDB(data) {
 
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			console.log(""+this.responseText); // just log the output to JS console
+			console.log(this.responseText); // just log the output to JS console
+//			console.log(""+this.responseText); // just log the output to JS console
 		}
 	};
 	
@@ -185,19 +195,32 @@ function PlotGaze(GazeData) {
 	y -= gaze .clientHeight/2;
 
 	// only update gaze position if doPlotGaze == true
-	if (doPlotGaze){
+	if (gazeDebug || doPlotGaze){
 		gaze.style.left = x + "px";
 		gaze.style.top = y + "px";
 	}
 	
 	// only display gaze position if gaze is valid and doPlotGaze == true
-	if(GazeData.state != 0 || !doPlotGaze ){
+	if(GazeData.state != 0 || !doPlotGaze || !gazeDebug ){
+		// do not display gaze position
 		if( gaze.style.display  == 'block')
 			gaze.style.display   = 'none';
 	} else {
+		// display gaze position
 		if( gaze.style.display  == 'none'){
 			gaze.style.display   = 'block';
 		}
+		// if in gazeDebug mode, make gaze indicator red if on target
+		if (gazeDebug){
+			if (timeGazeInsideTargetArea != null) { // make gaze circle red
+				if( gaze.style.border == '2px solid rgba(255, 255, 255, 0.2)')
+					gaze.style.border  = '2px solid rgba(255,  50,  50, 1  )';
+			} else { // restore gaze circle to grey
+				if( gaze.style.border == '2px solid rgb(255, 50, 50)')
+					gaze.style.border  = '2px solid rgba(255, 255, 255, 0.2)';
+			}
+		}
+			
 	}
 	
 	switch (GazeData.state){
@@ -218,14 +241,15 @@ function PlotGaze(GazeData) {
 // To check if the user has found the target
 function taskCompleteCheck(GazeData)
 {
-	// TO DO - add gazeTargetTime to any subtask that has a target ? - ask Chris if we need this
- 	var gazeTargetTime = 3;
-
  	if (// save the distance from Gaze to Target if the subtask has a target
 			   current_subtask.hasOwnProperty('targetX')
 			&& current_subtask.hasOwnProperty('targetY')
 			&& current_subtask.hasOwnProperty('targetRadius') // only check this if a subtask has a target defined
 	) {
+		var gazeTargetTime = 2; // default value for target gaze success time
+		if (current_subtask.hasOwnProperty('targetGazeTime') ) 
+			gazeTargetTime = current_subtask.targetGazeTime;
+
 		// get the distance betweem the user gaze point to the subtask target point
 		GazeData.astro.unscaledGazeTargetDist = dist2points(
 			GazeData.astro.unscaledDocX,
@@ -238,8 +262,10 @@ function taskCompleteCheck(GazeData)
  		if (
 			GazeData.astro.unscaledGazeTargetDist <= current_subtask.targetRadius 
  			&& timeGazeInsideTargetArea == null
-		)	
+		) {
 	 		timeGazeInsideTargetArea = GazeData.astro.sessionTime;
+			console.log('Gaze on target'); // debug
+		}
 	 	
 	 	// true if gaze has remained on target longer than gaze target time
 		// this means the user has met the success criteria for this task
@@ -257,8 +283,10 @@ function taskCompleteCheck(GazeData)
 	 	if (
 			timeGazeInsideTargetArea != null 
 	 		&& GazeData.astro.unscaledGazeTargetDist > current_subtask.targetRadius
-		)
+		) {
 	 		timeGazeInsideTargetArea = null;
+			console.log('Gaze off target'); // debug			
+		}
 	}
 }
    
@@ -350,6 +378,8 @@ function showInstructions(){
 	
 	// restore normal scrollbar behaviour
 	document.body.style.overflow = "auto"; 
+
+	clearSelection(); // clear selected text
 
 	var canvasDiv = document.getElementById("canvasDiv");
 	canvasDiv.style.display = "none";
@@ -461,7 +491,8 @@ function startNextSubtask() {
 		clearTimeout(timer); // end the timeout for this task
 		window.removeEventListener("tgtFnd", endSubtask);
 		window.removeEventListener("keydown", handleSpacebar);
-		if (doPlotGaze) doPlotGaze = false; // stop plotting the gaze on screen
+		timeGazeInsideTargetArea = null;
+		if (!gazeDebug && doPlotGaze) doPlotGaze = false; // stop plotting the gaze on screen
 		img = new Image();
 		resizeCanvas();
 		tryGetNextSubtask();
@@ -479,7 +510,10 @@ function startNextSubtask() {
 		event.preventDefault();
 	}
 
-	doPlotGaze = current_subtask.doPlotGaze; // set doPlotGaze mode for this subtask
+	if (!gazeDebug)
+		doPlotGaze = current_subtask.doPlotGaze; // set doPlotGaze mode for this subtask
+	else
+		doPlotGaze = true;
 	hideInstructions(); // transition to image showing mode
 		
 	if (current_subtask.allow_skip) // only add the event listener for the spacebar if the task allows it
@@ -511,8 +545,11 @@ function changeToTasks(){
 // to begin the eye tracking calibration process
 function startCalibration() {
 	activateFullscreen(document.documentElement); // do this after eye tracking starts - check this on safari
-	doPlotGaze = false; // turn off gaze plotting on screen
-	startTime = Date.now();
+	if (!gazeDebug)
+		doPlotGaze = false; // turn off gaze plotting on screen
+	else
+		doPlotGaze = true;
+	startTime = Date.now(); // 
 
 	GazeCloudAPI.StartEyeTracking();
 	GazeCloudAPI.SetFps(GazeFPS);

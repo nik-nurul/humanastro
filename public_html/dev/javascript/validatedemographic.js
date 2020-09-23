@@ -8,10 +8,11 @@ function validatedemo(){
 
 	//get variables from form and check rules here
 	var under18 = document.getElementById("<18").checked;
-	var to1825 = document.getElementById("18-25").checked;
-	var to2635 = document.getElementById("26-35").checked;
-	var to3645 = document.getElementById("36-45").checked;
-	var over45 = document.getElementById(">45").checked;
+	var to1824 = document.getElementById("18-24").checked;
+	var to2534 = document.getElementById("25-34").checked;
+	var to3544 = document.getElementById("35-44").checked;
+	var to4544 = document.getElementById("45-54").checked;
+	var over55 = document.getElementById(">55").checked;
 	var nosay = document.getElementById("agenot").checked;
 
 	var female = document.getElementById("female").checked;
@@ -38,10 +39,10 @@ function validatedemo(){
 
 
 	/*Must select age*/
-	if (!(under18 || to1825 || to2635 || to3645 || over45 || nosay)) {
+	/*if (!(under18 || to1825 || to2635 || to3645 || over45 || nosay)) {
 		errMsg += "Please select your age group. \n"
 		result = false;
-	}
+	}*/
 
 	/*Must select gender*/
 	if (!(female || male || nonbinary || gennot || selfdesc)) {
@@ -78,6 +79,7 @@ function init(){
 	var homebutt = document.getElementById("homebutt");
 	homebutt.onclick = gohome;
 
+/* gender question has been removed
 	//if the self describe is chosen from gender section
 	var gender_sd = document.getElementById("sd");
 	gender_sd.onclick = setRequired;
@@ -91,6 +93,7 @@ function init(){
 	gender_male.onclick = removeRequired;
 	gender_nb.onclick = removeRequired;
 	gender_not.onclick = removeRequired;
+*/
 }
 
 window.onload = init;

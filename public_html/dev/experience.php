@@ -89,7 +89,7 @@ require_once 'includes/feeback-link.php';
 
 			// is the user an adult?
 			if ( isset($_POST["Age"] ) and (
-					(in_array($_POST["Age"], array("18-25", "26-35", "36-45", ">45", "agenot") ) )
+					(in_array($_POST["Age"], array("18-24", "25-34", "35-44", "45-54", ">55", "agenot") ) )
 				)
 			) {
 				//$date = date("Y-m-d H:i:s\Z"); // date/time string to store with answer -- (last updated: 13 Sept 2020) - For now, it is commented a we dont want to show the date/time to ensure anonymity)
@@ -191,7 +191,7 @@ require_once 'includes/feeback-link.php';
 				$result = $manager->executeBulkWrite($dbName.'.'.$Ucoll, $bulk);
 				
 				echo '
-				<p>Your cannot participate in this research if you are not an adult</p>
+				<p>You cannot participate in this research if you are not an adult</p>
 				<p>Your consent to have your details recorded has been withdrawn</p>
 				<p>Do something!</p>
 ';

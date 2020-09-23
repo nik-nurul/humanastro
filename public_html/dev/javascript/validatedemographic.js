@@ -7,48 +7,97 @@ function validatedemo(){
 	var result = true;			//assumes no errors
 
 	//get variables from form and check rules here
+
+	//new variables for Age Range
 	var under18 = document.getElementById("<18").checked;
 	var to1824 = document.getElementById("18-24").checked;
 	var to2534 = document.getElementById("25-34").checked;
 	var to3544 = document.getElementById("35-44").checked;
-	var to4544 = document.getElementById("45-54").checked;
+	var to4554 = document.getElementById("45-54").checked;
 	var over55 = document.getElementById(">55").checked;
 	var nosay = document.getElementById("agenot").checked;
 
-	var female = document.getElementById("female").checked;
+	//Gender question is removed
+	/*var female = document.getElementById("female").checked;
 	var male = document.getElementById("male").checked;
 	var nonbinary = document.getElementById("nb").checked;
 	var gennot = document.getElementById("gennot").checked;
-	var selfdesc = document.getElementById("sd").checked;
+	var selfdesc = document.getElementById("sd").checked;*/
 
-	var udgm = document.getElementById("udm").selected;
+	//Old version of Career Stage
+	/*var udgm = document.getElementById("udm").selected;
 	var phd = document.getElementById("phd").selected;
 	var phd5 = document.getElementById("5phd").selected;
 	var phd515 = document.getElementById("5phd15").selected;
 	var phd15 = document.getElementById("phd15").selected;
-	var csnot = document.getElementById("csnot").selected;
+	var csnot = document.getElementById("csnot").selected;*/
 
-	var ooIRast = document.getElementById("ooIRast").selected;
+	//new variables for Career Stage
+	var udgm = document.getElementById("udgm").selected;
+	var phd = document.getElementById("pgd").selected;
+	var phd5 = document.getElementById("5phd").selected;
+	var phd59 = document.getElementById("5phd9").selected;
+	var phd1020 = document.getElementById("10phd20").selected;
+	var phd20 = document.getElementById("phd20").selected;
+
+	//variables for Region
+	var regAfr = document.getElementById("afr").selected;
+	var regAsia = document.getElementById("asia").selected;
+	var regEur= document.getElementById("eur").selected;
+	var regNorthAm = document.getElementById("northAm").selected;
+	var regCentralAm = document.getElementById("centralAm").selected;
+	var regSouthAm = document.getElementById("southAm").selected;
+	var regAusNZ = document.getElementById("ausnz").selected;
+	var regMidEast = document.getElementById("midEast").selected;
+	var regOther = document.getElementById("oth").selected;
+	var regNot = document.getElementById("geoNot").selected;
+
+	//Old version of Research Area
+	/*var ooIRast = document.getElementById("ooIRast").selected;
 	var ora = document.getElementById("ora").selected;
 	var ooth = document.getElementById("ooth").selected;
 	var tcast = document.getElementById("tcast").selected;
 	var irs = document.getElementById("irs").selected;
-	var areanot = document.getElementById("areanot").selected;
+	var areanot = document.getElementById("areanot").selected;*/
+
+	//new variables for Research Area
+	var optIR = document.getElementById("optIR").selected;
+	var radioAst = document.getElementById("radioAst").selected;
+	var multiWave = document.getElementById("multiWave").selected;
+	var obsOther = document.getElementById("obsOther").selected;
+	var theoAst = document.getElementById("theoAst").selected;
+	var compAst = document.getElementById("compAst").selected;
+	var instSoftware = document.getElementById("instSoftware").selected;
+	var arOther = document.getElementById("arOther").selected;
+	var areaNot = document.getElementById("areaNot").selected;
+
+	//new variables for Formal Training
+	var ftYes = document.getElementById("ftYes").selected;
+	var ftNo = document.getElementById("ftNo").selected;
+	var ftNS = document.getElementById("ftNS").selected;
+	var ftNot = document.getElementById("ftNot").selected;
+
+	//new variables for Informal Training
+	var iftYes = document.getElementById("iftYes").selected;
+	var iftNo = document.getElementById("iftNo").selected;
+	var iftNS = document.getElementById("iftNS").selected;
+	var iftNot = document.getElementById("iftNot").selected;
+
+
 
 	//if something is wrong set result = false, and concatenate error message
 
-
 	/*Must select age*/
-	/*if (!(under18 || to1825 || to2635 || to3645 || over45 || nosay)) {
+	if (!(under18 || to1824 || to2534 || to3544 || to4554 || over55 || nosay)) {
 		errMsg += "Please select your age group. \n"
 		result = false;
-	}*/
+	}
 
 	/*Must select gender*/
-	if (!(female || male || nonbinary || gennot || selfdesc)) {
+	/*if (!(female || male || nonbinary || gennot || selfdesc)) {
 		errMsg += "Please select your gender. \n"
 		result = false;
-	}
+	}*/
 
 	if (errMsg != ""){
 		window.alert(errMsg);
@@ -62,15 +111,15 @@ function gohome(){
 }
 
 //function to enfore required on textbox
-function setRequired(){
+/*function setRequired(){
 	document.getElementById("gendesc").required = true;
-}
+}*/
 
-function removeRequired(){
+/*function removeRequired(){
 	if(document.getElementById("gendesc").required == true){
 		document.getElementById("gendesc").required = false;
 	}
-}
+}*/
 
 function init(){
 	var demoform = document.getElementById("demoform"); //get ref to the HTML element

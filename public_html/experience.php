@@ -168,7 +168,7 @@ require_once 'includes/feeback-link.php';
 
 					foreach ($q->options as $optObj){
 						$o = $optObj->option;	// the full text of the question option
-						echo '<li>'.$o.'</li>';
+						echo '<li  style="font-size:11px">'.$o.'</li>'; //the font-size is temporary only. will come back to change the styling
 					}
 					echo '</ul>
 					</p>

@@ -55,6 +55,9 @@ if ( isset($_POST["feedbackcomment"]) ) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+	
+    <!-- for navigation bar -->
+    <script src="javascript/style.js"></script>
 <head>
   <title>Astronomy Test - Feedback</title>
 <?php

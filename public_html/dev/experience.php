@@ -11,7 +11,10 @@ error_reporting(E_ALL);
 <?php
 require_once 'includes/head-base.html';
 ?>
-	<link rel="stylesheet" type="text/css" href="styles/expsliders.css">
+  <!-- link tu slider's stylesheet -->
+  <link rel="stylesheet" type="text/css" href="styles/expsliders.css">
+  <!-- for navigation bar -->
+  <script src="javascript/style.js"></script>
 </head>
 
 <body id="experiencepage">

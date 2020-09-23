@@ -160,7 +160,7 @@ require_once 'includes/feeback-link.php';
 					$q_steps = $q->q_steps;	// steps in likert scale
 					$q_value = $q->q_value;	// specifies default value
 					
-					echo '<p>'.$question.'  
+					echo '<br/><br/><p>'.$question.'  
 						<div class="range">
 							<input type="range" name="'.$q_id.'" id="'.$q_id.'" min="'.$q_min.'" max="'.$q_max.'" steps="'.$q_steps.'" value="'.$q_value.'">
 						</div>

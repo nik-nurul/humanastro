@@ -8,7 +8,7 @@ var navbar = document.getElementById("navibarID");
 
 window.addEventListener('scroll', function (e) {
     var navbar = document.getElementById('navibarID');
-    if (document.documentElement.scrollTop || document.body.scrollTop >100) {
+    if (document.documentElement.scrollTop>550 || document.body.scrollTop >550) {
             navbar.classList.add('nav-colored');
             navbar.classList.remove('nav-transparent');
         } else {

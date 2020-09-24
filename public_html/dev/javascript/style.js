@@ -1,4 +1,5 @@
 /*This javascript file is for the website's style that requires Javascript functions */
+/* The code is inspired by the original source from: https://stackoverflow.com/questions/23706003/changing-nav-bar-color-after-scrolling */
 
 "use strict"; //indicate the codes need to be executed in strict mode
 

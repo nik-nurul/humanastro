@@ -11,6 +11,7 @@ error_reporting(E_ALL);
 <?php
 require_once 'includes/head-base.html';
 ?>
+
   <!-- link tu slider's stylesheet -->
   <link rel="stylesheet" type="text/css" href="styles/expsliders.css">
   <!-- for navigation bar -->
@@ -18,26 +19,26 @@ require_once 'includes/head-base.html';
 </head>
 
 <body id="experiencepage">
-	
+
 <?php
 require_once 'includes/header.html';
 ?>
 
   <!-- division for user experience form-->
-  <section>  
+  <section>
 <?php
 require_once 'includes/feeback-link.php';
 ?>
 	<div id="content_paragraph">
-	
+
 		<!--Page header-->
 		<h2 class="heading_font">About Yourself</h2>
 		<hr class="heading"><br/>
 		<!-- Content paragraph-->
-		<p class="paragraph_font">The following questions will help us understand more about your current experience with visual inspection of astronomical images. For each question, please select the option that is the closest match.</p>
-		
-		<p class="paragraph_font">This survey page stores your responses, the date and time of your response.</p>
-		
+		<p class="paragraph_font">To what extent do your current (or most recent) research activities include the following tasks? For each question, please indicate your response using the sliding scale.</p>
+
+		<p class="paragraph_font">This survey page will only store your responses</p>
+
 		<br/>
 		<br/>
 <?php
@@ -52,7 +53,7 @@ require_once 'includes/feeback-link.php';
 		$Ucoll = 'users';			// user collection name
 
 		$userId = sanitise_input($_GET["userId"]); // defend against malicious GET requests
-		  
+
 		try {
 			$manager = new MongoDB\Driver\Manager("mongodb://localhost:27017"); // connect to the Mongo DB
 
@@ -79,8 +80,8 @@ require_once 'includes/feeback-link.php';
 			$q_options = ['sort' => ['question_num' => 1]]; // sort the results based on question_num
 			$query = new MongoDB\Driver\Query( $q_filter, $q_options ); // create a query object with the above parameters
 			$cursor = $manager->executeQuery( $dbName.'.'.$Ucoll, $query ); // execute and return a cursor
-			
-			// retrieve user	
+
+			// retrieve user
 			// there should only be one result - this makes sure we get the only result
 			$iterator = new IteratorIterator($cursor); // generate an iterator from the cursor
 			$iterator->rewind(); // make sure the iterator is at the first element (head)
@@ -99,10 +100,10 @@ require_once 'includes/feeback-link.php';
 				// iterate through the demographic questions to set their answers
 				foreach ($userDoc->demographic_data as $q){
 					$q_id = $q->q_id;		// the abbreviated question identifier
-					
+
 					// set the answer, if it exists in the $_POST array
-					if (isset($_POST[$q_id])) {	
-						
+					if (isset($_POST[$q_id])) {
+
 						$answer = sanitise_input($_POST[$q_id]); // sanitise all form data, just in case
 
 						// find specific question in this user document
@@ -116,12 +117,12 @@ require_once 'includes/feeback-link.php';
 // -- work out how to set up the value "key" for freetext items
 						// handle self-described Gender
 						//	- change answer to freetext gender description
-						
+
 						//removed gender question as irrelevant to the study
 						//if ( $q_id == "Gender" and $answer == "sd" and isset($_POST["gendesc"]) )
 						//	$answer = sanitise_input($_POST["gendesc"]); // sanitise the freetext gender answer
 						// set the answer value for this question
-						
+
 						$bulk->update(
 							$u_filter,
 							[ '$set' => [ "demographic_data.$.answer" => $answer ]]
@@ -133,7 +134,7 @@ require_once 'includes/feeback-link.php';
 						//);
 					}
 				}
-		/*		
+		/*
 				// write the current page the user is on so the user can
 				// resume an interrupted session
 				$bulk->update(
@@ -152,7 +153,7 @@ require_once 'includes/feeback-link.php';
 
 				// start form here
 				echo '
-			  <form class="paragraph_font" id="expform" action="save_experience.php?userId='.$userId.'" method="post"> 
+			  <form class="paragraph_font" id="expform" action="save_experience.php?userId='.$userId.'" method="post">
 ';
 				// iterate over each experience question
 				foreach ($userDoc->experience_data as $q){
@@ -162,16 +163,16 @@ require_once 'includes/feeback-link.php';
 					$q_max = $q->q_max;		// maximum value allowed
 					$q_steps = $q->q_steps;	// steps in likert scale
 					$q_value = $q->q_value;	// specifies default value
-					
-					echo '<br/><br/><p>'.$question.'  
+
+					echo '<br/><br/><p>'.$question.'
 						<div class="range">
 							<input type="range" name="'.$q_id.'" id="'.$q_id.'" min="'.$q_min.'" max="'.$q_max.'" steps="'.$q_steps.'" value="'.$q_value.'">
 						</div>
 							<ul class="range-labels">';
 
 					foreach ($q->options as $optObj){
-						$o = $optObj->option;	// the full text of the question option
-						echo '<li style="font-size:11px" >'.$o.'</li>'; //the font-size is temporary only. will come back to change the styling
+						$o = $optObj->option;	// the full text of the question option						
+						echo '<li  style="font-size:11px">'.$o.'</li>'; //the font-size is temporary only. will come back to change the styling
 					}
 					echo '</ul>
 					</p>
@@ -179,10 +180,10 @@ require_once 'includes/feeback-link.php';
 					<br/>';
 				}
 				echo '
-				
+
 				</br>
 				</br>';
-			
+
 			// user is not an adult
 			} else {
 				$_SESSION["consent"] = false;
@@ -192,25 +193,25 @@ require_once 'includes/feeback-link.php';
 					[ '$set' => [ "consent" => false ]]
 				);
 				$result = $manager->executeBulkWrite($dbName.'.'.$Ucoll, $bulk);
-				
+
 				echo '
 				<p>You cannot participate in this research if you are not an adult</p>
 				<p>Your consent to have your details recorded has been withdrawn</p>
 				<p>Do something!</p>
 ';
 			}
-			
-		// exception handling for the database connection	
+
+		// exception handling for the database connection
 		} catch (MongoDB\Driver\Exception\Exception $e) {
 
 			$filename = basename(__FILE__);
-			
-			echo "The $filename script has experienced an error.\n"; 
+
+			echo "The $filename script has experienced an error.\n";
 			echo "It failed with the following exception:\n";
-			
+
 			echo "Exception:", $e->getMessage(), "\n";
 			echo "In file:", $e->getFile(), "\n";
-			echo "On line:", $e->getLine(), "\n";       
+			echo "On line:", $e->getLine(), "\n";
 		}
 	// end of if consent is true
 	} else {
@@ -219,7 +220,7 @@ require_once 'includes/feeback-link.php';
 		<p>Consent was not given</p>
 		<p>Do something!</p>
 ';
-	}		
+	}
 ?>
 		  <!-- section for buttons  -->
 		  <div>
@@ -229,15 +230,15 @@ require_once 'includes/feeback-link.php';
 					<a href="save_experience.php"><input class="bttnsubmit" id="inpbutton" type="submit" value="Submit and Continue"/>
 				</div>
 			</div>
-			
+
 			<br/>
-            
+
 			<!-- this button will redirect to homepage -->
 			<a href="index.php"><input class="bttn" id="quitBttn" type= "reset" value="Exit to Home"/></a>
 		  </div>
 		  <br/>
 		</form>
-		
+
 	    <br/>
 	</div>
   </section>

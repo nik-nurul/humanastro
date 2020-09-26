@@ -12,6 +12,14 @@ purpose: CSS Stylesheet for Astronomy Website
 
 /* Style for fonts */
 
+/* TRY FOR EXPERIENCE */
+li .aft_hover { display:none;}
+li:hover .bfr_hover {display: none;}
+li:hover .aft_hover {display: inline;}
+
+
+
+
 .web_title_font {
 	font-family: 'Jockey One';
 }

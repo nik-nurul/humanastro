@@ -64,6 +64,8 @@
 	margin: 20px -41px 0;
 	padding: 0;
 	list-style: none;
+	/*Prevent scroll bar and labels from wrapping around*/
+	width: max-content;
 }
 .range-labels li {
 	position: relative;

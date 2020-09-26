@@ -9,13 +9,13 @@ function validatedemo(){
 	//get variables from form and check rules here
 
 	//new variables for Age Range
-	var under18 = document.getElementById("<18").checked;
-	var to1824 = document.getElementById("18-24").checked;
-	var to2534 = document.getElementById("25-34").checked;
-	var to3544 = document.getElementById("35-44").checked;
-	var to4554 = document.getElementById("45-54").checked;
-	var over55 = document.getElementById(">55").checked;
-	var nosay = document.getElementById("agenot").checked;
+	var under18 = document.getElementById("<18").selected;
+	var to1824 = document.getElementById("18-24").selected;
+	var to2534 = document.getElementById("25-34").selected;
+	var to3544 = document.getElementById("35-44").selected;
+	var to4554 = document.getElementById("45-54").selected;
+	var over55 = document.getElementById(">55").selected;
+	var over18= document.getElementById("18+").selected;
 
 	//Gender question is removed
 	/*var female = document.getElementById("female").checked;
@@ -41,9 +41,9 @@ function validatedemo(){
 	var phd20 = document.getElementById("phd20").selected;
 
 	//variables for Region
-	var regAfr = document.getElementById("afr").selected;
+	var regAfr = document.getElementById("africa").selected;
 	var regAsia = document.getElementById("asia").selected;
-	var regEur= document.getElementById("eur").selected;
+	var regEur= document.getElementById("europe").selected;
 	var regNorthAm = document.getElementById("northAm").selected;
 	var regCentralAm = document.getElementById("centralAm").selected;
 	var regSouthAm = document.getElementById("southAm").selected;
@@ -88,7 +88,7 @@ function validatedemo(){
 	//if something is wrong set result = false, and concatenate error message
 
 	/*Must select age*/
-	if (!(under18 || to1824 || to2534 || to3544 || to4554 || over55 || nosay)) {
+	if (!(under18 || to1824 || to2534 || to3544 || to4554 || over55 || over18)) {
 		errMsg += "Please select your age group. \n"
 		result = false;
 	}

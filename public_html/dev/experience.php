@@ -36,7 +36,7 @@ require_once 'includes/feeback-link.php';
 		<!-- Content paragraph-->
 		<p class="paragraph_font">The following questions will help us understand more about your current experience with visual inspection of astronomical images. For each question, please select the option that is the closest match.</p>
 		
-		<p class="paragraph_font">This survey page stores your responses, the date and time of your response.</p>
+		<p class="paragraph_font">To what extent do your current (or most recent) research activities include the following tasks? For each question, please indicate your response using the sliding scale.</p>
 		
 		<br/>
 		<br/>
@@ -91,8 +91,8 @@ require_once 'includes/feeback-link.php';
 			$isAdult = false;
 
 			// is the user an adult?
-			if ( isset($_POST["Age"] ) and (
-					(in_array($_POST["Age"], array("18-24", "25-34", "35-44", "45-54", ">55", "agenot") ) )
+			if ( isset($_POST["age"] ) and (
+					(in_array($_POST["age"], array("18-24", "25-34", "35-44", "45-54", ">55", "18+") ) )
 				)
 			) {
 				//$date = date("Y-m-d H:i:s\Z"); // date/time string to store with answer -- (last updated: 13 Sept 2020) - For now, it is commented a we dont want to show the date/time to ensure anonymity)

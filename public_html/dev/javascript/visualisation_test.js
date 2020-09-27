@@ -279,7 +279,7 @@ function taskCompleteCheck(GazeData)
 			gazeTargetTime = current_subtask.targetGazeTime;
 
 		// get the distance betweem the user gaze point to the subtask target point
-		GazeData.astro.unscaledGazeTargetDist = roundTo((dist2points(
+		GazeData.astro.unscaledGazeTargetDist = roundTo(dist2points(
 			GazeData.astro.unscaledDocX,
 			GazeData.astro.unscaledDocY,
 			current_subtask.targetX,

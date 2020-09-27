@@ -523,6 +523,7 @@ function startNextSubtask() {
 		if (!gazeDebug && doPlotGaze) doPlotGaze = false; // stop plotting the gaze on screen
 		img = new Image();
 		resizeCanvas();
+		saveResult();
 		tryGetNextSubtask();
 	}
 

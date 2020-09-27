@@ -82,7 +82,7 @@ require_once 'includes/header.html';
 		<!--Content paragraph-->
 		<p class="paragraph_font">Please describe your feedback here. Bug reports, feature requests, design issues and any other feedback are welcome.</p>
 
-		<p class="paragraph_font">This feedback form stores your comment, the date (but not the time), the comment was made and the page you were on when before you came to this feedback page.</p>
+		<p class="paragraph_font">This feedback form stores your comment, the date (but not the time) and the page you were on when before you came to this feedback page.</p>
 
 		<p class="paragraph_font">For you to remain anonymous it is your responsibility not to input any identifying details here. Do not include your name, email address or any other personally-identifying data.</p>
 		

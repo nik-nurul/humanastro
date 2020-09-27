@@ -405,5 +405,10 @@ footer {
 		footer.paragraph_font {
 			font-size: 11px;
 		}
+	
+		/* for superscript in footer*/
+		sup.supstyle {
+			font-size: 40%;
+		}
 
 }

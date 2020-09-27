@@ -36,7 +36,7 @@ require_once 'includes/feeback-link.php';
 		<!-- Content paragraph-->
 		<p class="paragraph_font">The following questions will help us understand more about your current experience with visual inspection of astronomical images. For each question, please select the option that is the closest match.</p>
 		
-		<p class="paragraph_font">This survey page stores your responses, the date and time of your response.</p>
+		<p class="paragraph_font">This survey page will only store your responses.</p>
 		
 		<br/>
 		<br/>

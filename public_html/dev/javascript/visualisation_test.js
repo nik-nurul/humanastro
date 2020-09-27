@@ -5,7 +5,7 @@
 //{ **** GazeCloud global vars ****
 
 // Gaze Calibration type: 0 is accurate calibration (much slower - default); 1 is fast calibration
-GazeCloudAPI.CalibrationType = 0;
+GazeCloudAPI.CalibrationType = 1;
 var maxGazaDataArraySize = 30; // save arrays of this size in browser memory before sending to MongoDB
 var GazeFPS = 30; // Webcam FPS rate for GazeCloud
 
@@ -49,7 +49,7 @@ var subtask_num = -1;
 var timeGazeInsideTargetArea = null;
 
 var targetFoundEvent = new CustomEvent("tgtFnd"); // this allows a subtask to end when the user meets success criteria
-var endSubtask; // hoisting endSubtask so it can be removed as an eventHandler
+var handleTargetFound; // hoisting functions so they can be removed as eventHandlers globally
 
 
 //}
@@ -167,6 +167,34 @@ function sendToDB(data) {
 	xhttp.send(jsonData);
 }
 
+// saves a subtask result to the DB
+function saveResult() {
+	// begin ajax request
+	var jsonData = JSON.stringify(
+		{
+			"userIdStr": userIdStr,
+			"task_num": task_num,
+			"subtask_num": subtask_num,
+			"subtask_result": current_subtask.subtask_result
+		}
+	);
+
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			console.log(this.responseText); // just log the output to JS console
+		}
+	};
+	
+	// post request to the PHP page
+	xhttp.open("POST", "saveResult.php", true);
+
+	// the data type in the POST data to JSON
+	xhttp.setRequestHeader("Content-type", "application/json");
+
+	// convert javascript object to a JSON string and submit with the POST request
+	xhttp.send(jsonData);
+}
+
 // pushes each GazeData point to an array
 // if the array is >= 10 elements, copy that array and append it to the MongoDB
 // then empty the GazeDataArray
@@ -251,12 +279,12 @@ function taskCompleteCheck(GazeData)
 			gazeTargetTime = current_subtask.targetGazeTime;
 
 		// get the distance betweem the user gaze point to the subtask target point
-		GazeData.astro.unscaledGazeTargetDist = dist2points(
+		GazeData.astro.unscaledGazeTargetDist = roundTo((dist2points(
 			GazeData.astro.unscaledDocX,
 			GazeData.astro.unscaledDocY,
 			current_subtask.targetX,
 			current_subtask.targetY
-		);
+		),3);
 
 		// true if first time gaze is on target. stamps time
  		if (
@@ -275,7 +303,7 @@ function taskCompleteCheck(GazeData)
 		) {
 	 		timeGazeInsideTargetArea = null;
 			window.dispatchEvent(targetFoundEvent); // fire the target found event. This will end the current subtask
-			window.removeEventListener("tgtFnd", endSubtask); // remove listener after target found to prevent multiple dispaching for the same subtask
+			window.removeEventListener("tgtFnd", handleTargetFound); // remove listener after target found to prevent multiple dispaching for the same subtask
 	 		console.log('Target Found'); // debug
 	 	}
 
@@ -482,14 +510,14 @@ tryGetNextSubtask = function() {
 // remove the instructions, show the image and start the timer
 function startNextSubtask() {
 	var timer; // a separate timer per subtask element
-	var handleSpacebar; // hoist function definition so endSubtask can see it
+	var endSubtask, handleSpacebar, handleTimeout; // hoist function definition so endSubtask can see it
 	console.log('start task:',task_num,'subtask:',subtask_num); // debug
 
 	// callback to setTimeout, to spacebar pressed event, and to target found event
 	endSubtask = function(){
 		console.log('end task:',task_num,'subtask:',subtask_num); // debug
 		clearTimeout(timer); // end the timeout for this task
-		window.removeEventListener("tgtFnd", endSubtask);
+		window.removeEventListener("tgtFnd", handleTargetFound);
 		window.removeEventListener("keydown", handleSpacebar);
 		timeGazeInsideTargetArea = null;
 		if (!gazeDebug && doPlotGaze) doPlotGaze = false; // stop plotting the gaze on screen
@@ -504,10 +532,23 @@ function startNextSubtask() {
 			return; // Do nothing if the event was already processed
 		}		
 		if (event.key === " ") {
+			current_subtask.subtask_result = "skip";
 			endSubtask();
 		}
 		// Cancel the default action to avoid it being handled twice
 		event.preventDefault();
+	}
+	
+	// record that the subtask timed out end the task
+	handleTimeout = function(){
+		current_subtask.subtask_result = "timeout";
+		endSubtask();
+	}
+	
+	// record that the user found the target
+	handleTargetFound = function(){
+		current_subtask.subtask_result = "target_found";
+		endSubtask();
 	}
 
 	if (!gazeDebug)
@@ -523,9 +564,9 @@ function startNextSubtask() {
 			   current_subtask.hasOwnProperty('targetX')
 			&& current_subtask.hasOwnProperty('targetY')
 			&& current_subtask.hasOwnProperty('targetRadius')
-	) window.addEventListener("tgtFnd", endSubtask, false);			
+	) window.addEventListener("tgtFnd", handleTargetFound, false);			
 		
-	timer = setTimeout(endSubtask, current_subtask.time_limit*1000);
+	timer = setTimeout(handleTimeout, current_subtask.time_limit*1000);
 }
 
 function changeToTasks(){

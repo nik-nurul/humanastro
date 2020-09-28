@@ -3,7 +3,29 @@ session_start(); // used to pass userId from page to page
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Thank You</title>
+<?php
+require_once 'includes/head-base.html';
+?>
+</head>
+
+<body>
+	
+<?php
+require_once 'includes/header.html';
+?>
+  <!-- division for content-->
+  <section> 
+<?php
+require_once 'includes/feeback-link.php';
+?>
+
+<?php
 require_once 'includes/functions.php';
 
 // taken from the old calibration.php page
@@ -83,11 +105,16 @@ try {
 		// TO DO - redirect to an error page explaining no consent
 		$_SESSION["consent"] = false;
 
-		echo '<!DOCTYPE html>
-		<html lang="en">
-			<p>Consent was not given</p>
-			<p>Do something!</p>
-		</html>
+		echo 
+		'
+		<h2 class="heading_font">Thank You</h2>
+		<hr class="heading"><br/>
+		
+		<p class="paragraph_font">We appreciate your interest in participating in this study. However, you probably did not give your consent or you are under 18. We cannot proceed to
+		collect your data and store them in our database. <br/><br/>
+		
+		You can return to our home page in case you changed your mind.
+		</p>
 ';
 	}
 	
@@ -107,3 +134,26 @@ try {
 
 
 ?>
+
+<br/>
+		<br/>
+	
+	
+	
+		<!-- section for buttons -->
+		<div>
+			<!-- Buttons to return to home-->
+			<a href="./"><input class="bttn" id="homeBttn" type= "submit" value="Exit to Home"/></a>
+			<br/>
+		</div>
+	
+	</div>
+  </section>
+	
+<?php
+require_once 'includes/footer.html';
+?>
+
+</body>
+
+</html>

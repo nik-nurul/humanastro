@@ -195,11 +195,7 @@ require_once 'includes/feeback-link.php';
 				);
 				$result = $manager->executeBulkWrite($dbName.'.'.$Ucoll, $bulk);
 				
-				<script>
-					document.getElementsByClassName("paragraph_font").style.visibility = "hidden";
-					document.getElementsByClassName("bttnsubmit").style.visibility = "hidden";
-				</script>*/
-				
+								
 				echo '
 				<p class="paragraph_font">Thank you for your interest to participate in this study. Howevever, you 
 				need to be over 18 to proceed.</p> 

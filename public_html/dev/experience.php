@@ -32,7 +32,7 @@ require_once 'includes/feeback-link.php';
 	<div id="content_paragraph">
 
 		<!--Page header-->
-		<h2 class="heading_font">About Yourself</h2>
+		<h2 class="heading_font">About Your Experience</h2>
 		<hr class="heading"><br/>
 		<!-- Content paragraph-->
 

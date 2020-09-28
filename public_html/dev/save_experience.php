@@ -106,10 +106,7 @@ try {
 		$_SESSION["consent"] = false;
 
 		echo 
-		'
-		<h2 class="heading_font">Thank You</h2>
-		<hr class="heading"><br/>
-		
+		'		
 		<p class="paragraph_font">We appreciate your interest in participating in this study. However, you probably did not give your consent or you are under 18. We cannot proceed to
 		collect your data and store them in our database. <br/><br/>
 		

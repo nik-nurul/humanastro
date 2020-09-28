@@ -110,11 +110,14 @@ try {
 
 		echo 
 		'		
-		<p class="paragraph_font">We appreciate your interest in participating in this study. However, you probably did not give your consent or you are under 18. We cannot proceed to
-		collect your data and store them in our database.
+		<h2 class="heading_font">Thank You</h2>
+		<hr class="heading"><br/>
+	
+		<!-- webpage content -->
+		<p class="paragraph_font">We appreciate your interest in participating in this study. However, we require you to give your consent before we proceed to
+		collect your data and store them in our database. The stored data will strictly be used for analysis purpose related to this study. <br/><br/></p>
 		
-		You can return to our home page in case you changed your mind.
-		</p>
+		<p class="paragraph_font">You can return to our home page in case you changed your mind.</p>
 ';
 	}
 	

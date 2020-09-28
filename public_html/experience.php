@@ -31,7 +31,7 @@ require_once 'includes/feeback-link.php';
 	<div id="content_paragraph">
 	
 		<!--Page header-->
-		<h2 class="heading_font">About Yourself</h2>
+		<h2 class="heading_font">About Your Experience</h2>
 		<hr class="heading"><br/>
 		<!-- Content paragraph-->
 		<p class="paragraph_font">The following questions will help us understand more about your current experience with visual inspection of astronomical images. For each question, please select the option that is the closest match.</p>

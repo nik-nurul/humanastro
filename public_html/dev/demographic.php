@@ -32,7 +32,7 @@ require_once 'includes/feeback-link.php';
 
 
       <div id="content_paragraph">
-        <h2 class="heading_font"> Create Account </h2>
+        <h2 class="heading_font"> About Yourself </h2>
         <hr class="heading"><br/>
           	<p class="paragraph_font">The questions provided on this page are intended to record minimal demographic
               information approved by ethics committee.</p>

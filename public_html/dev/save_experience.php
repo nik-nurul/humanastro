@@ -13,6 +13,9 @@ error_reporting(E_ALL);
 require_once 'includes/head-base.html';
 ?>
 </head>
+  <!-- for navigation bar -->
+  <script src="javascript/style.js"></script>
+</head>
 
 <body>
 	
@@ -108,7 +111,7 @@ try {
 		echo 
 		'		
 		<p class="paragraph_font">We appreciate your interest in participating in this study. However, you probably did not give your consent or you are under 18. We cannot proceed to
-		collect your data and store them in our database. <br/><br/>
+		collect your data and store them in our database.
 		
 		You can return to our home page in case you changed your mind.
 		</p>

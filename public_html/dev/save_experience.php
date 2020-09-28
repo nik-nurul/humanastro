@@ -27,7 +27,7 @@ require_once 'includes/header.html';
 <?php
 require_once 'includes/feeback-link.php';
 ?>
-
+	<div id="content_paragraph">
 <?php
 require_once 'includes/functions.php';
 

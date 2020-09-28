@@ -195,10 +195,10 @@ require_once 'includes/feeback-link.php';
 				);
 				$result = $manager->executeBulkWrite($dbName.'.'.$Ucoll, $bulk);
 				
-				<script type="text/JavaScript">
+				/*<script type="text/JavaScript">
 					document.getElementsByClassName("paragraph_font").style.visibility = "hidden";
 					document.getElementsByClassName("bttnsubmit").style.visibility = "hidden";
-				</script>
+				</script>*/
 				
 				echo '
 				<p class="paragraph_font">Thank you for your interest to participate in this study. Howevever, you 

@@ -9,7 +9,7 @@ GazeCloudAPI.CalibrationType = 1;
 var maxGazaDataArraySize = 30; // save arrays of this size in browser memory before sending to MongoDB
 var GazeFPS = 30; // Webcam FPS rate for GazeCloud
 
-var gazeDebug = true; // if true, will always doPlotGaze, and will change gaze color when on target
+var gazeDebug = false; // if true, will always doPlotGaze, and will change gaze color when on target
 
 var doPlotGaze = gazeDebug; // if true, plot the gaze on screen
 var GazeDataArray = [];
@@ -229,11 +229,13 @@ function PlotGaze(GazeData) {
 	}
 	
 	// only display gaze position if gaze is valid and doPlotGaze == true
-	if(GazeData.state != 0 || !doPlotGaze || !gazeDebug ){
+	if(GazeData.state != 0 || !doPlotGaze ){
 		// do not display gaze position
 		if( gaze.style.display  == 'block')
 			gaze.style.display   = 'none';
-	} else {
+		console.log('not plotting gaze'); // debug
+	} else if ( GazeData.state == 0 && (doPlotGaze || gazeDebug) ){
+		console.log('plotting gaze'); // debug
 		// display gaze position
 		if( gaze.style.display  == 'none'){
 			gaze.style.display   = 'block';
@@ -552,10 +554,13 @@ function startNextSubtask() {
 		endSubtask();
 	}
 
-	if (!gazeDebug)
+	if (!gazeDebug) {
 		doPlotGaze = current_subtask.doPlotGaze; // set doPlotGaze mode for this subtask
-	else
+		console.log('gazeDebug false, setting doPlotGaze to:',doPlotGaze); // debug
+	}else{
 		doPlotGaze = true;
+		console.log('gazeDebug true, setting doPlotGaze to:',doPlotGaze); // debug
+	}
 	hideInstructions(); // transition to image showing mode
 		
 	if (current_subtask.allow_skip) // only add the event listener for the spacebar if the task allows it

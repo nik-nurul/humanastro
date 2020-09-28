@@ -194,12 +194,17 @@ require_once 'includes/feeback-link.php';
 					[ '$set' => [ "consent" => false ]]
 				);
 				$result = $manager->executeBulkWrite($dbName.'.'.$Ucoll, $bulk);
-
+				
+				<script type="text/JavaScript">
+					document.getElementsByClassName("paragraph_font").style.visibility = "hidden";
+					document.getElementsByClassName("bttnsubmit").style.visibility = "hidden";
+				</script>
+				
 				echo '
-				<p>You cannot participate in this research if you are not an adult</p>
-				<p>Your consent to have your details recorded has been withdrawn</p>
-				<p>Do something!</p>
-';
+				<p class="paragraph_font">Thank you for your interest to participate in this study. Howevever, you 
+				need to be over 18 to proceed.</p> 
+				
+				';
 			}
 
 		// exception handling for the database connection

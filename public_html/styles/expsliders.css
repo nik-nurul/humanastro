@@ -64,6 +64,10 @@
 	margin: 20px -41px 0;
 	padding: 0;
 	list-style: none;
+	/*prevent slider labels from wrap around*/
+	display: -webkit-inline-flex; /*Safari*/
+	display: -ms-inline-flexbox; /*IE*/
+	display: inline-flex;
 }
 .range-labels li {
 	position: relative;

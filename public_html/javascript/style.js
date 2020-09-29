@@ -11,8 +11,8 @@ window.addEventListener('scroll', function (e) { //if the page is scrolled
     var navbar = document.getElementById('navibarID');
 
     //check if the current page is index page or not
-    if (window.location.href == "https://humanastro.csproject.org/"){
-         if (document.documentElement.scrollTop>550 || document.body.scrollTop >550) { //if scrolled passed this height
+    if (window.location.href == "https://humanastro.csproject.org/dev/"){ //if index page
+         if (document.documentElement.scrollTop>550 || document.body.scrollTop >550) { //if scrolled passed this height (the image header)
             navbar.classList.add('nav-colored');
             navbar.classList.remove('nav-transparent');
         } else {
@@ -20,7 +20,7 @@ window.addEventListener('scroll', function (e) { //if the page is scrolled
             navbar.classList.remove('nav-colored');
         }
 
-    } else {
+    } else { //if other than index page
         if (document.documentElement.scrollTop>10 || document.body.scrollTop >10) { //if scrolled passed this height
             navbar.classList.add('nav-colored');
             navbar.classList.remove('nav-transparent');

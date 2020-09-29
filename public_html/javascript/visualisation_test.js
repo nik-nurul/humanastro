@@ -49,7 +49,7 @@ var subtask_num = -1;
 var timeGazeInsideTargetArea = null;
 
 var targetFoundEvent = new CustomEvent("tgtFnd"); // this allows a subtask to end when the user meets success criteria
-var endSubtask; // hoisting endSubtask so it can be removed as an eventHandler
+var handleTargetFound; // hoisting functions so they can be removed as eventHandlers globally
 
 
 //}
@@ -152,13 +152,40 @@ function sendToDB(data) {
 
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			console.log(this.responseText); // just log the output to JS console
-//			console.log(""+this.responseText); // just log the output to JS console
+//			console.log(this.responseText); // debug --just log the output to JS console 
 		}
 	};
 	
 	// post request to the PHP page
 	xhttp.open("POST", "saveToDB.php", true);
+
+	// the data type in the POST data to JSON
+	xhttp.setRequestHeader("Content-type", "application/json");
+
+	// convert javascript object to a JSON string and submit with the POST request
+	xhttp.send(jsonData);
+}
+
+// saves a subtask result to the DB
+function saveResult() {
+	// begin ajax request
+	var jsonData = JSON.stringify(
+		{
+			"userIdStr": userIdStr,
+			"task_num": task_num,
+			"subtask_num": subtask_num,
+			"subtask_result": current_subtask.subtask_result
+		}
+	);
+
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+//			console.log(this.responseText); // debug - just log the output to JS console
+		}
+	};
+	
+	// post request to the PHP page
+	xhttp.open("POST", "saveResult.php", true);
 
 	// the data type in the POST data to JSON
 	xhttp.setRequestHeader("Content-type", "application/json");
@@ -201,11 +228,13 @@ function PlotGaze(GazeData) {
 	}
 	
 	// only display gaze position if gaze is valid and doPlotGaze == true
-	if(GazeData.state != 0 || !doPlotGaze || !gazeDebug ){
+	if(GazeData.state != 0 || !doPlotGaze ){
 		// do not display gaze position
 		if( gaze.style.display  == 'block')
 			gaze.style.display   = 'none';
-	} else {
+//		console.log('not plotting gaze'); // debug
+	} else if ( GazeData.state == 0 && (doPlotGaze || gazeDebug) ){
+//		console.log('plotting gaze'); // debug
 		// display gaze position
 		if( gaze.style.display  == 'none'){
 			gaze.style.display   = 'block';
@@ -251,12 +280,12 @@ function taskCompleteCheck(GazeData)
 			gazeTargetTime = current_subtask.targetGazeTime;
 
 		// get the distance betweem the user gaze point to the subtask target point
-		GazeData.astro.unscaledGazeTargetDist = dist2points(
+		GazeData.astro.unscaledGazeTargetDist = roundTo(dist2points(
 			GazeData.astro.unscaledDocX,
 			GazeData.astro.unscaledDocY,
 			current_subtask.targetX,
 			current_subtask.targetY
-		);
+		),3);
 
 		// true if first time gaze is on target. stamps time
  		if (
@@ -264,7 +293,7 @@ function taskCompleteCheck(GazeData)
  			&& timeGazeInsideTargetArea == null
 		) {
 	 		timeGazeInsideTargetArea = GazeData.astro.sessionTime;
-			console.log('Gaze on target'); // debug
+//			console.log('Gaze on target'); // debug
 		}
 	 	
 	 	// true if gaze has remained on target longer than gaze target time
@@ -275,8 +304,8 @@ function taskCompleteCheck(GazeData)
 		) {
 	 		timeGazeInsideTargetArea = null;
 			window.dispatchEvent(targetFoundEvent); // fire the target found event. This will end the current subtask
-			window.removeEventListener("tgtFnd", endSubtask); // remove listener after target found to prevent multiple dispaching for the same subtask
-	 		console.log('Target Found'); // debug
+			window.removeEventListener("tgtFnd", handleTargetFound); // remove listener after target found to prevent multiple dispaching for the same subtask
+//	 		console.log('Target Found'); // debug
 	 	}
 
 	 	// true if gaze moves off target after gaze has been on target
@@ -285,7 +314,7 @@ function taskCompleteCheck(GazeData)
 	 		&& GazeData.astro.unscaledGazeTargetDist > current_subtask.targetRadius
 		) {
 	 		timeGazeInsideTargetArea = null;
-			console.log('Gaze off target'); // debug			
+//			console.log('Gaze off target'); // debug			
 		}
 	}
 }
@@ -482,19 +511,20 @@ tryGetNextSubtask = function() {
 // remove the instructions, show the image and start the timer
 function startNextSubtask() {
 	var timer; // a separate timer per subtask element
-	var handleSpacebar; // hoist function definition so endSubtask can see it
-	console.log('start task:',task_num,'subtask:',subtask_num); // debug
+	var endSubtask, handleSpacebar, handleTimeout; // hoist function definition so endSubtask can see it
+//	console.log('start task:',task_num,'subtask:',subtask_num); // debug
 
 	// callback to setTimeout, to spacebar pressed event, and to target found event
 	endSubtask = function(){
-		console.log('end task:',task_num,'subtask:',subtask_num); // debug
+//		console.log('end task:',task_num,'subtask:',subtask_num); // debug
 		clearTimeout(timer); // end the timeout for this task
-		window.removeEventListener("tgtFnd", endSubtask);
+		window.removeEventListener("tgtFnd", handleTargetFound);
 		window.removeEventListener("keydown", handleSpacebar);
 		timeGazeInsideTargetArea = null;
 		if (!gazeDebug && doPlotGaze) doPlotGaze = false; // stop plotting the gaze on screen
 		img = new Image();
 		resizeCanvas();
+		saveResult();
 		tryGetNextSubtask();
 	}
 
@@ -504,16 +534,32 @@ function startNextSubtask() {
 			return; // Do nothing if the event was already processed
 		}		
 		if (event.key === " ") {
+			current_subtask.subtask_result = "skip";
 			endSubtask();
 		}
 		// Cancel the default action to avoid it being handled twice
 		event.preventDefault();
 	}
+	
+	// record that the subtask timed out end the task
+	handleTimeout = function(){
+		current_subtask.subtask_result = "timeout";
+		endSubtask();
+	}
+	
+	// record that the user found the target
+	handleTargetFound = function(){
+		current_subtask.subtask_result = "target_found";
+		endSubtask();
+	}
 
-	if (!gazeDebug)
+	if (!gazeDebug) {
 		doPlotGaze = current_subtask.doPlotGaze; // set doPlotGaze mode for this subtask
-	else
+//		console.log('gazeDebug false, setting doPlotGaze to:',doPlotGaze); // debug
+	}else{
 		doPlotGaze = true;
+//		console.log('gazeDebug true, setting doPlotGaze to:',doPlotGaze); // debug
+	}
 	hideInstructions(); // transition to image showing mode
 		
 	if (current_subtask.allow_skip) // only add the event listener for the spacebar if the task allows it
@@ -523,9 +569,9 @@ function startNextSubtask() {
 			   current_subtask.hasOwnProperty('targetX')
 			&& current_subtask.hasOwnProperty('targetY')
 			&& current_subtask.hasOwnProperty('targetRadius')
-	) window.addEventListener("tgtFnd", endSubtask, false);			
+	) window.addEventListener("tgtFnd", handleTargetFound, false);			
 		
-	timer = setTimeout(endSubtask, current_subtask.time_limit*1000);
+	timer = setTimeout(handleTimeout, current_subtask.time_limit*1000);
 }
 
 function changeToTasks(){

@@ -5,7 +5,7 @@
 //{ **** GazeCloud global vars ****
 
 // Gaze Calibration type: 0 is accurate calibration (much slower - default); 1 is fast calibration
-GazeCloudAPI.CalibrationType = 1;
+GazeCloudAPI.CalibrationType = 0;
 var maxGazaDataArraySize = 30; // save arrays of this size in browser memory before sending to MongoDB
 var GazeFPS = 30; // Webcam FPS rate for GazeCloud
 
@@ -152,8 +152,7 @@ function sendToDB(data) {
 
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			console.log(this.responseText); // just log the output to JS console
-//			console.log(""+this.responseText); // just log the output to JS console
+//			console.log(this.responseText); // debug --just log the output to JS console 
 		}
 	};
 	
@@ -181,7 +180,7 @@ function saveResult() {
 
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			console.log(this.responseText); // just log the output to JS console
+//			console.log(this.responseText); // debug - just log the output to JS console
 		}
 	};
 	
@@ -233,9 +232,9 @@ function PlotGaze(GazeData) {
 		// do not display gaze position
 		if( gaze.style.display  == 'block')
 			gaze.style.display   = 'none';
-		console.log('not plotting gaze'); // debug
+//		console.log('not plotting gaze'); // debug
 	} else if ( GazeData.state == 0 && (doPlotGaze || gazeDebug) ){
-		console.log('plotting gaze'); // debug
+//		console.log('plotting gaze'); // debug
 		// display gaze position
 		if( gaze.style.display  == 'none'){
 			gaze.style.display   = 'block';
@@ -294,7 +293,7 @@ function taskCompleteCheck(GazeData)
  			&& timeGazeInsideTargetArea == null
 		) {
 	 		timeGazeInsideTargetArea = GazeData.astro.sessionTime;
-			console.log('Gaze on target'); // debug
+//			console.log('Gaze on target'); // debug
 		}
 	 	
 	 	// true if gaze has remained on target longer than gaze target time
@@ -306,7 +305,7 @@ function taskCompleteCheck(GazeData)
 	 		timeGazeInsideTargetArea = null;
 			window.dispatchEvent(targetFoundEvent); // fire the target found event. This will end the current subtask
 			window.removeEventListener("tgtFnd", handleTargetFound); // remove listener after target found to prevent multiple dispaching for the same subtask
-	 		console.log('Target Found'); // debug
+//	 		console.log('Target Found'); // debug
 	 	}
 
 	 	// true if gaze moves off target after gaze has been on target
@@ -315,7 +314,7 @@ function taskCompleteCheck(GazeData)
 	 		&& GazeData.astro.unscaledGazeTargetDist > current_subtask.targetRadius
 		) {
 	 		timeGazeInsideTargetArea = null;
-			console.log('Gaze off target'); // debug			
+//			console.log('Gaze off target'); // debug			
 		}
 	}
 }
@@ -513,11 +512,11 @@ tryGetNextSubtask = function() {
 function startNextSubtask() {
 	var timer; // a separate timer per subtask element
 	var endSubtask, handleSpacebar, handleTimeout; // hoist function definition so endSubtask can see it
-	console.log('start task:',task_num,'subtask:',subtask_num); // debug
+//	console.log('start task:',task_num,'subtask:',subtask_num); // debug
 
 	// callback to setTimeout, to spacebar pressed event, and to target found event
 	endSubtask = function(){
-		console.log('end task:',task_num,'subtask:',subtask_num); // debug
+//		console.log('end task:',task_num,'subtask:',subtask_num); // debug
 		clearTimeout(timer); // end the timeout for this task
 		window.removeEventListener("tgtFnd", handleTargetFound);
 		window.removeEventListener("keydown", handleSpacebar);
@@ -556,10 +555,10 @@ function startNextSubtask() {
 
 	if (!gazeDebug) {
 		doPlotGaze = current_subtask.doPlotGaze; // set doPlotGaze mode for this subtask
-		console.log('gazeDebug false, setting doPlotGaze to:',doPlotGaze); // debug
+//		console.log('gazeDebug false, setting doPlotGaze to:',doPlotGaze); // debug
 	}else{
 		doPlotGaze = true;
-		console.log('gazeDebug true, setting doPlotGaze to:',doPlotGaze); // debug
+//		console.log('gazeDebug true, setting doPlotGaze to:',doPlotGaze); // debug
 	}
 	hideInstructions(); // transition to image showing mode
 		

@@ -172,7 +172,7 @@ require_once 'includes/feeback-link.php';
 							<ul class="range-labels">';
 
 					foreach ($q->options as $optObj){
-						$o = $optObj->option;	// the full text of the question option						
+						$o = $optObj->option;	// the full text of the question option
 						echo '<li  style="font-size:11px">'.$o.'</li>'; //the font-size is temporary only. will come back to change the styling
 					}
 					echo '</ul>
@@ -194,12 +194,12 @@ require_once 'includes/feeback-link.php';
 					[ '$set' => [ "consent" => false ]]
 				);
 				$result = $manager->executeBulkWrite($dbName.'.'.$Ucoll, $bulk);
-				
-								
+
+
 				echo '
-				<p class="paragraph_font">Thank you for your interest to participate in this study. Howevever, you 
-				need to be over 18 to proceed.</p> 
-				
+				<p class="paragraph_font">Thank you for your interest to participate in this study. Howevever, you
+				need to be over 18 to proceed.</p>
+
 				';
 			}
 
@@ -219,7 +219,7 @@ require_once 'includes/feeback-link.php';
 	} else {
 		// consent was false
 		echo '
-		<p class="paragraph_font">Thank you for your interest to participate in this study. Howevever, you 
+		<p class="paragraph_font">Thank you for your interest to participate in this study. Howevever, you
 		need to be over 18 to proceed.</p>
 ';
 	}

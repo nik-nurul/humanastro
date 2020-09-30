@@ -1,15 +1,16 @@
 <?php
-session_start(); // used to pass userId from page to page
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+	session_start(); // used to pass userId from page to page
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Astronomy Test - Demographic Questions</title>
+	<title>Astronomy Test - Demographic Questions</title>
 <?php
-require_once 'includes/head-base.html';
+	require_once 'includes/head-base.html';
 ?>
     <!-- check form requirements/validation -->
     <script src="javascript/validatedemographic.js"></script>
@@ -20,22 +21,21 @@ require_once 'includes/head-base.html';
 <body id="demographicpage">
 
 <?php
-require_once 'includes/header.html';
+	require_once 'includes/header.html';
 ?>
 
   <!-- division for user information form-->
   <section>
 
 <?php
-require_once 'includes/feeback-link.php';
+	require_once 'includes/feeback-link.php';
 ?>
 
-
-      <div id="content_paragraph">
-        <h2 class="heading_font"> About Yourself </h2>
+	<div id="content_paragraph">
+		<h2 class="heading_font"> Demographic Information </h2>
         <hr class="heading"><br/>
-          	<p class="paragraph_font">The questions provided on this page are intended to record minimal demographic
-              information approved by ethics committee.</p>
+			<p class="paragraph_font">The questions provided on this page are intended to record minimal demographic
+				information approved by ethics committee.</p>
 
 			<p class="paragraph_font">For you to remain anonymous it is your responsibility not to input any identifying details here. Do not include your name, email address or any other personally-identifying data.</p>
 
@@ -201,7 +201,7 @@ try {
   </section>
 
 <?php
-require_once 'includes/footer.html';
+	require_once 'includes/footer.html';
 ?>
 
 </body>

@@ -1,15 +1,15 @@
 <?php
-session_start(); // used to pass userId from page to page
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+	session_start(); // used to pass userId from page to page
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Astronomy Test - Experience Questions</title>
+	<title>Astronomy Test - Experience Questions</title>
 <?php
-require_once 'includes/head-base.html';
+	require_once 'includes/head-base.html';
 ?>
 
   <!-- link tu slider's stylesheet -->
@@ -21,18 +21,18 @@ require_once 'includes/head-base.html';
 <body id="experiencepage">
 
 <?php
-require_once 'includes/header.html';
+	require_once 'includes/header.html';
 ?>
 
   <!-- division for user experience form-->
   <section>
 <?php
-require_once 'includes/feeback-link.php';
+	require_once 'includes/feeback-link.php';
 ?>
 	<div id="content_paragraph">
 
 		<!--Page header-->
-		<h2 class="heading_font">About Your Experience</h2>
+		<h2 class="heading_font">Your Astronomy Experience</h2>
 		<hr class="heading"><br/>
 		<!-- Content paragraph-->
 
@@ -242,7 +242,7 @@ require_once 'includes/feeback-link.php';
   </section>
 
 <?php
-require_once 'includes/footer.html';
+	require_once 'includes/footer.html';
 ?>
 
 </body>

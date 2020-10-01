@@ -195,12 +195,8 @@ require_once 'includes/feeback-link.php';
 				);
 				$result = $manager->executeBulkWrite($dbName.'.'.$Ucoll, $bulk);
 
-
-				echo '
-				<p class="paragraph_font">Thank you for your interest to participate in this study. Howevever, you
-				need to be over 18 to proceed.</p>
-
-				';
+        //users will be redirected to 'Not Eligable' page if they clicked <18 years
+        echo '<script type="text/javascript"> window.location.href = "underageError.php";</script>';
 			}
 
 		// exception handling for the database connection

@@ -9,7 +9,7 @@ GazeCloudAPI.CalibrationType = 0;
 var maxGazaDataArraySize = 30; // save arrays of this size in browser memory before sending to MongoDB
 var GazeFPS = 30; // Webcam FPS rate for GazeCloud
 
-var gazeDebug = false; // if true, will always doPlotGaze, and will change gaze color when on target
+var gazeDebug = true; // if true, will always doPlotGaze, and will change gaze color when on target
 
 var doPlotGaze = gazeDebug; // if true, plot the gaze on screen
 var GazeDataArray = [];

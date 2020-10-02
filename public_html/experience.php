@@ -192,12 +192,9 @@ require_once 'includes/feeback-link.php';
 					[ '$set' => [ "consent" => false ]]
 				);
 				$result = $manager->executeBulkWrite($dbName.'.'.$Ucoll, $bulk);
-
-				echo '
-				<p>You cannot participate in this research if you are not an adult</p>
-				<p>Your consent to have your details recorded has been withdrawn</p>
-				<p>Do something!</p>
-';
+				
+				//users will be redirected to 'Not Eligable' page if they clicked <18 years
+        			echo '<script type="text/javascript"> window.location.href = "underageError.php";</script>';
 			}
 
 		// exception handling for the database connection

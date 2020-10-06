@@ -154,6 +154,10 @@ div.navibar a {
   text-align: right;
 }
 
+/* style for when 'other' is chosen in demographic questions */
+.otherQuest {
+	font-size: 13px;
+}
 
 /* style for horizontal line below heading */
 hr.heading {

@@ -121,6 +121,14 @@ require_once 'includes/feeback-link.php';
 						//if ( $q_id == "Gender" and $answer == "sd" and isset($_POST["gendesc"]) )
 						//	$answer = sanitise_input($_POST["gendesc"]); // sanitise the freetext gender answer
 						// set the answer value for this question
+						
+						//handle geographical region and primary research questions:
+						if ( $q_id == "geo" and $answer == "oth" and isset($_POST["geodesc"]) )
+							$answer = sanitise_input($_POST["geodesc"]); // sanitise the freetext gender answer
+						if( $q_id == "resArea" and $answer == "arOther" and isset($_POST["researchdesc"]) )
+							$answer = sanitise_input($_POST["researchdesc"]); // sanitise the freetext gender answer
+						//set the answer value for this question
+
 
 						$bulk->update(
 							$u_filter,

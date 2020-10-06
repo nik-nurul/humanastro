@@ -83,7 +83,7 @@ exit();
         <hr class="heading" style="height:2px;"/>
         <p id="explanationPara" class="paragraph_font">
             There will be an eye calibration test before the visualisation tests take place.<br/><br/><br/>
-            <b>The browser's window will be put into fullscreen mode. Please do not resize it.</b><br/>
+            <b>The browser's window will be put into fullscreen mode. Please do not resize it.</b><br/><br/>
 			<b>There will be a pop-up window asking for access to the user's web camera. The user need to click on the 'allow access' button in order to proceed with the eye-tracking test.</b></br>
         </p>
 				<img id="subtask_image" src="" style="display:none;"/>

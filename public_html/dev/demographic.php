@@ -37,7 +37,8 @@
 		<h2 class="heading_font"> Demographic Information </h2>
         <hr class="heading"><br/>
 			<p class="paragraph_font">The questions provided on this page are intended to record minimal demographic
-				information approved by ethics committee.</p>
+				information, in order to obtain and analyse characteristics about the population, to be used in research
+				and approved by the ethics committee.</p>
 
 			<p class="paragraph_font">For you to remain anonymous it is your responsibility not to input any identifying details here. Do not include your name, email address or any other personally-identifying data.</p>
 

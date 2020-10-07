@@ -46,7 +46,7 @@
 				However, the human visual system is regularly proposed as being the gold standard for novel discovery
 				in astronomy, but with limited research to support that claim. <br/> <br/>
 				This website has been created to test and measure the visual-discovery skills of
-				astronomers, via a series of astronomic images, tested via an eye tracking solution.
+				astronomers, via a series of astronomic images, tested using an eye tracking solution.
 			</p>
 
             <p class="paragraph_font">

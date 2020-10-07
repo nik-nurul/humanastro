@@ -32,10 +32,10 @@ require_once 'includes/feeback-link.php';
 		<hr class="heading"><br/>
 	
 		<!-- webpage content -->
-		<p class="paragraph_font"> Thank you for your participation. Below is the initial result of your test session: <br/><br/>
-		Some simple feedbacks will be provided here for the users. For example: heatmap and time taken to finish the task. <br/><br/>
-			
-		Questions regarding consent will be asked for the last time before storing test data in the database	</p>
+		<p class="paragraph_font"> Thank you for your time and participation. The data captured will be sent to the Centre for Astrophysics
+		and Supercomputing, at the Swinburne University of Technology.<br/><br/>
+		
+		For any questions or concerns, please get in touch with the team <a href="contact.php">here</a>.</p>
 		<br/>
 		<br/>
 	

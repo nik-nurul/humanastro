@@ -15,6 +15,8 @@ require_once 'includes/head-base.html';
     <script src="javascript/validatedemographic.js"></script>
     <!-- for navigation bar -->
     <script src="javascript/style.js"></script>
+    <!-- for 'other' answer choice -->
+    <script src="javascript/input_other.js"></script>
 </head>
 
 <body id="demographicpage">

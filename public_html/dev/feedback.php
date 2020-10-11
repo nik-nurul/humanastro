@@ -110,7 +110,7 @@ require_once 'includes/header.html';
 		</form>
 		<br/>
 		<!-- this button will redirect to homepage -->
-		<a href="index.php"><input class="bttn" id="quitBttn" type= "reset" value="Exit to Home"/></a>
+		<a href="./"><input class="bttn" id="quitBttn" type= "reset" value="Home"/></a>
 		
 		<br/>
 		

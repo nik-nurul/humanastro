@@ -46,16 +46,15 @@
 				However, the human visual system is regularly proposed as being the gold standard for novel discovery
 				in astronomy, but with limited research to support that claim. <br/> <br/>
 				This website has been created to test and measure the visual-discovery skills of
-				astronomers, via a series of astronomic images, tested using an eye tracking solution.
+				astronomers, via a series of astronomic images, tested via an eye tracking solution.
 			</p>
 
             <p class="paragraph_font">
 				The test will require users to find certain features within the displayed astronomy images,
 				or scan the astronomy image for areas of interest within a time limit.
 			</p>
-        </div>
+			<br/><br/>
 
-        <div id="content_paragraph">
 			<h2 class="heading_font"> Purpose of the Test </h2>
             <hr class="heading">
             <p class="paragraph_font">
@@ -63,9 +62,8 @@
 				of machines and to boldly compare the two, like no man has done before.
 				The outcomes of the test will help answer the question: Are Machines Better than Humans (at Astronomy)?
             </p>
-		</div>
+			<br/><br/>
 
-		<div id="content_paragraph" >
 			<h2 class="heading_font"> What is Required </h2>
 			<hr class="heading">
 			<p class="paragraph_font">
@@ -74,6 +72,8 @@
 				4GB of RAM and a minimum display resolution of 1600x900px to be used in order to complete the test smoothly.
 				A compatible webcam accessible through a browser is also required in order to track eye movement during the tests and
 				above all a stable wi-fi connection.
+				<br/><br/>
+				<a href="hardware_reqs.php">Check Requirements</a>
 			</p><br/>
 
             <!-- button to take the test -->

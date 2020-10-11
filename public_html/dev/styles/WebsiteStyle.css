@@ -128,8 +128,6 @@ div.navibar a {
 	background-color: none;
 }
 
-
-
 /* Style for website title (index.php) */
 #web_title{
     font-size: 4.7em;
@@ -142,7 +140,25 @@ div.navibar a {
     text-shadow: 5.5px 3.5px 3.5px rgb(0,0,0);
 }
 
+/* unvisited link */
+a:link {
+  color: gray;
+}
 
+/* visited link */
+a:visited {
+  color: lightgray;
+}
+
+/* mouse over link */
+a:hover {
+  color: hotpink;
+}
+
+/* selected link */
+a:active {
+  color: purple;
+}
 
 /* Style for text under heading name (index.php)*/
 #content_paragraph{
@@ -155,7 +171,6 @@ div.navibar a {
   font-size: 16px;
   text-align: center justified;
 }
-
 
 /* style for the button alignment */
 #bttn_question{
@@ -222,7 +237,6 @@ div.test {
 #questionno {
 	text-decoration: underline;
 }
-
 
 /* style for button */
 .bttn {
@@ -345,10 +359,7 @@ footer {
   color: black;
 }
 
-
-
 /*	RESPONSIVE WEBSITE - to control the website's interface based on the screen size  */
-
 
 /*Medium  */
 @media screen and (max-width: 63.5em) {
@@ -414,5 +425,6 @@ footer {
 		sup.supstyle {
 			font-size: 40%;
 		}
+		
 
 }

@@ -71,7 +71,7 @@
 			<p class="paragraph_font">
 				To successfully carry on with the visualisation test,
 				it is recommended that you have a desktop or laptop computer with minimum requirements of a 2GHz processor,
-				4GB of RAM and a minimum display resolution of 1366x768px to be used in order to complete the test smoothly.
+				4GB of RAM and a minimum display resolution of 1600x900px to be used in order to complete the test smoothly.
 				A compatible webcam accessible through a browser is also required in order to track eye movement during the tests and
 				above all a stable wi-fi connection.
 			</p><br/>

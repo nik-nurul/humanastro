@@ -111,6 +111,18 @@ exit();
 			<br/>
 	</div>
 
+	<!-- Modal popup box to show subtask results -->
+	<!-- from: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal -->
+	<div id="resultPopup" class="modal">
+
+	  <!-- Modal content -->
+	  <div class="modal-content">
+		<span class="close">&times;</span>
+		<p class="paragraph_font"><span id="result">RESULT:</span></p>
+	  </div>
+
+	</div>
+
 	<script>
 			// ask for permission to use webcam - https://www.html5rocks.com/en/tutorials/getusermedia/intro/
 			// Using, this, the permission will be persistent. That is, users won't have to grant/deny access every time.

@@ -11,8 +11,6 @@ error_reporting(E_ALL);
 <?php
 require_once 'includes/head-base.html';
 ?>
-    <!-- for navigation bar -->
-    <script src="javascript/style.js"></script>
 </head>
 
 <body>
@@ -32,10 +30,11 @@ require_once 'includes/feeback-link.php';
 		<hr class="heading"><br/>
 	
 		<!-- webpage content -->
-		<p class="paragraph_font"> Thank you for your time and participation. The data captured will be sent to the Centre for Astrophysics
-		and Supercomputing, at the Swinburne University of Technology.<br/><br/>
+		<p class="paragraph_font">We appreciate your interest in participating in this study. However, we require you to give your consent before we proceed to
+		collect your data and store them in our database. The stored data will strictly be used for analysis purpose related to this study. <br/><br/>
 		
-		For any questions or concerns, please get in touch with the team <a href="contact.php">here</a>.</p>
+		You can return to our home page in case you changed your mind.
+		</p>
 		<br/>
 		<br/>
 	

@@ -6,10 +6,10 @@
 
 // Gaze Calibration type: 0 is accurate calibration (much slower - default); 1 is fast calibration
 GazeCloudAPI.CalibrationType = 0;
-var maxGazaDataArraySize = 30; // save arrays of this size in browser memory before sending to MongoDB
+var gazeDebug = false; // if true, will always doPlotGaze, and will change gaze color when on target
 var GazeFPS = 30; // Webcam FPS rate for GazeCloud
 
-var gazeDebug = true; // if true, will always doPlotGaze, and will change gaze color when on target
+var maxGazaDataArraySize = 30; // save arrays of this size in browser memory before sending to MongoDB
 
 var doPlotGaze = gazeDebug; // if true, plot the gaze on screen
 var GazeDataArray = [];
@@ -497,6 +497,7 @@ tryGetNextTask = function() {
 
 // gets next subtask if it exists, otherwise tryGetNextTask
 tryGetNextSubtask = function() {
+//	console.log('tryGetNextSubtask task:',task_num,'subtask:',subtask_num); // debug
 	subtask_num++;
 	if (subtask_num < current_task.subtasks.length){
 		current_subtask = current_task.subtasks[subtask_num];  // assign new current_subtask
@@ -506,13 +507,60 @@ tryGetNextSubtask = function() {
 		tryGetNextTask();
 }
 
+
 /// BUTTON HANDLERS
 
 // remove the instructions, show the image and start the timer
 function startNextSubtask() {
 	var timer; // a separate timer per subtask element
 	var endSubtask, handleSpacebar, handleTimeout; // hoist function definition so endSubtask can see it
+	var resultPopup = document.getElementById("resultPopup");
 //	console.log('start task:',task_num,'subtask:',subtask_num); // debug
+
+	// called to close the result modal popup and start the next subtask
+	var closeResult = function(){
+		clearTimeout(timer); 
+		resultPopup.style.display = "none";
+		document.getElementById("result").innerHTML = "";
+		img = new Image();
+		resizeCanvas();
+		tryGetNextSubtask();
+	}
+
+	// shows the result of the subtask in a modal popup
+	// https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal
+	var showResult = function(){
+		
+		var resultStr = "Result: ";
+		switch (current_subtask.subtask_result){
+			case 'skip':
+				resultStr += "Task completed by user";
+				break;
+			case 'timeout':
+				resultStr += "Task complete";
+				break;
+			case 'target_found':
+				resultStr += "Target found";
+				break;
+			default:
+				resultStr += "Error - unknown!";
+		}
+		
+		// set the content of the result popup
+		document.getElementById("result").innerHTML = resultStr;
+		// Get the <span> element that closes the modal
+		var span = document.getElementsByClassName("close")[0];
+		// When the user clicks on <span> (x), close the modal
+		span.onclick = closeResult;
+		// When the user clicks anywhere outside of the modal, close it
+		window.onclick = function(event) {
+		  if (event.target == resultPopup) {
+			closeResult();
+		  }
+		}	
+		// show the result
+		resultPopup.style.display = "block";
+	}
 
 	// callback to setTimeout, to spacebar pressed event, and to target found event
 	endSubtask = function(){
@@ -520,12 +568,13 @@ function startNextSubtask() {
 		clearTimeout(timer); // end the timeout for this task
 		window.removeEventListener("tgtFnd", handleTargetFound);
 		window.removeEventListener("keydown", handleSpacebar);
+		saveResult();
 		timeGazeInsideTargetArea = null;
 		if (!gazeDebug && doPlotGaze) doPlotGaze = false; // stop plotting the gaze on screen
-		img = new Image();
-		resizeCanvas();
-		saveResult();
-		tryGetNextSubtask();
+
+		timer = setTimeout(closeResult, 5000, timer); // close the result popup after 5 seconds
+		showResult();
+
 	}
 
 	// change the image if the spacebar is pressed

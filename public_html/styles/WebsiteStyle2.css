@@ -316,3 +316,46 @@ footer {
     padding: 0px;
     border: 0px solid #d3d3d3;
 }
+
+/* from: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal */
+/* Modal popup for displaying subtask results */
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.95); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: rgb(22, 6, 19);
+  color: rgb(186, 186, 186);
+  font-size: 24px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 44%;
+}
+
+/* The Close Button for the modal */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}

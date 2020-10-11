@@ -55,14 +55,14 @@ if ( isset($_POST["feedbackcomment"]) ) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+	
+    <!-- for navigation bar -->
+    <script src="javascript/style.js"></script>
 <head>
   <title>Astronomy Test - Feedback</title>
 <?php
 require_once 'includes/head-base.html';
 ?>
-
-    <!-- for navigation bar -->
-    <script src="javascript/style.js"></script>
 </head>
 
 <body>
@@ -110,7 +110,7 @@ require_once 'includes/header.html';
 		</form>
 		<br/>
 		<!-- this button will redirect to homepage -->
-		<a href="index.php"><input class="bttn" id="quitBttn" type= "reset" value="Exit to Home"/></a>
+		<a href="./"><input class="bttn" id="quitBttn" type= "reset" value="Home"/></a>
 		
 		<br/>
 		

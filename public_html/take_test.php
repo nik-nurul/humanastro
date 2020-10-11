@@ -82,8 +82,12 @@ exit();
         <h2 id="testHeading" class="heading_font" style="margin-top: 0px;"> Eye Calibration </h2>
         <hr class="heading" style="height:2px;"/>
         <p id="explanationPara" class="paragraph_font">
-            There will be an eye calibration test before the visualisation tests take place.<br/><br/><br/>
-            <b>The browser's window will be put into fullscreen mode. Please do not resize it.</b><br/>
+            An eye calibration screen will appear on the next page in which you need to follow a point on the screen using your gaze.
+			After the initial calibration, you will be given an opportunity to refine the calibration by looking and clicking on objects shown on screen.<br/><br/>
+						
+			There will be a basic eye tracking activity containing shapes, prior to the astronomy visualisation experiment.<br/><br/><br/>
+            <b>The browser's window will be put into fullscreen mode. Please do not resize it.</b><br/><br/>
+			<b>There will be a pop-up window asking for access to the user's web camera. Please click on 'allow access' in order to proceed.</b></br>
         </p>
 				<img id="subtask_image" src="" style="display:none;"/>
    </div>
@@ -105,6 +109,18 @@ exit();
 			<!-- Button to start each task. Initially hidden -->
 			<button id="startTask" type="button" class="bttn" style="display:none;">Start Task</button>
 			<br/>
+	</div>
+
+	<!-- Modal popup box to show subtask results -->
+	<!-- from: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal -->
+	<div id="resultPopup" class="modal">
+
+	  <!-- Modal content -->
+	  <div class="modal-content">
+		<span class="close">&times;</span>
+		<p class="paragraph_font"><span id="result">RESULT:</span></p>
+	  </div>
+
 	</div>
 
 	<script>

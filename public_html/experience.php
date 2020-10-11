@@ -1,42 +1,44 @@
 <?php
-session_start(); // used to pass userId from page to page
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+	session_start(); // used to pass userId from page to page
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Astronomy Test - Experience Questions</title>
+	<title>Astronomy Test - Experience Questions</title>
 <?php
-require_once 'includes/head-base.html';
+	require_once 'includes/head-base.html';
 ?>
-	<!-- link to website styelsheet -->
-	<link rel="stylesheet" type="text/css" href="styles/expsliders.css">
-	 <!-- for navigation bar -->
-   	 <script src="javascript/style.js"></script>
+
+  <!-- link tu slider's stylesheet -->
+  <link rel="stylesheet" type="text/css" href="styles/expsliders.css">
+  <!-- for navigation bar -->
+  <script src="javascript/style.js"></script>
 </head>
 
 <body id="experiencepage">
 
 <?php
-require_once 'includes/header.html';
+	require_once 'includes/header.html';
 ?>
 
   <!-- division for user experience form-->
   <section>
 <?php
-require_once 'includes/feeback-link.php';
+	require_once 'includes/feeback-link.php';
 ?>
 	<div id="content_paragraph">
 
 		<!--Page header-->
-		<h2 class="heading_font">About Your Experience</h2>
+		<h2 class="heading_font">Your Astronomy Experience</h2>
 		<hr class="heading"><br/>
 		<!-- Content paragraph-->
-		<p class="paragraph_font">The following questions will help us understand more about your current experience with visual inspection of astronomical images. For each question, please select the option that is the closest match.</p>
 
-		<p class="paragraph_font">This survey page will only store your responses.</p>
+		<p class="paragraph_font">To what extent do your current (or most recent) research activities include the following tasks? For each question, please indicate your response using the sliding scale.</p>
+
+		<p class="paragraph_font">This survey page will only store your responses</p>
 
 		<br/>
 		<br/>
@@ -221,8 +223,8 @@ require_once 'includes/feeback-link.php';
 	} else {
 		// consent was false
 		echo '
-		<p>Consent was not given</p>
-		<p>Do something!</p>
+		<p class="paragraph_font">Thank you for your interest to participate in this study. Howevever, you
+		need to be over 18 to proceed.</p>
 ';
 	}
 ?>
@@ -248,7 +250,7 @@ require_once 'includes/feeback-link.php';
   </section>
 
 <?php
-require_once 'includes/footer.html';
+	require_once 'includes/footer.html';
 ?>
 
 </body>

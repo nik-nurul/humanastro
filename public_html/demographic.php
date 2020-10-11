@@ -1,17 +1,18 @@
 <?php
-session_start(); // used to pass userId from page to page
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+	session_start(); // used to pass userId from page to page
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Astronomy Test - Demographic Questions</title>
+	<title>Astronomy Test - Demographic Questions</title>
 <?php
-require_once 'includes/head-base.html';
+	require_once 'includes/head-base.html';
 ?>
-     <!-- check form requirements/validation -->
+    <!-- check form requirements/validation -->
     <script src="javascript/validatedemographic.js"></script>
     <!-- for navigation bar -->
     <script src="javascript/style.js"></script>
@@ -22,22 +23,22 @@ require_once 'includes/head-base.html';
 <body id="demographicpage">
 
 <?php
-require_once 'includes/header.html';
+	require_once 'includes/header.html';
 ?>
 
   <!-- division for user information form-->
   <section>
 
 <?php
-require_once 'includes/feeback-link.php';
+	require_once 'includes/feeback-link.php';
 ?>
 
-
-      <div id="content_paragraph">
-        <h2 class="heading_font"> About Yourself </h2>
+	<div id="content_paragraph">
+		<h2 class="heading_font"> Demographic Information </h2>
         <hr class="heading"><br/>
-          	<p class="paragraph_font">The questions provided on this page are intended to record minimal demographic
-              information approved by ethics committee.</p>
+			<p class="paragraph_font">The questions provided on this page are intended to record minimal demographic
+				information, in order to obtain and analyse characteristics about the population, to be used in research
+				and approved by the ethics committee.</p>
 
 			<p class="paragraph_font">For you to remain anonymous it is your responsibility not to input any identifying details here. Do not include your name, email address or any other personally-identifying data.</p>
 
@@ -139,67 +140,68 @@ try {
 ';
 					break;
 
-          // OLD VERSION OF DROPDOWN
-          // 				case "dropdown":
-          // 					echo '
-          // 					<br/><p><label for="'.$q_id.'">'.$question.'</label>
-          // 					<br/>
-          // 						<select class="selectsize" name="'.$q_id.'" id="'.$q_id.'" required="required">
-          // 							<option value="">Please Select</option>';
-          // 					foreach ($q->options as $optObj){
-          // 						$o = $optObj->option;	// the full text of the question option
-          // 						$o_id = $optObj->opt_id; // the abbreviated option identifier
-          // 						echo'
-          // 							<option id="'.$o_id.'" value="'.$o_id.'">'.$o.'</option><br/><br/>';
-          // 					}
-          // 					echo '
-          // 						</select>
-          // 					<p>
-          // ';
+// OLD VERSION OF DROPDOWN
+// 				case "dropdown":
+// 					echo '
+// 					<br/><p><label for="'.$q_id.'">'.$question.'</label>
+// 					<br/>
+// 						<select class="selectsize" name="'.$q_id.'" id="'.$q_id.'" required="required">
+// 							<option value="">Please Select</option>';
+// 					foreach ($q->options as $optObj){
+// 						$o = $optObj->option;	// the full text of the question option
+// 						$o_id = $optObj->opt_id; // the abbreviated option identifier
+// 						echo'
+// 							<option id="'.$o_id.'" value="'.$o_id.'">'.$o.'</option><br/><br/>';
+// 					}
+// 					echo '
+// 						</select>
+// 					<p>
+// ';
 
-          					case "dropdown":
-          						echo '
-          						<br/><p><label for="'.$q_id.'">'.$question.'</label>
-          						<br/>';
+				case "dropdown":
+					echo '
+					<br/><p><label for="'.$q_id.'">'.$question.'</label>
+					<br/>';
 
-          						if ($q_id == "geo") {
-          								echo '<select class="selectsize" name="'.$q_id.'" id="'.$q_id.'" required="required"  onchange="reg_desc(this)">
-          									<option value="">Please Select</option>';
-          									foreach ($q->options as $optObj){
-          										$o = $optObj->option;	// the full text of the question option
-          										$o_id = $optObj->opt_id; // the abbreviated option identifier
-          										echo '<option id="'.$o_id.'" value="'.$o_id.'">'.$o.'</option>';
-          									}
-          									echo '</select>';
-          									echo'
-          											<p id="geo_describe"  style="display: none;" class="otherQuest">
-          													<label for="'.$optObj->freetext_id.'">'.$optObj->freetext_inst.'</label>
-          														<input type="text" id="'.$optObj->freetext_id.'" name="'.$optObj->freetext_name.'" maxlength="'.$optObj->freetext_length.'">
-          											</p>';
-          						} elseif ($q_id == "resArea") {
-          							echo '<select class="selectsize" name="'.$q_id.'" id="'.$q_id.'" required="required" onchange="research_desc(this)">
-          								<option value="">Please Select</option>';
-          								foreach ($q->options as $optObj){
-          										$o = $optObj->option;	// the full text of the question option
-          										$o_id = $optObj->opt_id; // the abbreviated option identifier
-          										echo '<option id="'.$o_id.'" value="'.$o_id.'">'.$o.'</option>';
-          								}
-          								echo '</select>';
-          								echo'
-          										<p id="research_describe"  style="display: none;" class="otherQuest">
-          												<label for="'.$optObj->freetext_id.'">'.$optObj->freetext_inst.'</label>
-          													<input type="text" id="'.$optObj->freetext_id.'" name="'.$optObj->freetext_name.'" maxlength="'.$optObj->freetext_length.'">
-          										</p>';
-          						} else {
-          								echo '<select class="selectsize" name="'.$q_id.'" id="'.$q_id.'" required="required">
-          									<option value="">Please Select</option>';
-          									foreach ($q->options as $optObj){
-          											$o = $optObj->option;	// the full text of the question option
-          											$o_id = $optObj->opt_id; // the abbreviated option identifier
-          											echo '<option id="'.$o_id.'" value="'.$o_id.'">'.$o.'</option>';
-          									}
-          									echo '</select><p>';
-          						}
+					if ($q_id == "geo") {
+						echo '<select class="selectsize" name="'.$q_id.'" id="'.$q_id.'" required="required"  onchange="reg_desc(this)">
+							<option value="">Please Select</option>';
+							foreach ($q->options as $optObj){
+								$o = $optObj->option;	// the full text of the question option
+								$o_id = $optObj->opt_id; // the abbreviated option identifier
+								echo '<option id="'.$o_id.'" value="'.$o_id.'">'.$o.'</option>';
+							}
+							echo '</select>';
+							echo'
+							<p id="geo_describe"  style="display: none;" class="otherQuest">
+									<label for="'.$optObj->freetext_id.'">'.$optObj->freetext_inst.'</label>
+										<input type="text" id="'.$optObj->freetext_id.'" name="'.$optObj->freetext_name.'" maxlength="'.$optObj->freetext_length.'">
+							</p>';
+					} elseif ($q_id == "resArea") {
+						echo '<select class="selectsize" name="'.$q_id.'" id="'.$q_id.'" required="required" onchange="research_desc(this)">
+							<option value="">Please Select</option>';
+							foreach ($q->options as $optObj){
+									$o = $optObj->option;	// the full text of the question option
+									$o_id = $optObj->opt_id; // the abbreviated option identifier
+									echo '<option id="'.$o_id.'" value="'.$o_id.'">'.$o.'</option>';
+							}
+							echo '</select>';
+							echo'
+							<p id="research_describe"  style="display: none;" class="otherQuest">
+									<label for="'.$optObj->freetext_id.'">'.$optObj->freetext_inst.'</label>
+										<input type="text" id="'.$optObj->freetext_id.'" name="'.$optObj->freetext_name.'" maxlength="'.$optObj->freetext_length.'">
+							</p>';
+					} else {
+						echo '<select class="selectsize" name="'.$q_id.'" id="'.$q_id.'" required="required">
+							<option value="">Please Select</option>';
+							foreach ($q->options as $optObj){
+								$o = $optObj->option;	// the full text of the question option
+								$o_id = $optObj->opt_id; // the abbreviated option identifier
+								echo '<option id="'.$o_id.'" value="'.$o_id.'">'.$o.'</option>';
+							}
+							echo '</select><p>';
+					}
+					
 					break;
 
 				default:
@@ -248,7 +250,7 @@ try {
   </section>
 
 <?php
-require_once 'includes/footer.html';
+	require_once 'includes/footer.html';
 ?>
 
 </body>

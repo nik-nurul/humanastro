@@ -27,9 +27,13 @@ if (isJson($jsonStr)){ // is it JSON?
 	$data = json_decode($jsonStr);
 	if ( // check JSON schema
 		   property_exists($data,"userIdStr")
-		&& property_exists($data,"task_num")
-		&& property_exists($data,"subtask_num")
-		&& property_exists($data,"subtask_result")
+		&& property_exists($data,"hardware")
+		&& property_exists($data->hardware,"screen_width")
+		&& property_exists($data->hardware,"screen_height")
+		&& property_exists($data->hardware,"has_webcam")
+		&& property_exists($data->hardware,"os")
+		&& property_exists($data->hardware,"browser")
+		&& property_exists($data->hardware,"mobile")
 	) {
 		// data is valid
 		
@@ -39,26 +43,22 @@ if (isJson($jsonStr)){ // is it JSON?
 		// this uniquely identifies the document in the database
 		$_id = new MongoDB\BSON\ObjectID( $data->userIdStr );
 		
-		$task_num = $data->task_num;
-		$subtask_num = $data->subtask_num;
-		
-		$subtask_result = $data->subtask_result;
-		
 		// set up the MongoDB connection
 		$manager = new MongoDB\Driver\Manager("mongodb://localhost:27017"); // connect to the Mongo DB
 		$bulk = new MongoDB\Driver\BulkWrite(['ordered' => true]);
 
-		// insert the result of the subtask
-		$bulk->insert(
+		// upsert means insert the data if the document doesn't exist,
+		// or update the document with new data if the document already exists
+		$options = [ "upsert" => true ];
+
+		// push each element of the GazeDataArrphpay into the DB under the DB Array GazeData
+		$bulk->update(
 			[ "_id" => $_id ], // only operate on this particular user
-			[ '$set' => [
-				"task_data.".$task_num.".subtasks.".$subtask_num.".subtask_result" => $subtask_result
-				]
-			]
+			[ '$set' => $data->hardware ],
+			$options // upsert = true
 		);
 		
 		$result = $manager->executeBulkWrite($dbName.'.'.$collName, $bulk); // set the result
-		
 
 	} else {
 		echo 'missing properties in JSON!\n';

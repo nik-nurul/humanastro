@@ -18,6 +18,9 @@
     <script src="javascript/style.js"></script>
     <!-- for 'other' answer choice -->
     <script src="javascript/input_other.js"></script>
+	<!-- for detecting browser, OS and webcam -->
+	<script src="javascript/hardware_reqs.js"></script>
+	<script src="javascript/save_hardware.js"></script>
 </head>
 
 <body id="demographicpage">
@@ -140,24 +143,6 @@ try {
 ';
 					break;
 
-// OLD VERSION OF DROPDOWN
-// 				case "dropdown":
-// 					echo '
-// 					<br/><p><label for="'.$q_id.'">'.$question.'</label>
-// 					<br/>
-// 						<select class="selectsize" name="'.$q_id.'" id="'.$q_id.'" required="required">
-// 							<option value="">Please Select</option>';
-// 					foreach ($q->options as $optObj){
-// 						$o = $optObj->option;	// the full text of the question option
-// 						$o_id = $optObj->opt_id; // the abbreviated option identifier
-// 						echo'
-// 							<option id="'.$o_id.'" value="'.$o_id.'">'.$o.'</option><br/><br/>';
-// 					}
-// 					echo '
-// 						</select>
-// 					<p>
-// ';
-
 				case "dropdown":
 					echo '
 					<br/><p><label for="'.$q_id.'">'.$question.'</label>
@@ -233,7 +218,6 @@ try {
 }
 ?>
 
-
 							<div class="container">
 								<div class="center">
 									<input class="bttnsubmit" id="inpbutton1" type="submit" value="Submit and Continue"/>
@@ -243,15 +227,18 @@ try {
 							<button class="bttn" id="homebutt" type="button">Exit to Home</button>
               				<input class="bttn" id="inpbutton2" type= "reset" value="Reset Form"/>
 
-
               		</form>
 
       </div>
   </section>
 
+	<!-- embedding user ID in page for javascript to access -->
+	<label id="userId" hidden="true"><?php echo (string)$userId ?></label>
+
 <?php
 	require_once 'includes/footer.html';
 ?>
+
 
 </body>
 </html>

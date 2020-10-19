@@ -5,7 +5,7 @@
 //{ **** GazeCloud global vars ****
 
 // Gaze Calibration type: 0 is accurate calibration (much slower - default); 1 is fast calibration
-GazeCloudAPI.CalibrationType = 1;
+GazeCloudAPI.CalibrationType = 0;
 var gazeDebug = false; // if true, will always doPlotGaze, and will change gaze color when on target
 var GazeFPS = 30; // Webcam FPS rate for GazeCloud
 

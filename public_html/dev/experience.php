@@ -239,11 +239,12 @@
 
 			<br/>
 
-			<!-- this button will redirect to homepage -->
-			<a href="index.php"><input class="bttn" id="quitBttn" type= "reset" value="Exit to Home"/></a>
+			<input class="bttn" id="inpbutton2" type= "reset" value="Reset Form"/>
+			
 		  </div>
-		  <br/>
 		</form>
+		<!-- this button will redirect to homepage -->
+		<a href="./"><input class="bttn" id="quitBttn" type= "reset" value="Home"/></a>
 
 	    <br/>
 	</div>

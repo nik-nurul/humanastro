@@ -224,10 +224,13 @@ try {
 								</div>
 							</div>
               				<br/>
-							<button class="bttn" id="homebutt" type="button">Exit to Home</button>
+
               				<input class="bttn" id="inpbutton2" type= "reset" value="Reset Form"/>
 
               		</form>
+					<!-- this button will redirect to homepage -->
+					<a href="./"><input class="bttn" id="quitBttn" type= "reset" value="Home"/></a>
+
 
       </div>
   </section>

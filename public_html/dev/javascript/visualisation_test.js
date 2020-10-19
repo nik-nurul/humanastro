@@ -21,7 +21,6 @@ var mouseDocX, mouseDocY, mouseScreenX, mouseScreenY;
 //}
 // **** end GazeCloud global vars ****
 
-
 //{ **** taskrunner global vars ***
 
 // these image names could be gotten from the MongoDB
@@ -517,6 +516,9 @@ function startNextSubtask() {
 	var resultPopup = document.getElementById("resultPopup");
 //	console.log('start task:',task_num,'subtask:',subtask_num); // debug
 
+
+// not using result popup now
+/*
 	// called to close the result modal popup and start the next subtask
 	var closeResult = function(){
 		clearTimeout(timer); 
@@ -561,6 +563,8 @@ function startNextSubtask() {
 		// show the result
 		resultPopup.style.display = "block";
 	}
+*/
+// end of result popup
 
 	// callback to setTimeout, to spacebar pressed event, and to target found event
 	endSubtask = function(){
@@ -572,9 +576,12 @@ function startNextSubtask() {
 		saveResult();
 		if (!gazeDebug && doPlotGaze) doPlotGaze = false; // stop plotting the gaze on screen
 
-		timer = setTimeout(closeResult, 5000, timer); // close the result popup after 5 seconds
-		showResult();
-
+//		timer = setTimeout(closeResult, 5000, timer); // close the result popup after 5 seconds
+//		showResult();
+		clearTimeout(timer); 
+		img = new Image();
+		resizeCanvas();
+		tryGetNextSubtask();
 	}
 
 	// change the image if the spacebar is pressed

@@ -179,7 +179,6 @@ function saveResult() {
 
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-//			console.log(this.responseText); // debug - just log the output to JS console
 		}
 	};
 	
@@ -231,9 +230,7 @@ function PlotGaze(GazeData) {
 		// do not display gaze position
 		if( gaze.style.display  == 'block')
 			gaze.style.display   = 'none';
-//		console.log('not plotting gaze'); // debug
 	} else if ( GazeData.state == 0 && (doPlotGaze || gazeDebug) ){
-//		console.log('plotting gaze'); // debug
 		// display gaze position
 		if( gaze.style.display  == 'none'){
 			gaze.style.display   = 'block';
@@ -292,7 +289,6 @@ function taskCompleteCheck(GazeData)
  			&& timeGazeInsideTargetArea == null
 		) {
 	 		timeGazeInsideTargetArea = GazeData.astro.sessionTime;
-//			console.log('Gaze on target'); // debug
 		}
 	 	
 	 	// true if gaze has remained on target longer than gaze target time
@@ -304,7 +300,6 @@ function taskCompleteCheck(GazeData)
 	 		timeGazeInsideTargetArea = null;
 	 		console.log('taskCompleteCheck: Target Found',task_num,'subtask:',subtask_num); // debug
 			window.dispatchEvent(targetFoundEvent); // fire the target found event. This will end the current subtask
-//			window.removeEventListener("tgtFnd", handleTargetFound); // remove listener after target found to prevent multiple dispaching for the same subtask
 	 	}
 
 	 	// true if gaze moves off target after gaze has been on target
@@ -313,7 +308,6 @@ function taskCompleteCheck(GazeData)
 	 		&& GazeData.astro.unscaledGazeTargetDist > current_subtask.targetRadius
 		) {
 	 		timeGazeInsideTargetArea = null;
-//			console.log('Gaze off target'); // debug			
 		}
 	}
 }
@@ -496,7 +490,6 @@ tryGetNextTask = function() {
 
 // gets next subtask if it exists, otherwise tryGetNextTask
 tryGetNextSubtask = function() {
-//	console.log('tryGetNextSubtask task:',task_num,'subtask:',subtask_num); // debug
 	subtask_num++;
 	if (subtask_num < current_task.subtasks.length){
 		current_subtask = current_task.subtasks[subtask_num];  // assign new current_subtask
@@ -514,57 +507,6 @@ function startNextSubtask() {
 	var timer; // a separate timer per subtask element
 	var endSubtask, handleSpacebar, handleTimeout, handleTargetFound; // hoist function definition so endSubtask can see it
 	var resultPopup = document.getElementById("resultPopup");
-//	console.log('start task:',task_num,'subtask:',subtask_num); // debug
-
-
-// not using result popup now
-/*
-	// called to close the result modal popup and start the next subtask
-	var closeResult = function(){
-		clearTimeout(timer); 
-		resultPopup.style.display = "none";
-		document.getElementById("result").innerHTML = "";
-		img = new Image();
-		resizeCanvas();
-		tryGetNextSubtask();
-	}
-
-	// shows the result of the subtask in a modal popup
-	// https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal
-	var showResult = function(){
-		
-		var resultStr = "Result: ";
-		switch (current_subtask.subtask_result){
-			case 'skip':
-				resultStr += "Task completed by user";
-				break;
-			case 'timeout':
-				resultStr += "Task complete";
-				break;
-			case 'target_found':
-				resultStr += "Target found";
-				break;
-			default:
-				resultStr += "Error - unknown!";
-		}
-		
-		// set the content of the result popup
-		document.getElementById("result").innerHTML = resultStr;
-		// Get the <span> element that closes the modal
-		var span = document.getElementsByClassName("close")[0];
-		// When the user clicks on <span> (x), close the modal
-		span.onclick = closeResult;
-		// When the user clicks anywhere outside of the modal, close it
-		window.onclick = function(event) {
-		  if (event.target == resultPopup) {
-			closeResult();
-		  }
-		}	
-		// show the result
-		resultPopup.style.display = "block";
-	}
-*/
-// end of result popup
 
 	// callback to setTimeout, to spacebar pressed event, and to target found event
 	endSubtask = function(){
@@ -576,8 +518,6 @@ function startNextSubtask() {
 		saveResult();
 		if (!gazeDebug && doPlotGaze) doPlotGaze = false; // stop plotting the gaze on screen
 
-//		timer = setTimeout(closeResult, 5000, timer); // close the result popup after 5 seconds
-//		showResult();
 		clearTimeout(timer); 
 		img = new Image();
 		resizeCanvas();
@@ -620,10 +560,8 @@ function startNextSubtask() {
 
 	if (!gazeDebug) {
 		doPlotGaze = current_subtask.doPlotGaze; // set doPlotGaze mode for this subtask
-//		console.log('gazeDebug false, setting doPlotGaze to:',doPlotGaze); // debug
-	}else{
+	} else {
 		doPlotGaze = true;
-//		console.log('gazeDebug true, setting doPlotGaze to:',doPlotGaze); // debug
 	}
 	hideInstructions(); // transition to image showing mode
 		

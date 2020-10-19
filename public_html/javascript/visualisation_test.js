@@ -5,7 +5,7 @@
 //{ **** GazeCloud global vars ****
 
 // Gaze Calibration type: 0 is accurate calibration (much slower - default); 1 is fast calibration
-GazeCloudAPI.CalibrationType = 0;
+GazeCloudAPI.CalibrationType = 1;
 var gazeDebug = false; // if true, will always doPlotGaze, and will change gaze color when on target
 var GazeFPS = 30; // Webcam FPS rate for GazeCloud
 
@@ -20,7 +20,6 @@ var mouseDocX, mouseDocY, mouseScreenX, mouseScreenY;
 
 //}
 // **** end GazeCloud global vars ****
-
 
 //{ **** taskrunner global vars ***
 
@@ -48,8 +47,8 @@ var subtask_num = -1;
 
 var timeGazeInsideTargetArea = null;
 
-var targetFoundEvent = new CustomEvent("tgtFnd"); // this allows a subtask to end when the user meets success criteria
-var handleTargetFound; // hoisting functions so they can be removed as eventHandlers globally
+var targetFoundEvent; // this allows a subtask to end when the user meets success criteria
+//var handleTargetFound; // hoisting functions so they can be removed as eventHandlers globally
 
 
 //}
@@ -180,7 +179,6 @@ function saveResult() {
 
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-//			console.log(this.responseText); // debug - just log the output to JS console
 		}
 	};
 	
@@ -232,9 +230,7 @@ function PlotGaze(GazeData) {
 		// do not display gaze position
 		if( gaze.style.display  == 'block')
 			gaze.style.display   = 'none';
-//		console.log('not plotting gaze'); // debug
 	} else if ( GazeData.state == 0 && (doPlotGaze || gazeDebug) ){
-//		console.log('plotting gaze'); // debug
 		// display gaze position
 		if( gaze.style.display  == 'none'){
 			gaze.style.display   = 'block';
@@ -293,7 +289,6 @@ function taskCompleteCheck(GazeData)
  			&& timeGazeInsideTargetArea == null
 		) {
 	 		timeGazeInsideTargetArea = GazeData.astro.sessionTime;
-//			console.log('Gaze on target'); // debug
 		}
 	 	
 	 	// true if gaze has remained on target longer than gaze target time
@@ -303,9 +298,8 @@ function taskCompleteCheck(GazeData)
 	 		&& (GazeData.astro.sessionTime - timeGazeInsideTargetArea) >= (gazeTargetTime * 1000)
 		) {
 	 		timeGazeInsideTargetArea = null;
+	 		console.log('taskCompleteCheck: Target Found',task_num,'subtask:',subtask_num); // debug
 			window.dispatchEvent(targetFoundEvent); // fire the target found event. This will end the current subtask
-			window.removeEventListener("tgtFnd", handleTargetFound); // remove listener after target found to prevent multiple dispaching for the same subtask
-//	 		console.log('Target Found'); // debug
 	 	}
 
 	 	// true if gaze moves off target after gaze has been on target
@@ -314,7 +308,6 @@ function taskCompleteCheck(GazeData)
 	 		&& GazeData.astro.unscaledGazeTargetDist > current_subtask.targetRadius
 		) {
 	 		timeGazeInsideTargetArea = null;
-//			console.log('Gaze off target'); // debug			
 		}
 	}
 }
@@ -497,7 +490,6 @@ tryGetNextTask = function() {
 
 // gets next subtask if it exists, otherwise tryGetNextTask
 tryGetNextSubtask = function() {
-//	console.log('tryGetNextSubtask task:',task_num,'subtask:',subtask_num); // debug
 	subtask_num++;
 	if (subtask_num < current_task.subtasks.length){
 		current_subtask = current_task.subtasks[subtask_num];  // assign new current_subtask
@@ -513,101 +505,63 @@ tryGetNextSubtask = function() {
 // remove the instructions, show the image and start the timer
 function startNextSubtask() {
 	var timer; // a separate timer per subtask element
-	var endSubtask, handleSpacebar, handleTimeout; // hoist function definition so endSubtask can see it
+	var endSubtask, handleSpacebar, handleTimeout, handleTargetFound; // hoist function definition so endSubtask can see it
 	var resultPopup = document.getElementById("resultPopup");
-//	console.log('start task:',task_num,'subtask:',subtask_num); // debug
-
-	// called to close the result modal popup and start the next subtask
-	var closeResult = function(){
-		clearTimeout(timer); 
-		resultPopup.style.display = "none";
-		document.getElementById("result").innerHTML = "";
-		img = new Image();
-		resizeCanvas();
-		tryGetNextSubtask();
-	}
-
-	// shows the result of the subtask in a modal popup
-	// https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal
-	var showResult = function(){
-		
-		var resultStr = "Result: ";
-		switch (current_subtask.subtask_result){
-			case 'skip':
-				resultStr += "Task completed by user";
-				break;
-			case 'timeout':
-				resultStr += "Task complete";
-				break;
-			case 'target_found':
-				resultStr += "Target found";
-				break;
-			default:
-				resultStr += "Error - unknown!";
-		}
-		
-		// set the content of the result popup
-		document.getElementById("result").innerHTML = resultStr;
-		// Get the <span> element that closes the modal
-		var span = document.getElementsByClassName("close")[0];
-		// When the user clicks on <span> (x), close the modal
-		span.onclick = closeResult;
-		// When the user clicks anywhere outside of the modal, close it
-		window.onclick = function(event) {
-		  if (event.target == resultPopup) {
-			closeResult();
-		  }
-		}	
-		// show the result
-		resultPopup.style.display = "block";
-	}
 
 	// callback to setTimeout, to spacebar pressed event, and to target found event
 	endSubtask = function(){
+		timeGazeInsideTargetArea = null; // clear target found timer
 //		console.log('end task:',task_num,'subtask:',subtask_num); // debug
 		clearTimeout(timer); // end the timeout for this task
 		window.removeEventListener("tgtFnd", handleTargetFound);
 		window.removeEventListener("keydown", handleSpacebar);
 		saveResult();
-		timeGazeInsideTargetArea = null;
 		if (!gazeDebug && doPlotGaze) doPlotGaze = false; // stop plotting the gaze on screen
 
-		timer = setTimeout(closeResult, 5000, timer); // close the result popup after 5 seconds
-		showResult();
-
+		clearTimeout(timer); 
+		img = new Image();
+		resizeCanvas();
+		tryGetNextSubtask();
 	}
 
 	// change the image if the spacebar is pressed
 	handleSpacebar = function(event){
+		window.removeEventListener("keydown", handleSpacebar);
 		if (event.defaultPrevented) {
 			return; // Do nothing if the event was already processed
 		}		
+		event.preventDefault(); // stop this event from triggering again
 		if (event.key === " ") {
 			current_subtask.subtask_result = "skip";
 			endSubtask();
 		}
 		// Cancel the default action to avoid it being handled twice
-		event.preventDefault();
 	}
 	
 	// record that the subtask timed out end the task
 	handleTimeout = function(){
+		clearTimeout(timer);
 		current_subtask.subtask_result = "timeout";
 		endSubtask();
 	}
 	
 	// record that the user found the target
-	handleTargetFound = function(){
+	handleTargetFound = function(event){
+		window.removeEventListener("tgtFnd", handleTargetFound);
+		if (event.defaultPrevented) {
+			console.log("handleTargetFound: defaultPrevented",task_num,'subtask:',subtask_num); // debug
+			return; // Do nothing if the event was already processed
+		}		
+		event.preventDefault(); // stop this event from triggering again
 		current_subtask.subtask_result = "target_found";
+		console.log('handleTargetFound:',task_num,'subtask:',subtask_num); // debug
 		endSubtask();
 	}
 
 	if (!gazeDebug) {
 		doPlotGaze = current_subtask.doPlotGaze; // set doPlotGaze mode for this subtask
-//		console.log('gazeDebug false, setting doPlotGaze to:',doPlotGaze); // debug
-	}else{
+	} else {
 		doPlotGaze = true;
-//		console.log('gazeDebug true, setting doPlotGaze to:',doPlotGaze); // debug
 	}
 	hideInstructions(); // transition to image showing mode
 		
@@ -618,7 +572,10 @@ function startNextSubtask() {
 			   current_subtask.hasOwnProperty('targetX')
 			&& current_subtask.hasOwnProperty('targetY')
 			&& current_subtask.hasOwnProperty('targetRadius')
-	) window.addEventListener("tgtFnd", handleTargetFound, false);			
+	){
+		targetFoundEvent = new CustomEvent("tgtFnd", {"cancelable":true});
+		window.addEventListener("tgtFnd", handleTargetFound, false);			
+	}
 		
 	timer = setTimeout(handleTimeout, current_subtask.time_limit*1000);
 }

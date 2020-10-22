@@ -23,6 +23,7 @@ require_once 'includes/header.html';
 <?php
 require_once 'includes/feeback-link.php';
 ?>
+<link rel="stylesheet" type="text/css" href="styles/ContactStyle.css">
         <div id="contact_paragraph">
             <h2 class="heading_font"> Contact </h2>
             <hr class="heading">

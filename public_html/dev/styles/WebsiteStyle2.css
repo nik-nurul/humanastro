@@ -80,21 +80,26 @@ div.navibar {
 	width: 100%;
 	top: 0;
 	z-index: 1;
-	margin-bottom: 10%;
+	margin-bottom: 15%;
 }
 
 /* for the hyperlink element within the navigation bar section */
 div.navibar a {
   float: right;
   color: white;
-  font-size: 0.7em;
+  font-size: 1.0em;
   font-weight: bold;
   text-align: center;
-  padding: 12px 35px;
+  padding: 15px 40px;
   margin-right: 2em;
   text-decoration: none;
 }
 
+/* style when navibar is hovered */
+.navibar a:hover{
+  background-color: white;
+  color: rgb(47, 33, 48);
+}
 
 
 /* Style for website title (index.php) */

@@ -36,6 +36,7 @@
 <?php
 	require_once 'includes/feeback-link.php';
 ?>
+<link rel="stylesheet" type="text/css" href="styles/ContactStyle.css">
         <div id="content_paragraph">
             <h2 class="heading_font"> About the Test </h2>
             <hr class="heading">
@@ -73,7 +74,7 @@
 				A compatible webcam accessible through a browser is also required in order to track eye movement during the tests and
 				above all a stable wi-fi connection.
 				<br/><br/>
-				<a class="checkreq" href="hardware_reqs.php">Check Requirements</a>
+				<a href="hardware_reqs.php">Check Requirements</a>
 			</p><br/>
 
             <!-- button to take the test -->

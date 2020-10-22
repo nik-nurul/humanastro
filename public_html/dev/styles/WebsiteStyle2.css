@@ -114,6 +114,19 @@ div.navibar a {
     text-shadow: 5.5px 3.5px 3.5px rgb(0,0,0);
 }
 
+/* Style for hyperlink on index page */
+#checkreq:link {
+	color: DarkMagenta;
+}
+#checkreq:visited {
+	color: DarkMagenta;
+}
+#checkreq:hover {
+	color: DarkOrchid;
+}
+#checkreq:active {
+	color: DarkMagenta;
+}
 
 
 /* Style for text under heading name (index.php)*/

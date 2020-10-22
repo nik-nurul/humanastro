@@ -73,7 +73,7 @@
 				A compatible webcam accessible through a browser is also required in order to track eye movement during the tests and
 				above all a stable wi-fi connection.
 				<br/><br/>
-				<a href="hardware_reqs.php">Check Requirements</a>
+				<a id="checkreq" href="hardware_reqs.php">Check Requirements</a>
 			</p><br/>
 
             <!-- button to take the test -->

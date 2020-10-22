@@ -95,18 +95,18 @@ div.navibar {
 div.navibar a {
   float: right;
   color: white;
-  font-size: 0.7em;
+  font-size: 1.0.em;
   font-weight: bold;
   text-align: center;
-  padding: 12px 35px;
+  padding: 15px 40px;
   margin-right: 2em;
   text-decoration: none;
 }
 
 /* style when navibar is hovered */
 .navibar a:hover{
-	background-color: rgba(105, 102, 110, 0.6);
-	color: white;
+  background-color: white;
+  color: rgb(47, 33, 48);
 }
 
 /* style for navibar when scrolled */

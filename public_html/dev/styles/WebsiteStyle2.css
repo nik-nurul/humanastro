@@ -115,16 +115,16 @@ div.navibar a {
 }
 
 /* Style for hyperlink on index page */
-#checkreq:link {
+#checkreq a:link {
 	color: DarkMagenta;
 }
-#checkreq:visited {
+#checkreq a:visited {
 	color: DarkMagenta;
 }
-#checkreq:hover {
+#checkreq a:hover {
 	color: DarkOrchid;
 }
-#checkreq:active {
+#checkreq a:active {
 	color: DarkMagenta;
 }
 

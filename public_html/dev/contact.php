@@ -38,7 +38,7 @@ require_once 'includes/feeback-link.php';
             </p>
 
             <p  class="paragraph_font contentbg">
-                You can visit <a href ="feedback.php">this page</a> if you have any enquiries or feedback
+                You can visit <a href ="feedback.php" id="contactpageFeedback">this page</a> if you have any enquiries or feedback
             </p>
 
         </div>

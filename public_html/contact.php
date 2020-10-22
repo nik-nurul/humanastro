@@ -11,6 +11,7 @@ error_reporting(E_ALL);
 <?php
 require_once 'includes/head-base.html';
 ?>
+<link rel="stylesheet" type="text/css" href="styles/ContactStyle.css">
 </head>
 
 <body class="Contactbg">

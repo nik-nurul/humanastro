@@ -287,6 +287,18 @@ div.test {
   color: rgb(47, 33, 48);
 }
 
+/*Style for Contact Page hyperlink to Feedback*/
+#contactpageFeedback a:link {
+	color: red;
+}
+#contactpageFeedback a:visited {
+	color: red;
+}
+#contactpageFeedback a:hover {
+	color: red;
+}
+
+
 /*Style for submit button*/
 .bttnsubmit {
 	background-color: rgb(46, 139, 87);

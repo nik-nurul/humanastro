@@ -1,0 +1,13 @@
+/*Style for Feedback hyperlink on Contact page*/
+a:link {
+	color: DarkMagenta;
+}
+a:visited {
+	color: DarkMagenta;
+}
+a:hover {
+	color: DarkOrchid;
+}
+a:active {
+	color: DarkMagenta;
+}

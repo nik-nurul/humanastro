@@ -53,7 +53,7 @@
 		$dbName = 'humanastro';		// database name
 		$Ucoll = 'users';			// user collection name
 
-		$userId = sanitise_input($_GET["userId"]); // defend against malicious GET requests
+		$userId = $_SESSION["userId"];
 
 		try {
 			$manager = new MongoDB\Driver\Manager("mongodb://localhost:27017"); // connect to the Mongo DB
@@ -162,7 +162,7 @@
 
 				// start form here
 				echo '
-			  <form class="paragraph_font" id="expform" action="save_experience.php?userId='.$userId.'" method="post">
+			  <form class="paragraph_font" id="expform" action="save_experience.php" method="post">
 ';
 				// iterate over each experience question
 				foreach ($userDoc->experience_data as $q){

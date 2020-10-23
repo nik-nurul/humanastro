@@ -301,20 +301,21 @@ div.test {
 
 /*Style for submit button*/
 .bttnsubmit {
-	background-color: rgb(46, 139, 87);
-	border-radius: 25px;
-	color: rgba(250, 250, 250, 0.8);
-    border: 3px solid rgba(250, 250, 250, 0.8);
-	padding: 15px;
-    font-size: 15px;
+	background-color: rgba(233, 242, 230, 0.9);
+	border-radius: 12px;
+	color: rgb(47, 33, 48);
+	border: 2px solid rgb(85, 145, 49);
+	padding: 13px;
+	font-size: 14.5px;
 	margin: auto;
 	text-align: right;
 	float: right;
 }
 
+
 .bttnsubmit:hover {
-  background-color: white;
-  color: rgb(46, 139, 87);
+  background-color: rgba(46, 139, 87, 0.8);
+  color: rgba(250, 250, 250, 0.8);
   border: 3px solid rgb(46, 139, 87);
 }
 
@@ -432,11 +433,11 @@ footer {
 		footer.paragraph_font {
 			font-size: 11px;
 		}
-	
+
 		/* for superscript in footer*/
 		sup.supstyle {
 			font-size: 40%;
 		}
-		
+
 
 }

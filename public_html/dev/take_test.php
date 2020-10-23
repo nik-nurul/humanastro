@@ -10,7 +10,7 @@ $collName = 'users';		// user collection name
 require_once 'includes/functions.php';
 // don't do anything if consent is not true
 if ( isset( $_SESSION["consent"] ) and $_SESSION["consent"] ) {
-	$userIdStr = sanitise_input($_GET["userId"]); // defend against malicious GET requests
+	$userIdStr = $_SESSION["userId"];
 
 	try {
 		$manager = new MongoDB\Driver\Manager("mongodb://localhost:27017"); // connect to the Mongo DB

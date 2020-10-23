@@ -101,7 +101,7 @@ try {
 		
 		// experience and demographic data have now been written,
 		// redirect to take_test.php
-		header('Location: take_test.php?userId='.$userId);
+		header('Location: take_test.php');
 		exit();
 		
 	} else {

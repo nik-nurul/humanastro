@@ -312,9 +312,10 @@ div.test {
 	float: right;
 }
 
+
 .bttnsubmit:hover {
-  background-color: white;
-  color: rgb(46, 139, 87);
+  background-color: rgba(46, 139, 87, 0.8);
+  color: rgba(250, 250, 250, 0.8);
   border: 3px solid rgb(46, 139, 87);
 }
 
@@ -432,11 +433,11 @@ footer {
 		footer.paragraph_font {
 			font-size: 11px;
 		}
-	
+
 		/* for superscript in footer*/
 		sup.supstyle {
 			font-size: 40%;
 		}
-		
+
 
 }

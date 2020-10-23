@@ -89,7 +89,8 @@ exit();
 			There will be a basic eye tracking activity containing shapes, prior to the astronomy visualisation experiment.<br/><br/><br/>
             <b>The browser's window will be put into fullscreen mode. Please do not resize it. Once the calibration has begun, please do not leave
 			your computer or move away from the webcam, as this will affect your calibration and cause inaccuracies during the test.</b><br/><br/>
-			<b>There will be a pop-up window asking for access to the user's web camera. Please click on 'allow access' in order to proceed.</b></br>
+			<b>There will be a pop-up window asking for access to the user's web camera. Please click on 'allow access' in order to proceed.
+			Please complete the test in one sitting, the eye tracking will be active for 15 minutes before timing out.</b></br>
         </p>
 				<img id="subtask_image" src="" style="display:none;"/>
    </div>

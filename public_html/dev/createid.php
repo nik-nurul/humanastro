@@ -101,7 +101,6 @@ try {
 		
 		// now the user has been created, redirect to the demographic.php page
 		// with the userID as a GET variable (in the URL)
-//		header('Location: demographic.php?userId='.$userId);
 		header('Location: demographic.php');
 		exit();
 

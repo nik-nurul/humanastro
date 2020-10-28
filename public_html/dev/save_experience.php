@@ -69,7 +69,6 @@ try {
 	// only write answers to database if consent was given
 	if ( isset( $_SESSION["consent"] ) and $_SESSION["consent"] ) {
 		
-		//$date = date("Y-m-d H:i:s\Z"); // date/time string to store with answer -- (last updated: 13 Sept 2020) - For now, it is commented a we dont want to show the date/time to ensure anonymity)
 		// iterate through the experience questions to set their answers
 		foreach ($userDoc->experience_data as $q){
 			$q_id = $q->q_id;		// the abbreviated question identifier
@@ -86,11 +85,6 @@ try {
 					$u_filter,
 					[ '$set' => [ "experience_data.$.answer" => $answer ]]
 				);
-				// record the date of the answer -- (last updated: 13 Sept 2020) - For now, it is commented a we dont want to show the date/time to ensure anonymity)
-				//$bulk->update(
-				//	$u_filter,
-				//	[ '$set' => [ "experience_data.$.answerdate" => null ]] //supposed to be $date here but null is placed instead. To ensure anonymity
-				//);
 			}
 		}
 
@@ -116,7 +110,6 @@ try {
 		<!-- webpage content -->
 		<p class="paragraph_font">We appreciate your interest in participating in this study. However, you may have not given your consent or your age is currently under 18. We cannot proceed to
 		collect your data and store them in our database.  <br/><br/></p>
-		
 ';
 	}
 	
@@ -132,16 +125,11 @@ try {
     echo "In file:", $e->getFile(), "\n";
     echo "On line:", $e->getLine(), "\n";       
 }
-	
-
 
 ?>
 
 <br/>
 		<br/>
-	
-	
-	
 		<!-- section for buttons -->
 		<div>
 			<!-- Buttons to return to home-->

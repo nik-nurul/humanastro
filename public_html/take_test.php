@@ -10,7 +10,7 @@ $collName = 'users';		// user collection name
 require_once 'includes/functions.php';
 // don't do anything if consent is not true
 if ( isset( $_SESSION["consent"] ) and $_SESSION["consent"] ) {
-	$userIdStr = sanitise_input($_GET["userId"]); // defend against malicious GET requests
+	$userIdStr = $_SESSION["userId"];
 
 	try {
 		$manager = new MongoDB\Driver\Manager("mongodb://localhost:27017"); // connect to the Mongo DB
@@ -83,11 +83,14 @@ exit();
         <hr class="heading" style="height:2px;"/>
         <p id="explanationPara" class="paragraph_font">
             An eye calibration screen will appear on the next page in which you need to follow a point on the screen using your gaze.
-			After the initial calibration, you will be given an opportunity to refine the calibration by looking and clicking on objects shown on screen.<br/><br/>
+			After the initial calibration, you will be given an opportunity to refine the calibration by looking and constantly 
+			clicking on objects shown on screen, using the mouse.<br/><br/>
 						
 			There will be a basic eye tracking activity containing shapes, prior to the astronomy visualisation experiment.<br/><br/><br/>
-            <b>The browser's window will be put into fullscreen mode. Please do not resize it.</b><br/><br/>
-			<b>There will be a pop-up window asking for access to the user's web camera. Please click on 'allow access' in order to proceed.</b></br>
+            <b>The browser's window will be put into fullscreen mode. Please do not resize it. Once the calibration has begun, please do not leave
+			your computer or move away from the webcam, as this will affect your calibration and cause inaccuracies during the test.</b><br/><br/>
+			<b>There will be a pop-up window asking for access to the user's web camera. Please click on 'allow access' in order to proceed.
+			Please complete the test in one sitting, the eye tracking will be active for 15 minutes before timing out.</b></br>
         </p>
 				<img id="subtask_image" src="" style="display:none;"/>
    </div>

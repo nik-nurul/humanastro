@@ -48,22 +48,13 @@ if (isJson($jsonStr)){ // is it JSON?
 		$manager = new MongoDB\Driver\Manager("mongodb://localhost:27017"); // connect to the Mongo DB
 		$bulk = new MongoDB\Driver\BulkWrite(['ordered' => true]);
 
-		// push each element of the GazeDataArray into the DB under the DB Array GazeData
-		$bulk->update(
+		// insert the result of the subtask
+		$bulk->insert(
 			[ "_id" => $_id ], // only operate on this particular user
 			[ '$set' => [
 				"task_data.".$task_num.".subtasks.".$subtask_num.".subtask_result" => $subtask_result
 				]
 			]
-/*
-			[ '$push' => [ // append this data to an array already in the DB document
-				"task_data.".$task_num.".subtasks.".$subtask_num.".subtask_result" => [ 
-					'$each' => $GazeDataArray // act on each element of the GazeDataArray separately
-					]	// i.e. push each element to the DB separately,
-				]		// don't push the $GazeDataArray as a single element to the DB
-			],
-			$options // upsert = true
-*/			
 		);
 		
 		$result = $manager->executeBulkWrite($dbName.'.'.$collName, $bulk); // set the result

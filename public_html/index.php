@@ -36,6 +36,7 @@
 <?php
 	require_once 'includes/feeback-link.php';
 ?>
+<link rel="stylesheet" type="text/css" href="styles/ContactStyle.css">
         <div id="content_paragraph">
             <h2 class="heading_font"> About the Test </h2>
             <hr class="heading">

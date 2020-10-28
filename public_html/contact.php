@@ -11,7 +11,6 @@ error_reporting(E_ALL);
 <?php
 require_once 'includes/head-base.html';
 ?>
-<link rel="stylesheet" type="text/css" href="styles/ContactStyle.css">
 </head>
 
 <body class="Contactbg">
@@ -24,6 +23,7 @@ require_once 'includes/header.html';
 <?php
 require_once 'includes/feeback-link.php';
 ?>
+<link rel="stylesheet" type="text/css" href="styles/ContactStyle.css">
         <div id="contact_paragraph">
             <h2 class="heading_font"> Contact </h2>
             <hr class="heading">
@@ -39,7 +39,7 @@ require_once 'includes/feeback-link.php';
             </p>
 
             <p  class="paragraph_font contentbg">
-                You can visit <a href ="feedback.php">this page</a> if you have any enquiries or feedback
+                You can visit <a href ="feedback.php" id="contactpageFeedback">this page</a> if you have any enquiries or feedback
             </p>
 
         </div>

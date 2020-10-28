@@ -63,10 +63,12 @@
 	<script>
 		document.getElementById("width").innerHTML = (screen.width*window.devicePixelRatio);
 		document.getElementById("height").innerHTML = (screen.height*window.devicePixelRatio);
+
 		detectWebcam(
 			(hasWebcam)=>{
 				document.getElementById("webcam").innerHTML = (hasWebcam ? 'Available' : 'Unavailabvle');
 		});
+
 		document.getElementById("os").innerHTML = jscd.os +' '+ jscd.osVersion;
 		document.getElementById("browser").innerHTML = jscd.browser +' '+ jscd.browserMajorVersion +' (' + jscd.browserVersion + ')';
 		document.getElementById("mobile").innerHTML = jscd.mobile;

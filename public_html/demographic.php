@@ -64,7 +64,7 @@ try {
 
 		$bulk = new MongoDB\Driver\BulkWrite(['ordered' => true]);
 
-		$userId = sanitise_input($_GET["userId"]); // defend against malicious GET requests
+		$userId = $_SESSION["userId"];
 
 		// pass the user ID on to the next page
 		// via a session variable
@@ -74,14 +74,6 @@ try {
 		$_id = new MongoDB\BSON\ObjectID($userId);
 		$filter = [ "_id" => $_id ]; // return only this user
 
-/*
-		// write the current page the user is on so the user can
-		// resume an interrupted session
-		$bulk->update(
-			$filter,
-			[ '$set' => [ "current_page" => basename(__FILE__) ] ]
-		);
-*/
 		set_current_page($bulk, $_id, basename(__FILE__)); // write the name of the current page to the user record
 
 		//delete answerdate
@@ -92,7 +84,7 @@ try {
 	////////////
 	// start the demographic form - insert the User ID as a GET variable to the next page
 		echo '
-			  <form class="paragraph_font" id="demoform" action="experience.php?userId='.$userId.'" method="post">
+			  <form class="paragraph_font" id="demoform" action="experience.php" method="post">
 ';
 
 		// set up a query to retrieve questions from the new user record in the database
